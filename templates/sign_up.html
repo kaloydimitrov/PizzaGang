@@ -1,0 +1,17 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PizzaGang</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+</head>
+<body>
+<form action="{% url 'sign-up' %}" method="post">
+    {{ form.as_p }}
+    {% csrf_token %}
+    <button type="submit">Sign Up</button>
+</form>
+</body>
+</html>
