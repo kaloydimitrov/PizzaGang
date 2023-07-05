@@ -4,14 +4,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>PizzaGang</title>
+    <title>Join our system - PizzaGang</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
 </head>
 <body>
-<form action="{% url 'sign-up' %}" method="post">
-    {{ form.as_p }}
+<form action="{% url 'sign_up' %}" method="post">
     {% csrf_token %}
+    {{ form.as_p }}
     <button type="submit">Sign Up</button>
 </form>
+<p>You have an account? <a href="{% url 'sign_in' %}">Sign In</a></p>
 </body>
 </html>

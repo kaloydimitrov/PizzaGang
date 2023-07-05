@@ -1,0 +1,10 @@
+{% extends 'user_info/base.html' %}
+
+{% block user_content %}
+    <form action="{% url 'edit_user' user.pk %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        {{ profile_form }}
+        <button type="submit">Save Changes</button>
+    </form>
+{% endblock %}

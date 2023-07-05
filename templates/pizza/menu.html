@@ -1,0 +1,26 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>PizzaGang - Menu</title>
+    <link rel="stylesheet" href="{% static 'css/menu.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="sidebar">
+    </div>
+
+    <div class="main-container">
+        {% for pizza in pizza_list %}
+        <div class="pizza-container">
+            <div class="img-container">
+                <img src="{{ pizza.image.url }}" alt="pizza-img">
+            </div>
+            <div class="info-container">
+                <p class="title">{{ pizza.name }}</p>
+                <p class="ingredients">{{ pizza.ingredients }}</p>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+{% endblock %}
