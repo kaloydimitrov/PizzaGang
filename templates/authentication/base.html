@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% block title %}
+        <title></title>
+    {% endblock %}
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/sign_inout.css' %}">
+</head>
+<body>
+<div class="logo-container">
+    <a href="{% url 'home' %}">
+        <img src="{% static 'images/logo.png' %}" alt="logo">
+    </a>
+</div>
+
+<div class="form">
+    {% block form %}
+    {% endblock %}
+</div>
+</body>
+</html>

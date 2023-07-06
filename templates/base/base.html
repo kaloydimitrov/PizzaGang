@@ -31,10 +31,10 @@
             display: grid;
             grid-template-columns: 200px 1fr 200px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-            z-index: 1;
+            z-index: 2;
         }
 
-        div {
+         .logo-container, .menu-container, .avatar-container {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -67,16 +67,8 @@
             margin-left: 10px;
         }
 
-        .avatar-container img {
-            cursor: pointer;
-            width: 60px;
-            border-radius: 100%;
-            object-fit: cover;
-            border: 1px solid rgba(0, 0, 0, 0.2);
-        }
-
         .avatar-container .sign_in {
-            padding: 2px 5px 2px 5px;
+            padding: 6px 12px 6px 12px;
             border-radius: 10px;
             text-decoration: none;
             color: black;
@@ -89,6 +81,39 @@
             box-shadow: rgba(149, 157, 165, 0.2) 0 8px 24px;
         }
 
+        .avatar-container img {
+            cursor: pointer;
+            width: 60px;
+            border-radius: 100%;
+            object-fit: cover;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+        }
+
+        .img-selector {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .message-container {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            bottom: -35px;
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        .message-container p {
+            margin: 0;
+            cursor: default;
+            padding: 5px 10px 5px 10px;
+            color: white;
+        }
+
+        .img-selector:hover .message-container {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -112,15 +137,18 @@
     </div>
     <div class="avatar-container">
         {% if user.is_authenticated %}
-            {% if user.profile.avatar %}
                 <a href="{% url 'edit_user' user.pk %}">
-                    <img src="{{ user.profile.avatar.url }}" alt="avatar">
+                    <div class="img-selector">
+                        <div class="message-container">
+                            <p>{{ user.username|truncatechars:10 }}</p>
+                        </div>
+                        {% if user.profile.avatar %}
+                            <img src="{{ user.profile.avatar.url }}" alt="avatar">
+                        {% else %}
+                            <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
+                        {% endif %}
+                    </div>
                 </a>
-            {% else %}
-                <a href="{% url 'user_edit' user.pk %}">
-                    <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
-                </a>
-            {% endif %}
         {% else %}
             <a class="sign_in" href="{% url 'sign_in' %}">Sign In</a>
         {% endif %}

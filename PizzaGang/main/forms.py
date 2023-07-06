@@ -11,6 +11,19 @@ class SignUpForm(UserCreationForm):
         labels = {
             'email': 'Email',
         }
+        widgets = {
+            'username': forms.TextInput(attrs={'placeholder': 'Username'}),
+            'email': forms.TextInput(attrs={'placeholder': 'Email'}),
+            'password1': forms.PasswordInput(attrs={'placeholder': 'Enter your password'}),
+            'password2': forms.PasswordInput(attrs={'placeholder': 'Confirm your password'})
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['password1'].help_text = None
+        self.fields['password2'].help_text = None
+        self.fields['username'].help_text = None
+        self.fields['email'].help_text = None
 
 
 class UserEditForm(forms.ModelForm):
@@ -26,6 +39,10 @@ class UserEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['readonly'] = True
+        self.fields['first_name'].help_text = None
+        self.fields['last_name'].help_text = None
+        self.fields['username'].help_text = None
+        self.fields['email'].help_text = None
 
 
 class PizzaForm(forms.ModelForm):

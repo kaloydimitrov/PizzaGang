@@ -1,0 +1,17 @@
+{% extends 'authentication/base.html' %}
+
+{% block title %}
+    <title>Log to our system - PizzaGang</title>
+{% endblock %}
+
+{% block form %}
+<form action="{% url 'sign_in' %}" method="post">
+    {% csrf_token %}
+    {{ form.username }}
+    {{ form.password }}
+    <button type="submit">Sign In</button>
+    <div class="redirect-link-container">
+        <p>You don't have an account? <a href="{% url 'sign_up' %}">Sign Up</a></p>
+    </div>
+</form>
+{% endblock %}
