@@ -4,8 +4,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
-from .forms import SignUpForm, UserEditForm, PizzaForm
-from .models import Pizza
+from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm
+from .models import Pizza, Profile
 
 
 def BaseView(request):
@@ -50,20 +50,36 @@ class SignOutView(LogoutView):
     next_page = reverse_lazy('home')
 
 
-def UserEditView(request, pk):
+def UserShowView(request, pk):
     user = User.objects.get(pk=pk)
 
-    if request.method == 'POST':
-        form = UserEditForm(request.POST, instance=user)
+    context = {
+        'user': user
+    }
 
-        if form.is_valid():
-            form.save()
-            return redirect('home')
+    return render(request, 'user_info/show_info.html', context)
+
+
+def UserEditView(request, pk):
+    user = User.objects.get(pk=pk)
+    profile = Profile.objects.get(user=user)
+
+    if request.method == 'POST':
+        user_form = UserEditForm(request.POST, instance=user)
+        profile_form = ProfileEditForm(request.POST, request.FILES, instance=profile)
+
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            user_view_link = f'http://127.0.0.1:8000/user-info/show/{pk}/'
+            return redirect(user_view_link)
     else:
-        form = UserEditForm(instance=user)
+        user_form = UserEditForm(instance=user)
+        profile_form = ProfileEditForm(instance=profile)
 
     context = {
-        'form': form,
+        'user_form': user_form,
+        'profile_form': profile_form,
         'user': user
     }
 
@@ -81,7 +97,7 @@ class MenuView(ListView):
 
 def CreatePizzaView(request):
     if request.method == 'POST':
-        form = PizzaForm(request.POST)
+        form = PizzaForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('home')
@@ -95,14 +111,26 @@ def CreatePizzaView(request):
     return render(request, 'pizza/create_pizza.html', context)
 
 
-class EditPizzaView(UpdateView):
-    form_class = PizzaForm
-    model = Pizza
-    template_name = 'pizza/edit_pizza.html'
-    success_url = reverse_lazy('home')
+def EditPizzaView(request, pk):
+    pizza = Pizza.objects.get(pk=pk)
+
+    if request.method == 'POST':
+        form = PizzaForm(request.POST, request.FILES, instance=pizza)
+        if form.is_valid():
+            form.save()
+            return redirect('menu')
+    else:
+        form = PizzaForm(instance=pizza)
+
+    context = {
+        'form': form,
+        'pizza': pizza
+    }
+
+    return render(request, 'pizza/edit_pizza.html', context)
 
 
 class DeletePizzaView(DeleteView):
     model = Pizza
     template_name = 'pizza/delete_pizza.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('menu')

@@ -1,0 +1,47 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/show_info.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="main-show-avatar-container">
+        <div class="show-avatar-container">
+            <img src="{% static 'images/icons/edit-pen.png' %}" class="edit-pen" alt="edit-pen">
+            <img src="{{ user.profile.avatar.url }}" class="avatar-img" alt="avatar-img">
+        </div>
+    </div>
+
+    <div class="show-info-container">
+        <div>
+            <h1>{{ user.username }}</h1>
+        </div>
+        <div>
+            <h1>{{ user.first_name }}</h1>
+        </div>
+        <div>
+            <h1>{{ user.last_name }}</h1>
+        </div>
+        <div>
+            <h1>{{ user.email }}</h1>
+        </div>
+        <div>
+            <h1>{{ user.profile.address }}</h1>
+        </div>
+
+
+
+
+
+    </div>
+
+    <p>Do you want to change your personal information? <a href="{% url 'edit_user' user.pk %}">Here</a></p>
+    <a href="{% url 'sign_out' %}">
+        <div class="sign-out-button">
+            <div>
+                <h1>Sign Out</h1>
+            </div>
+        </div>
+    </a>
+{% endblock %}

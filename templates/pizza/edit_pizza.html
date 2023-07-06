@@ -1,7 +1,7 @@
 {% extends 'base/base.html' %}
 
 {% block content %}
-<form action="{% url 'edit_pizza' pizza.pk %}" method="post">
+<form action="{% url 'edit_pizza' pizza.pk %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
     <button type="submit">Save Changes</button>

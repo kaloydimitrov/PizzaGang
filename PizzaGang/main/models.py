@@ -1,11 +1,25 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
 
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='static/images/avatars/', null=True, blank=True)
     address = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.user.username} Profile"
+
+
+# Creates Profile when a new user signs up
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        user_profile = Profile(user=instance)
+        user_profile.save()
+
+
+post_save.connect(create_profile, sender=User)
 
 
 class Pizza(models.Model):

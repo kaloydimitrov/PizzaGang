@@ -1,0 +1,59 @@
+.edit-pen {
+    width: 40px;
+    transition: opacity 0.2s;
+}
+
+.edit-pen:hover {
+    opacity: 0.6;
+}
+
+.main-show-avatar-container {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-show-avatar-container .avatar-img {
+    height: 300px;
+    width: 300px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.show-avatar-container {
+    position: relative;
+}
+
+.show-avatar-container .edit-pen {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.show-info-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: lightgray;
+    padding: 50px;
+}
+
+.show-info-container h1 {
+    margin: 0;
+}
+
+.sign-out-button {
+    position: absolute;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    background-color: cornflowerblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sign-out-button h1 {
+    text-decoration: none;
+    color: fuchsia;
+}

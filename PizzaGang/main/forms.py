@@ -39,10 +39,18 @@ class UserEditForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['readonly'] = True
+        self.fields['username'].help_text = None
         self.fields['first_name'].help_text = None
         self.fields['last_name'].help_text = None
-        self.fields['username'].help_text = None
         self.fields['email'].help_text = None
+
+
+class ProfileEditForm(forms.ModelForm):
+    address = forms.CharField(max_length=100)
+
+    class Meta:
+        model = Profile
+        fields = ('avatar', 'address')
 
 
 class PizzaForm(forms.ModelForm):

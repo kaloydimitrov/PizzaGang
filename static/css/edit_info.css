@@ -1,0 +1,94 @@
+.form {
+    margin-top: 100px;
+    position: relative;
+    background-color: white;
+    width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 20px 20px 100px 20px;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.h1-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.h1-container h1 {
+    color: gray;
+}
+
+form {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 80px;
+    row-gap: 20px;
+}
+
+form button {
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    border: none;
+    text-align: center;
+    background-color: #007bff;
+    color: white;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: gray;
+}
+
+.edit-avatar-container {
+    background-color: rgba(0, 123, 255, 0.7);
+    height: 200px;
+    width: 200px;
+    border-radius: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.username-info p {
+    color: gray;
+    text-align: center;
+}
+
+input[type="text"],
+input[type="email"] {
+    display: block;
+    width: 200px;
+    border: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input:focus {
+    outline: none;
+}
+
+.input-container:hover hr {
+    background-color: #007bff;
+    color: #007bff;
+}
+
+.input-container p {
+    color: gray;
+    margin: 0 0 10px;
+    letter-spacing: .2rem;
+}
+
+hr {
+    border: none;
+    height: 1px;
+    color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+}

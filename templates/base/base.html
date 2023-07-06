@@ -31,7 +31,7 @@
             display: grid;
             grid-template-columns: 200px 1fr 200px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-            z-index: 2;
+            z-index: 3;
         }
 
          .logo-container, .menu-container, .avatar-container {
@@ -83,7 +83,8 @@
 
         .avatar-container img {
             cursor: pointer;
-            width: 60px;
+            width: 45px;
+            height: 45px;
             border-radius: 100%;
             object-fit: cover;
             border: 1px solid rgba(0, 0, 0, 0.2);
@@ -132,12 +133,12 @@
         </div>
         <div>
             <a href="{% url 'menu' %}">Menu</a>
-            <img src="{% static 'images/logo-menu.webp' %}" alt="logo-menu">
+            <img src="{% static 'images/icons/menu.webp' %}" alt="logo-menu">
         </div>
     </div>
     <div class="avatar-container">
         {% if user.is_authenticated %}
-                <a href="{% url 'edit_user' user.pk %}">
+                <a href="{% url 'show_user' user.pk %}">
                     <div class="img-selector">
                         <div class="message-container">
                             <p>{{ user.username|truncatechars:10 }}</p>

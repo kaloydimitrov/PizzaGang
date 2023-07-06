@@ -7,6 +7,6 @@
     <form action="{% url 'delete_pizza' pizza.pk %}" method="post">
         {% csrf_token %}
         <button type="submit">Delete</button>
-        <a href="{% url 'home' %}">Cancel</a>
+        <a href="{% url 'menu' %}">Cancel</a>
     </form>
 {% endblock %}

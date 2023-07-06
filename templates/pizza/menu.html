@@ -13,6 +13,18 @@
     <div class="main-container">
         {% for pizza in pizza_list %}
         <div class="pizza-container">
+        <div class="edit-delete-pizza-container">
+            <div>
+                <a href="{% url 'edit_pizza' pizza.pk %}">
+                    <img src="{% static 'images/icons/edit.png' %}" alt="edit-pizza">
+                </a>
+            </div>
+            <div>
+                <a href="{% url 'delete_pizza' pizza.pk %}">
+                    <img src="{% static 'images/icons/delete.png' %}" alt="delete-pizza">
+                </a>
+            </div>
+        </div>
             <div class="img-container">
                 <img src="{{ pizza.image.url }}" alt="pizza-img">
             </div>
@@ -30,5 +42,11 @@
             </div>
         </div>
         {% endfor %}
+        <a href="{% url 'create_pizza' %}">
+            <div class="add-pizza-container">
+                <img src="{% static 'images/icons/add.png' %}" alt="add-pizza">
+            </div>
+        </a>
+
     </div>
 {% endblock %}

@@ -1,10 +1,54 @@
-{% extends 'user_info/base.html' %}
+{% extends 'base/base.html' %}
+{% load static %}
 
-{% block user_content %}
-    <form action="{% url 'edit_user' user.pk %}" method="post">
-        {% csrf_token %}
-        {{ form }}
-        {{ profile_form }}
-        <button type="submit">Save Changes</button>
-    </form>
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/edit_info.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="form">
+        <div class="h1-container">
+            <h1>Edit your profile information</h1>
+        </div>
+        <form action="{% url 'edit_user' user.pk %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="edit-avatar-container">
+                {{ profile_form.avatar }}
+            </div>
+            <div class="username-info">
+                <p>
+                    <b>Username Policy:</b> Username changes are no longer available for existing users. Once you've
+                    signed up and chosen a username, it is permanent and cannot be modified. We apologize for any
+                    inconvenience this may cause. If you have any questions or concerns, please don't hesitate to
+                    contact our support team. Thank you for your understanding and cooperation.
+                </p>
+            </div>
+            <div class="input-container">
+                <p>Username</p>
+                {{ user_form.username }}
+                <hr>
+            </div>
+            <div class="input-container">
+                <p>Email</p>
+                {{ user_form.email }}
+                <hr>
+            </div>
+            <div class="input-container">
+                <p>Name</p>
+                {{ user_form.first_name }}
+                <hr>
+            </div>
+            <div class="input-container">
+                <p>Surname</p>
+                {{ user_form.last_name }}
+                <hr>
+            </div>
+            <div class="input-container">
+                <p>Address</p>
+                {{ profile_form.address }}
+                <hr>
+            </div>
+            <button type="submit"><b>Save changes</b></button>
+        </form>
+    </div>
 {% endblock %}
