@@ -6,7 +6,7 @@
     margin-right: auto;
     margin-left: auto;
     padding: 20px 20px 100px 20px;
-    border-radius: 20px 20px 0 0;
+    border-radius: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -40,6 +40,7 @@ form button {
     background-color: #007bff;
     color: white;
     transition: background-color 0.3s;
+    border-radius: 0 0 20px 20px;
 }
 
 form button:hover {
@@ -57,7 +58,7 @@ form button:hover {
 
 .username-info p {
     color: gray;
-    text-align: center;
+    margin-right: 30px;
 }
 
 input[type="text"],

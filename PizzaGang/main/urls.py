@@ -13,7 +13,7 @@ urlpatterns = (
         path('show/<int:pk>/', UserShowView, name='show_user'),
         path('edit/<int:pk>/', UserEditView, name='edit_user'),
     ])),
-    path('menu/', MenuView.as_view(), name='menu'),
+    path('menu/', MenuView, name='menu'),
     path('pizza/', include([
         path('create/', CreatePizzaView, name='create_pizza'),
         path('edit/<int:pk>/', EditPizzaView, name='edit_pizza'),

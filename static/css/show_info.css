@@ -1,5 +1,6 @@
 .edit-pen {
-    width: 40px;
+    position: absolute;
+    width: 30px;
     transition: opacity 0.2s;
 }
 
@@ -9,12 +10,13 @@
 
 .main-show-avatar-container {
     margin-top: 50px;
+    margin-bottom: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.main-show-avatar-container .avatar-img {
+.show-avatar-container-avatar img {
     height: 300px;
     width: 300px;
     object-fit: cover;
@@ -26,34 +28,64 @@
 }
 
 .show-avatar-container .edit-pen {
-    position: absolute;
     right: 0;
     top: 0;
 }
 
 .show-info-container {
+    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background-color: lightgray;
-    padding: 50px;
+    row-gap: 15px;
+    background-color: white;
+    padding: 40px 40px 90px 40px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 1500px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.show-info-container h1 {
+.show-info-container .edit-pen {
+    right: 20px;
+    top: 20px;
+}
+
+.show-info-container .title {
     margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: #007bff;
+    letter-spacing: 1px;
 }
 
-.sign-out-button {
+.show-info-container .info {
+    margin: 0;
+    font-size: 15px;
+}
+
+.sign-out-container {
+    cursor: pointer;
+    border-radius: 0 0 18px 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(129, 182, 76);
     position: absolute;
     bottom: 0;
-    height: 100px;
-    width: 100%;
-    background-color: cornflowerblue;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    left: 0;
+    right: 0;
+    height: 60px;
+    transition: background-color 0.3s;
 }
 
-.sign-out-button h1 {
+.sign-out-container:hover {
+    background-color: rgb(162, 208, 95);
+}
+
+.sign-out-container p {
+    color: white;
     text-decoration: none;
-    color: fuchsia;
+    font-weight: bold;
 }

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'PizzaGang.main',
+    'django_filters',
 ]
 
 MIDDLEWARE = [

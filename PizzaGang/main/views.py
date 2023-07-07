@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm
 from .models import Pizza, Profile
+from .filters import PizzaOrderFilter
 
 
 def BaseView(request):
@@ -90,9 +91,16 @@ def UserAddressView(request, pk):
     pass
 
 
-class MenuView(ListView):
-    template_name = 'pizza/menu.html'
-    model = Pizza
+def MenuView(request):
+    pizza_list = Pizza.objects.all()
+    pizza_filter = PizzaOrderFilter(request.GET, queryset=pizza_list)
+
+    context = {
+        'pizza_list': pizza_list,
+        'pizza_filter': pizza_filter,
+    }
+
+    return render(request, 'pizza/menu.html', context)
 
 
 def CreatePizzaView(request):

@@ -8,10 +8,14 @@
 
 {% block content %}
     <div class="sidebar">
+        <form method="get" action="{% url 'menu' %}">
+            {{ pizza_filter.form }}
+            <button type="submit">Search</button>
+        </form>
     </div>
 
     <div class="main-container">
-        {% for pizza in pizza_list %}
+        {% for pizza in pizza_filter.qs %}
         <div class="pizza-container">
         <div class="edit-delete-pizza-container">
             <div>

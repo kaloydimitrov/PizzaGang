@@ -3,45 +3,50 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/show_info.css' %}">
+    <title>{{ user.username }}'s Profile Page - PizzaGang</title>
 {% endblock %}
 
 {% block content %}
     <div class="main-show-avatar-container">
         <div class="show-avatar-container">
-            <img src="{% static 'images/icons/edit-pen.png' %}" class="edit-pen" alt="edit-pen">
-            <img src="{{ user.profile.avatar.url }}" class="avatar-img" alt="avatar-img">
+            <a href="{% url 'edit_user' user.pk %}">
+                <img src="{% static 'images/icons/edit-pen.png' %}" class="edit-pen" alt="edit-pen">
+            </a>
+            <div class="show-avatar-container-avatar">
+                {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" alt="avatar-img">
+                {% else %}
+                    <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
+                {% endif %}
+            </div>
         </div>
     </div>
 
     <div class="show-info-container">
         <div>
-            <h1>{{ user.username }}</h1>
+            <p class="title">Username</p>
+            <p class="info">{{ user.username }}</p>
         </div>
         <div>
-            <h1>{{ user.first_name }}</h1>
+            <p class="title">Name</p>
+            <p class="info">{{ user.get_full_name }}</p>
         </div>
         <div>
-            <h1>{{ user.last_name }}</h1>
+            <p class="title">Email</p>
+            <p class="info">{{ user.email }}</p>
         </div>
         <div>
-            <h1>{{ user.email }}</h1>
-        </div>
-        <div>
-            <h1>{{ user.profile.address }}</h1>
+            <p class="title">Address</p>
+            <p class="info">{{ user.profile.address }}</p>
         </div>
 
-
-
-
-
-    </div>
-
-    <p>Do you want to change your personal information? <a href="{% url 'edit_user' user.pk %}">Here</a></p>
-    <a href="{% url 'sign_out' %}">
-        <div class="sign-out-button">
-            <div>
-                <h1>Sign Out</h1>
+        <a href="{% url 'edit_user' user.pk %}">
+            <img src="{% static 'images/icons/edit-pen.png' %}" class="edit-pen" alt="edit-pen">
+        </a>
+        <a href="{% url 'sign_out' %}">
+            <div class="sign-out-container">
+                <p>Sign Out</p>
             </div>
-        </div>
-    </a>
+        </a>
+    </div>
 {% endblock %}
