@@ -9,7 +9,7 @@
 {% block content %}
     <div class="sidebar">
         <form method="get" action="{% url 'menu' %}">
-            {{ pizza_filter.form }}
+            {{ pizza_filter.form.as_p }}
             <button type="submit">Search</button>
         </form>
     </div>
@@ -51,6 +51,5 @@
                 <img src="{% static 'images/icons/add.png' %}" alt="add-pizza">
             </div>
         </a>
-
     </div>
 {% endblock %}

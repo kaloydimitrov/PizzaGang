@@ -3,8 +3,10 @@
     top: 80px;
     height: 700px;
     width: 200px;
-    background-color: rgba(0, 255, 255);
+    background-color: white;
     z-index: 2;
+    border-radius: 0 0 20px 0;
+    border: 1px solid rgba(0, 0, 0, 0.20);
 }
 
 .main-container {
