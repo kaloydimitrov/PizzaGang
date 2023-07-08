@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .views import HomeView, SignUpView, SignInView, SignOutView, MenuView, UserEditView, UserAddressView, \
-                    CreatePizzaView, EditPizzaView, DeletePizzaView, UserShowView
+                    CreatePizzaView, EditPizzaView, DeletePizzaView, UserShowView, AddToCartView, \
+                    ShowCartView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='home'),
@@ -19,4 +20,8 @@ urlpatterns = (
         path('edit/<int:pk>/', EditPizzaView, name='edit_pizza'),
         path('delete/<int:pk>/', DeletePizzaView.as_view(), name='delete_pizza')
     ])),
+    path('cart/', include([
+        path('add/<int:pk>', AddToCartView, name='add_to_cart'),
+        path('show/', ShowCartView, name='show_cart')
+    ]))
 )

@@ -1,0 +1,7 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+    {% for cart_item in cart_items %}
+        <h1>{{ cart_item.pizza.name }}</h1>
+    {% endfor %}
+{% endblock %}

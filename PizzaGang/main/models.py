@@ -35,3 +35,29 @@ class Pizza(models.Model):
 
     def __str__(self):
         return f"{self.name}"
+
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.username}'s Cart"
+
+
+# Creates Cart when a new user signs up
+def create_cart(sender, instance, created, **kwargs):
+    if created:
+        user_cart = Cart(user=instance)
+        user_cart.save()
+
+
+post_save.connect(create_cart, sender=User)
+
+
+class CartItem(models.Model):
+    pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
+    cart = models.ForeignKey('Cart', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.pizza.name} | {self.quantity} ({self.cart.user.username})"

@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm
-from .models import Pizza, Profile
+from .models import Pizza, Profile, Cart, CartItem
 from .filters import PizzaOrderFilter
 
 
@@ -101,6 +101,34 @@ def MenuView(request):
     }
 
     return render(request, 'pizza/menu.html', context)
+
+
+from django.shortcuts import get_object_or_404
+
+
+def AddToCartView(request, pk):
+    pizza = Pizza.objects.get(pk=pk)
+    user = request.user
+
+    cart = get_object_or_404(Cart, user=user)
+
+    cart_item = CartItem(cart=cart, pizza=pizza)
+    cart_item.save()
+
+    return redirect('show_cart')
+
+
+def ShowCartView(request):
+    user = request.user
+    cart = Cart.objects.get(user=user)
+
+    cart_items = CartItem.objects.filter(cart=cart)
+
+    context = {
+        'cart_items': cart_items
+    }
+
+    return render(request, 'cart/show_cart.html', context)
 
 
 def CreatePizzaView(request):

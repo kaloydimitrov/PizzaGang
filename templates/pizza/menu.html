@@ -42,7 +42,10 @@
                 {% endif %}
             </div>
             <div class="order-button-container">
-                <h1>ADD TO CART</h1>
+                <form action="{% url 'add_to_cart' pizza.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">ADD TO CART</button>
+                </form>
             </div>
         </div>
         {% endfor %}
