@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm
@@ -101,9 +102,6 @@ def MenuView(request):
     }
 
     return render(request, 'pizza/menu.html', context)
-
-
-from django.shortcuts import get_object_or_404
 
 
 def AddToCartView(request, pk):
