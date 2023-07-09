@@ -121,9 +121,11 @@ def ShowCartView(request):
     cart = Cart.objects.get(user=user)
 
     cart_items = CartItem.objects.filter(cart=cart)
+    cart_items_count = cart_items.count()
 
     context = {
-        'cart_items': cart_items
+        'cart_items': cart_items,
+        'cart_items_count': cart_items_count
     }
 
     return render(request, 'cart/show_cart.html', context)

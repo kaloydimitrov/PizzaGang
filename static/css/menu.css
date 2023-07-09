@@ -92,6 +92,20 @@
     bottom: 50px;
     left: 0;
     right: 0;
+    padding: 0 15px 0 15px;
+    display: flex;
+    column-gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.filters-container img {
+    width: 57px;
+}
+
+.filters-container p {
+    font-size: 15px;
+    color: gray;
 }
 
 .order-button-container {

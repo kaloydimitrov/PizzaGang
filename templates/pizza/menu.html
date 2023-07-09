@@ -37,8 +37,17 @@
                 <p class="ingredients">{{ pizza.ingredients|truncatechars:80 }}</p>
             </div>
             <div class="filters-container">
-                {% if pizza.is_offer == False and pizza.is_vege == False and pizza.is_special == False %}
-                    <h1></h1>
+                {% if pizza.is_offer %}
+                    <img src="{% static 'images/icons/pizza/discount.png' %}" alt="pizza-offer-img">
+                {% endif %}
+                {% if pizza.is_vege %}
+                    <img src="{% static 'images/icons/pizza/vege.png' %}" alt="pizza-vege-img">
+                {% endif %}
+                {% if pizza.is_special %}
+                    <img src="{% static 'images/icons/pizza/special.png' %}" alt="pizza-special-img">
+                {% endif %}
+                {% if not pizza.is_special and not pizza.is_vege and not pizza.is_offer %}
+                    <p>No filters for this pizza.</p>
                 {% endif %}
             </div>
             <div class="order-button-container">

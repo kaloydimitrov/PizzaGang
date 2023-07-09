@@ -11,6 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/129619179c.js" crossorigin="anonymous"></script>
     <style>
         * {
             font-family: 'Open Sans', sans-serif;
@@ -29,7 +30,7 @@
             height: 80px;
             background-color: white;
             display: grid;
-            grid-template-columns: 200px 1fr 200px;
+            grid-template-columns: 200px 1fr 100px 200px;
             border-bottom: 1px solid rgba(0, 0, 0, 0.2);
             z-index: 3;
         }
@@ -65,6 +66,22 @@
             width: 32px;
             opacity: 0.5;
             margin-left: 10px;
+        }
+
+        .menu-container i {
+            color: rgba(0, 0, 0, 0.55);
+            font-size: 25px;
+        }
+
+        .cart-container-base {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cart-container-base i {
+            font-size: 25px;
+            color: rgba(0, 0, 0, 0.55);
         }
 
         .avatar-container .sign_in {
@@ -133,9 +150,10 @@
         </div>
         <div>
             <a href="{% url 'menu' %}">Menu</a>
-            {#TODO: Add better icon#}
-            {#<img src="{% static 'images/icons/menu.webp' %}" alt="logo-menu">#}
         </div>
+    </div>
+    <div class="cart-container-base">
+        <i class="fa-solid fa-cart-shopping fa-beat-fade"></i>
     </div>
     <div class="avatar-container">
         {% if user.is_authenticated %}

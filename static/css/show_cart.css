@@ -1,0 +1,59 @@
+h1 {
+    margin: 0;
+}
+
+hr {
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.cart-main-container {
+    background-color: white;
+    padding: 40px;
+    width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 100px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header-cart {
+    position: relative;
+    height: 55px;
+    display: flex;
+    align-content: center;
+}
+
+.header-cart .items {
+    position: absolute;
+    right: 0;
+}
+
+.header-cart h1 {
+    color: gray;
+    font-size: 40px;
+}
+
+.cart-container {
+    background-color: yellow;
+    height: 200px;
+    display: grid;
+    grid-template-columns: 350px 1fr 80px;
+    column-gap: 15px;
+}
+
+.pizza-img img {
+    height: 200px;
+    width: 350px;
+    object-fit: cover;
+}
+
+
+
+
+
+
+.delete-item {
+    background-color: red;
+}

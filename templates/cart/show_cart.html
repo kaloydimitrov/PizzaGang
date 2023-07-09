@@ -1,7 +1,31 @@
 {% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>PizzaGang - Checkout</title>
+    <link rel="stylesheet" href="{% static 'css/show_cart.css' %}">
+{% endblock %}
 
 {% block content %}
+<div class="cart-main-container">
+    <div class="header-cart">
+        <h1>Pizza Cart</h1>
+        <h1 class="items">{{ cart_items_count }} Items</h1>
+    </div>
+
     {% for cart_item in cart_items %}
-        <h1>{{ cart_item.pizza.name }}</h1>
+    <hr>
+    <div class="cart-container">
+        <div class="pizza-img">
+            <img src="{{ cart_item.pizza.image.url }}" alt="">
+        </div>
+        <div class="pizza-info">
+            <h1>{{ cart_item.pizza.name }}</h1>
+        </div>
+        <div class="delete-item">
+
+        </div>
+    </div>
     {% endfor %}
+</div>
 {% endblock %}
