@@ -95,26 +95,28 @@
 }
 
 .order-button-container {
-    cursor: pointer;
     position: absolute;
     top: 350px;
     bottom: 0;
     left: 0;
     right: 0;
+}
+
+.order-button-container button {
+    position: absolute;
+    border: 0;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
     background-color: rgb(129, 182, 76);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.order-button-container:hover {
-    background-color: rgb(162, 208, 95);
-}
-
-.order-button-container h1 {
     color: white;
     font-size: 25px;
     font-weight: bold;
+}
+
+.order-button-container button:hover {
+    background-color: rgb(162, 208, 95);
 }
 
 .add-pizza-container {
