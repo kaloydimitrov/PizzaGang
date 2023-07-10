@@ -36,20 +36,24 @@ hr {
 }
 
 .cart-container {
-    background-color: yellow;
     height: 200px;
     display: grid;
     grid-template-columns: 350px 1fr 80px;
     column-gap: 15px;
 }
 
-.pizza-img img {
+.cart-container .pizza-img img {
     height: 200px;
     width: 350px;
     object-fit: cover;
 }
 
-.show-cart-filters img {
+.cart-container .pizza-info {
+    display: grid;
+    grid-template-rows: 1fr 50px;
+}
+
+.cart-container .show-cart-filters img {
     width: 50px;
 }
 
@@ -68,6 +72,16 @@ hr {
     border: 0;
     font-weight: bold;
     font-size: 70px;
+    background-color: orangered;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-item button i {
+    font-size: 50px;
+    opacity: 0.5;
 }
 
 .show-cart-no-items {
@@ -87,12 +101,10 @@ hr {
 }
 
 .continue-picking {
+    color: gray;
+    font-weight: bold;
     text-decoration: none;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid black;
-}
-
-.continue-picking i {
-    font-size: 10px;
+    border: 1px solid gray;
 }

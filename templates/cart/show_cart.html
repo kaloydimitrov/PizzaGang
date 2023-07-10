@@ -20,8 +20,10 @@
             <img src="{{ cart_item.pizza.image.url }}" alt="">
         </div>
         <div class="pizza-info">
-            <h1>{{ cart_item.pizza.price|floatformat:2 }} lv.</h1>
-            <p>{{ cart_item.pizza.ingredients }}</p>
+            <div class="basic-info">
+                <h1>{{ cart_item.pizza.price|floatformat:2 }} lv.</h1>
+                <p>{{ cart_item.pizza.ingredients }}</p>
+            </div>
 
             <div class="show-cart-filters">
                 {% if cart_item.pizza.is_offer %}
@@ -52,7 +54,7 @@
         </div>
     {% endif %}
     <div class="continue-picking-container">
-        <a href="{% url 'menu' %}" class="continue-picking">Continue picking</a>
+        <a href="{% url 'menu' %}" class="continue-picking"><i class="fa-solid fa-angles-left"></i>&nbsp;Continue picking</a>
     </div>
 </div>
 {% endblock %}
