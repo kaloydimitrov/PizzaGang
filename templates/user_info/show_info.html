@@ -7,18 +7,16 @@
 {% endblock %}
 
 {% block content %}
-    <div class="main-show-avatar-container">
-        <div class="show-avatar-container">
+    <div class="show-info-avatar-container">
+        <div class="cover-avatar-container">
             <a href="{% url 'edit_user' user.pk %}">
-                <img src="{% static 'images/icons/edit-pen.png' %}" class="edit-pen" alt="edit-pen">
+                <i class="fa-solid fa-pencil"></i>
             </a>
-            <div class="show-avatar-container-avatar">
-                {% if user.profile.avatar %}
-                    <img src="{{ user.profile.avatar.url }}" alt="avatar-img">
-                {% else %}
-                    <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
-                {% endif %}
-            </div>
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="avatar">
+            {% else %}
+                <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
+            {% endif %}
         </div>
     </div>
 
@@ -41,7 +39,7 @@
         </div>
 
         <a href="{% url 'edit_user' user.pk %}">
-            <img src="{% static 'images/icons/edit-pen.png' %}" class="edit-pen" alt="edit-pen">
+            <i class="fa-solid fa-pencil"></i>
         </a>
         <a href="{% url 'sign_out' %}">
             <div class="sign-out-container">

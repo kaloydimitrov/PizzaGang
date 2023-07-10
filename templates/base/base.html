@@ -68,11 +68,6 @@
             margin-left: 10px;
         }
 
-        .menu-container i {
-            color: rgba(0, 0, 0, 0.55);
-            font-size: 25px;
-        }
-
         .cart-container-base {
             display: flex;
             justify-content: center;
@@ -82,6 +77,11 @@
         .cart-container-base i {
             font-size: 25px;
             color: rgba(0, 0, 0, 0.55);
+            transition: color 0.5s;
+        }
+
+        .cart-container-base i:hover {
+            color: black;
         }
 
         .avatar-container .sign_in {
@@ -153,7 +153,13 @@
         </div>
     </div>
     <div class="cart-container-base">
-        <i class="fa-solid fa-cart-shopping fa-beat-fade"></i>
+        <a href="{% url 'show_cart' %}">
+            {% if cart_items_count > 0 %}
+                <i class="fa-solid fa-cart-shopping fa-beat-fade">{{ cart_items_count }}</i>
+            {% else %}
+                <i class="fa-solid fa-cart-shopping"></i>
+            {% endif %}
+        </a>
     </div>
     <div class="avatar-container">
         {% if user.is_authenticated %}

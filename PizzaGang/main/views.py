@@ -113,6 +113,20 @@ def AddToCartView(request, pk):
     cart_item = CartItem(cart=cart, pizza=pizza)
     cart_item.save()
 
+    return redirect('menu')
+
+
+def DeleteFromCartView(request, pk):
+    cart_item = get_object_or_404(CartItem, pk=pk)
+    cart_item.delete()
+
+    user = request.user
+    cart = Cart.objects.get(user=user)
+    cart_items = CartItem.objects.filter(cart=cart)
+
+    if cart_items.count() == 0:
+        return redirect('menu')
+
     return redirect('show_cart')
 
 
@@ -121,11 +135,9 @@ def ShowCartView(request):
     cart = Cart.objects.get(user=user)
 
     cart_items = CartItem.objects.filter(cart=cart)
-    cart_items_count = cart_items.count()
 
     context = {
         'cart_items': cart_items,
-        'cart_items_count': cart_items_count
     }
 
     return render(request, 'cart/show_cart.html', context)

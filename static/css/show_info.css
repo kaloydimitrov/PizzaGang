@@ -1,35 +1,29 @@
-.edit-pen {
-    position: absolute;
-    width: 30px;
-    transition: opacity 0.2s;
+i {
+    font-size: 27px;
 }
 
-.edit-pen:hover {
-    opacity: 0.6;
-}
-
-.main-show-avatar-container {
-    margin-top: 50px;
-    margin-bottom: 50px;
+.show-info-avatar-container {
+    height: 400px;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 }
 
-.show-avatar-container-avatar img {
+.cover-avatar-container {
+    position: relative;
+}
+
+.cover-avatar-container i {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.show-info-avatar-container img {
     height: 300px;
     width: 300px;
     object-fit: cover;
     border-radius: 100%;
-}
-
-.show-avatar-container {
-    position: relative;
-}
-
-.show-avatar-container .edit-pen {
-    right: 0;
-    top: 0;
 }
 
 .show-info-container {
@@ -47,7 +41,8 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.show-info-container .edit-pen {
+.show-info-container i {
+    position: absolute;
     right: 20px;
     top: 20px;
 }

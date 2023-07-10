@@ -51,8 +51,9 @@
     justify-content: center;
 }
 
-.edit-delete-pizza-container img {
-    width: 40px;
+.edit-delete-pizza-container i {
+    font-size: 35px;
+    color: black;
 }
 
 .img-container {

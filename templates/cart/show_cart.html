@@ -10,7 +10,7 @@
 <div class="cart-main-container">
     <div class="header-cart">
         <h1>Pizza Cart</h1>
-        <h1 class="items">{{ cart_items_count }} Items</h1>
+        <h1 class="items">{{ cart_items_count }} Item/s</h1>
     </div>
 
     {% for cart_item in cart_items %}
@@ -20,12 +20,40 @@
             <img src="{{ cart_item.pizza.image.url }}" alt="">
         </div>
         <div class="pizza-info">
-            <h1>{{ cart_item.pizza.name }}</h1>
+            <h1>{{ cart_item.pizza.price|floatformat:2 }} lv.</h1>
+            <p>{{ cart_item.pizza.ingredients }}</p>
+
+            <div class="show-cart-filters">
+                {% if cart_item.pizza.is_offer %}
+                    <img src="{% static 'images/icons/discount.png' %}" alt="pizza-offer-img">
+                {% endif %}
+                {% if cart_item.pizza.is_vege %}
+                    <img src="{% static 'images/icons/vege.png' %}" alt="pizza-vege-img">
+                {% endif %}
+                {% if cart_item.pizza.is_special %}
+                    <img src="{% static 'images/icons/special.png' %}" alt="pizza-special-img">
+                {% endif %}
+                {% if not cart_item.pizza.is_special and not cart_item.pizza.is_vege and not cart_item.pizza.is_offer %}
+                    <p>No filters for this pizza.</p>
+                {% endif %}
+            </div>
+        <div class=""></div>
         </div>
         <div class="delete-item">
-
+            <form action="{% url 'delete_from_cart' cart_item.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit"><i class="fa-solid fa-ban"></i></button>
+            </form>
         </div>
     </div>
     {% endfor %}
+    {% if cart_items_count == 0 %}
+        <div class="show-cart-no-items">
+            <h1>You currently have 0 items in your cart, would you like to go back?</h1>
+        </div>
+    {% endif %}
+    <div class="continue-picking-container">
+        <a href="{% url 'menu' %}" class="continue-picking">Continue picking</a>
+    </div>
 </div>
 {% endblock %}

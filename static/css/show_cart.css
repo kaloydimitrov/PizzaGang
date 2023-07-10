@@ -49,11 +49,50 @@ hr {
     object-fit: cover;
 }
 
-
-
-
-
+.show-cart-filters img {
+    width: 50px;
+}
 
 .delete-item {
-    background-color: red;
+    position: relative;
+    height: 200px;
+}
+
+.delete-item button {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 0;
+    font-weight: bold;
+    font-size: 70px;
+}
+
+.show-cart-no-items {
+    display: flex;
+    align-items: center;
+    height: 100px;
+}
+
+.show-cart-no-items h1 {
+    color: gray;
+}
+
+.continue-picking-container {
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.continue-picking {
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+}
+
+.continue-picking i {
+    font-size: 10px;
 }

@@ -20,12 +20,12 @@
         <div class="edit-delete-pizza-container">
             <div>
                 <a href="{% url 'edit_pizza' pizza.pk %}">
-                    <img src="{% static 'images/icons/edit.png' %}" alt="edit-pizza">
+                    <i class="fa-solid fa-file-pen"></i>
                 </a>
             </div>
             <div>
                 <a href="{% url 'delete_pizza' pizza.pk %}">
-                    <img src="{% static 'images/icons/delete.png' %}" alt="delete-pizza">
+                    <i class="fa-solid fa-trash"></i>
                 </a>
             </div>
         </div>
@@ -38,13 +38,13 @@
             </div>
             <div class="filters-container">
                 {% if pizza.is_offer %}
-                    <img src="{% static 'images/icons/pizza/discount.png' %}" alt="pizza-offer-img">
+                    <img src="{% static 'images/icons/discount.png' %}" alt="pizza-offer-img">
                 {% endif %}
                 {% if pizza.is_vege %}
-                    <img src="{% static 'images/icons/pizza/vege.png' %}" alt="pizza-vege-img">
+                    <img src="{% static 'images/icons/vege.png' %}" alt="pizza-vege-img">
                 {% endif %}
                 {% if pizza.is_special %}
-                    <img src="{% static 'images/icons/pizza/special.png' %}" alt="pizza-special-img">
+                    <img src="{% static 'images/icons/special.png' %}" alt="pizza-special-img">
                 {% endif %}
                 {% if not pizza.is_special and not pizza.is_vege and not pizza.is_offer %}
                     <p>No filters for this pizza.</p>
