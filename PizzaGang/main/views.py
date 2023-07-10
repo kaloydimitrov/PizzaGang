@@ -1,4 +1,4 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.shortcuts import render, redirect
@@ -8,6 +8,9 @@ from django.views.generic import TemplateView, CreateView, ListView, UpdateView,
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm
 from .models import Pizza, Profile, Cart, CartItem
 from .filters import PizzaOrderFilter
+
+
+User = get_user_model()
 
 
 def BaseView(request):
