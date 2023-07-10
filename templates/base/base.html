@@ -153,13 +153,15 @@
         </div>
     </div>
     <div class="cart-container-base">
-        <a href="{% url 'show_cart' %}">
-            {% if cart_items_count > 0 %}
-                <i class="fa-solid fa-cart-shopping fa-beat-fade">{{ cart_items_count }}</i>
-            {% else %}
-                <i class="fa-solid fa-cart-shopping"></i>
-            {% endif %}
-        </a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'show_cart' %}">
+                {% if cart_items_count > 0 %}
+                    <i class="fa-solid fa-cart-shopping fa-beat-fade">{{ cart_items_count }}</i>
+                {% else %}
+                    <i class="fa-solid fa-cart-shopping"></i>
+                {% endif %}
+            </a>
+        {% endif %}
     </div>
     <div class="avatar-container">
         {% if user.is_authenticated %}
