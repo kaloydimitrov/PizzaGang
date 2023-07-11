@@ -64,11 +64,12 @@ form button:hover {
 input[type="text"],
 input[type="email"] {
     display: block;
-    width: 200px;
+    width: 400px;
     border: 0;
     background-color: rgba(0, 0, 0, 0);
     border-radius: 4px;
     box-sizing: border-box;
+    font-size: 18px;
 }
 
 input:focus {

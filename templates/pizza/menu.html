@@ -9,8 +9,19 @@
 {% block content %}
     <div class="sidebar">
         <form method="get" action="{% url 'menu' %}">
-            {{ pizza_filter.form.as_p }}
-            <button type="submit">Search</button>
+            <div class="item">
+                {{ pizza_filter.form.name }}
+                <hr>
+            </div>
+
+            <div class="item">
+                {{ pizza_filter.form.ingredients }}
+                <hr>
+            </div>
+
+            <button type="submit">
+                Search<i class="fa-solid fa-magnifying-glass"></i>
+            </button>
         </form>
     </div>
 

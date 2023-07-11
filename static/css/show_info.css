@@ -37,7 +37,7 @@ i {
     padding: 40px 40px 90px 40px;
     margin-right: auto;
     margin-left: auto;
-    width: 1500px;
+    width: 1300px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -49,7 +49,7 @@ i {
 
 .show-info-container .title {
     margin: 0;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: bold;
     color: #007bff;
     letter-spacing: 1px;
@@ -57,7 +57,7 @@ i {
 
 .show-info-container .info {
     margin: 0;
-    font-size: 15px;
+    font-size: 19px;
 }
 
 .sign-out-container {
