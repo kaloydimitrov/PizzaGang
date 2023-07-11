@@ -27,8 +27,11 @@
 
 .sidebar hr {
     margin: 5px 0 20px 0;
-    border: 1px solid lightgray;
-    width: 170px;
+    border: none;
+    height: 1px;
+    color: lightgray;
+    background-color: lightgray;
+    width: 175px;
 }
 
 .sidebar button {
