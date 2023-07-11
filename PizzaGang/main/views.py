@@ -112,14 +112,21 @@ def AddToCartView(request, pk):
     user = request.user
     cart = get_object_or_404(Cart, user=user)
 
+    # Adds new pizza in cart
     cart_item = CartItem(cart=cart, pizza=pizza)
     cart_item.save()
 
+    # Adds pizza price to total cart price
     cart_price = cart.total_price
     pizza_price = pizza.price
     cart_total_price = cart_price + pizza_price
     cart.total_price = cart_total_price
     cart.save()
+
+    # Checks for duplication
+    duplication_count = CartItem.objects.filter(cart=cart, pizza=pizza).count()
+    pizza.duplication_count = duplication_count
+    pizza.save()
 
     return redirect('menu')
 
@@ -130,17 +137,25 @@ def DeleteFromCartView(request, pk):
     user = request.user
     cart = Cart.objects.get(user=user)
 
+    # Removes pizza from cart
     cart_item.delete()
 
+    # Subtracts pizza price from total cart price
     cart_price = cart.total_price
     pizza_price = pizza.price
     cart_total_price = cart_price - pizza_price
     cart.total_price = cart_total_price
     cart.save()
 
+    # Returns to menu if there are no pizzas in cart
     cart_items = CartItem.objects.filter(cart=cart)
     if cart_items.count() == 0:
         return redirect('menu')
+
+    # Checks for duplication
+    duplication_count = CartItem.objects.filter(cart=cart, pizza=pizza).count()
+    pizza.duplication_count = duplication_count
+    pizza.save()
 
     return redirect('show_cart')
 

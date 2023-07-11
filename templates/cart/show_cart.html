@@ -18,10 +18,16 @@
     <div class="cart-container">
         <div class="pizza-img">
             <img src="{{ cart_item.pizza.image.url }}" alt="">
+            {% if cart_item.pizza.duplication_count > 1 %}
+                <div class="duplication-container">
+                    <p>{{ cart_item.pizza.duplication_count }}</p>
+                </div>
+            {% endif %}
         </div>
         <div class="pizza-info">
             <div class="basic-info">
                 <p class="price">{{ cart_item.pizza.price|floatformat:2 }} lv.</p>
+                <p class="name">{{ cart_item.pizza.name }}</p>
                 <p class="ingres">{{ cart_item.pizza.ingredients }}</p>
             </div>
 

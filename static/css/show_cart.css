@@ -48,6 +48,31 @@ hr {
     object-fit: cover;
 }
 
+.cart-container .pizza-img {
+    position: relative;
+}
+
+.cart-container .duplication-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border-radius: 100%;
+    border: 1px solid orangered;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.duplication-container p {
+    margin: 0;
+    font-size: 40px;
+    font-weight: bolder;
+    color: orangered;
+}
+
 .cart-container .pizza-info {
     display: grid;
     grid-template-rows: 1fr 50px;
@@ -56,6 +81,12 @@ hr {
 .basic-info .price {
     font-size: 35px;
     margin: 0;
+}
+
+.basic-info .name {
+    color: dimgray;
+    margin: 0;
+    font-size: 20px;
 }
 
 .basic-info .ingres {

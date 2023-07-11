@@ -32,6 +32,7 @@ class Pizza(models.Model):
     is_offer = models.BooleanField(blank=True, null=True)
     is_vege = models.BooleanField(blank=True, null=True)
     discount = models.IntegerField(blank=True, null=True)
+    duplication_count = models.IntegerField(default=1)
 
     def __str__(self):
         return f"{self.name}"
