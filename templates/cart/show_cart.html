@@ -21,8 +21,8 @@
         </div>
         <div class="pizza-info">
             <div class="basic-info">
-                <h1>{{ cart_item.pizza.price|floatformat:2 }} lv.</h1>
-                <p>{{ cart_item.pizza.ingredients }}</p>
+                <p class="price">{{ cart_item.pizza.price|floatformat:2 }} lv.</p>
+                <p class="ingres">{{ cart_item.pizza.ingredients }}</p>
             </div>
 
             <div class="show-cart-filters">
@@ -55,6 +55,9 @@
     {% endif %}
     <div class="continue-picking-container">
         <a href="{% url 'menu' %}" class="continue-picking"><i class="fa-solid fa-angles-left"></i>&nbsp;Continue picking</a>
+        {% if cart_total_price > 0 %}
+            <p>Total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ cart_total_price|floatformat:2 }} lv.</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

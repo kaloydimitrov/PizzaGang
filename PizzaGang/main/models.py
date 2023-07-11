@@ -39,6 +39,7 @@ class Pizza(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    total_price = models.FloatField(default=0.00)
 
     def __str__(self):
         return f"{self.user.username}'s Cart"
@@ -58,6 +59,7 @@ class CartItem(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE)
+    final_price = models.FloatField(default=0.00)
 
     def __str__(self):
         return f"{self.pizza.name} | {self.quantity} ({self.cart.user.username})"

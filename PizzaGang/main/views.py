@@ -110,23 +110,35 @@ def MenuView(request):
 def AddToCartView(request, pk):
     pizza = Pizza.objects.get(pk=pk)
     user = request.user
-
     cart = get_object_or_404(Cart, user=user)
 
     cart_item = CartItem(cart=cart, pizza=pizza)
     cart_item.save()
+
+    cart_price = cart.total_price
+    pizza_price = pizza.price
+    cart_total_price = cart_price + pizza_price
+    cart.total_price = cart_total_price
+    cart.save()
 
     return redirect('menu')
 
 
 def DeleteFromCartView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
-    cart_item.delete()
-
+    pizza = cart_item.pizza
     user = request.user
     cart = Cart.objects.get(user=user)
-    cart_items = CartItem.objects.filter(cart=cart)
 
+    cart_item.delete()
+
+    cart_price = cart.total_price
+    pizza_price = pizza.price
+    cart_total_price = cart_price - pizza_price
+    cart.total_price = cart_total_price
+    cart.save()
+
+    cart_items = CartItem.objects.filter(cart=cart)
     if cart_items.count() == 0:
         return redirect('menu')
 
@@ -135,12 +147,14 @@ def DeleteFromCartView(request, pk):
 
 def ShowCartView(request):
     user = request.user
-    cart = Cart.objects.get(user=user)
+    cart = get_object_or_404(Cart, user=user)
 
     cart_items = CartItem.objects.filter(cart=cart)
+    cart_total_price = cart.total_price
 
     context = {
         'cart_items': cart_items,
+        'cart_total_price': cart_total_price
     }
 
     return render(request, 'cart/show_cart.html', context)
