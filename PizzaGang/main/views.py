@@ -113,12 +113,12 @@ def AddToCartView(request, pk):
     cart = get_object_or_404(Cart, user=user)
 
     # Adds new pizza in cart
-    cart_item = CartItem(cart=cart, pizza=pizza)
+    cart_item = CartItem(cart=cart, pizza=pizza, final_price=pizza.price)
     cart_item.save()
 
     # Adds pizza price to total cart price
     cart_price = cart.total_price
-    pizza_price = pizza.price
+    pizza_price = cart_item.final_price
     cart_total_price = cart_price + pizza_price
     cart.total_price = cart_total_price
     cart.save()
@@ -131,21 +131,68 @@ def AddToCartView(request, pk):
     return redirect('menu')
 
 
+def SelectItemSizeView(request, pk):
+    cart_item = get_object_or_404(CartItem, pk=pk)
+    cart = cart_item.cart
+
+    if 'small_button' in request.POST:
+        cart_item.is_small = True
+        cart_item.is_big = False
+        cart_item.is_large = False
+
+        cart_total_price = cart.total_price
+        cart_total_price -= cart_item.final_price
+        cart_item.final_price = cart_item.pizza.price * 0.75
+        cart_total_price += cart_item.final_price
+        cart.total_price = cart_total_price
+
+        cart_item.save()
+        cart.save()
+    elif 'big_button' in request.POST:
+        cart_item.is_small = False
+        cart_item.is_big = True
+        cart_item.is_large = False
+
+        cart_total_price = cart.total_price
+        cart_total_price -= cart_item.final_price
+        cart_item.final_price = cart_item.pizza.price
+        cart_total_price += cart_item.final_price
+        cart.total_price = cart_total_price
+
+        cart_item.save()
+        cart.save()
+    elif 'large_button' in request.POST:
+        cart_item.is_small = False
+        cart_item.is_big = False
+        cart_item.is_large = True
+
+        cart_total_price = cart.total_price
+        cart_total_price -= cart_item.final_price
+        cart_item.final_price = cart_item.pizza.price * 1.25
+        cart_total_price += cart_item.final_price
+        cart.total_price = cart_total_price
+
+        cart_item.save()
+        cart.save()
+
+    return redirect('show_cart')
+
+
 def DeleteFromCartView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
     pizza = cart_item.pizza
     user = request.user
     cart = Cart.objects.get(user=user)
 
-    # Removes pizza from cart
-    cart_item.delete()
-
     # Subtracts pizza price from total cart price
     cart_price = cart.total_price
-    pizza_price = pizza.price
+    pizza_price = cart_item.final_price
     cart_total_price = cart_price - pizza_price
     cart.total_price = cart_total_price
     cart.save()
+
+    # Removes pizza from cart
+    cart_item.delete()
 
     # Returns to menu if there are no pizzas in cart
     cart_items = CartItem.objects.filter(cart=cart)

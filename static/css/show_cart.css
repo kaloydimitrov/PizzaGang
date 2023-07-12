@@ -38,7 +38,7 @@ hr {
 .cart-container {
     height: 200px;
     display: grid;
-    grid-template-columns: 350px 1fr 80px;
+    grid-template-columns: 350px 1fr 200px 80px;
     column-gap: 15px;
 }
 
@@ -75,7 +75,7 @@ hr {
 
 .cart-container .pizza-info {
     display: grid;
-    grid-template-rows: 1fr 50px;
+    grid-template-rows: 160px 40px;
 }
 
 .basic-info .price {
@@ -94,8 +94,43 @@ hr {
     margin: 16px 0 0 0;
 }
 
+.cart-container .show-cart-filters {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
+}
+
 .cart-container .show-cart-filters img {
     width: 50px;
+}
+
+.choose-size {
+    height: 200px;
+}
+
+.choose-size button {
+    cursor: pointer;
+    height: 66px;
+    width: 100%;
+    display: block;
+    border: 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: dimgray;
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.choose-size button:hover {
+    background-color: dimgray;
+    color: white;
+}
+
+.choose-size .small {
+    border-radius: 10px 10px 0 0;
+}
+
+.choose-size .large {
+    border-radius: 0 0 10px 10px;
 }
 
 .delete-item {
@@ -114,14 +149,14 @@ hr {
     font-weight: bold;
     font-size: 70px;
     background-color: orangered;
-    border-radius: 50px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .delete-item button i {
-    font-size: 50px;
+    font-size: 55px;
     opacity: 0.5;
 }
 

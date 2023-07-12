@@ -61,6 +61,9 @@ class CartItem(models.Model):
     quantity = models.IntegerField(default=1)
     cart = models.ForeignKey('Cart', on_delete=models.CASCADE)
     final_price = models.FloatField(default=0.00)
+    is_small = models.BooleanField(default=False)
+    is_big = models.BooleanField(default=True)
+    is_large = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.pizza.name} | {self.quantity} ({self.cart.user.username})"

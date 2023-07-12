@@ -26,7 +26,7 @@
         </div>
         <div class="pizza-info">
             <div class="basic-info">
-                <p class="price">{{ cart_item.pizza.price|floatformat:2 }} lv.</p>
+                <p class="price">{{ cart_item.final_price|floatformat:2 }} lv.</p>
                 <p class="name">{{ cart_item.pizza.name }}</p>
                 <p class="ingres">{{ cart_item.pizza.ingredients }}</p>
             </div>
@@ -46,10 +46,32 @@
                 {% endif %}
             </div>
         </div>
+        <div class="choose-size">
+            <form action="{% url 'select_item_size' cart_item.pk %}" method="post">
+                {% csrf_token %}
+                {% if cart_item.is_small %}
+                    <button class="small" style="background-color: dimgray; color: white" type="submit" name="small_button">Small</button>
+                {% else %}
+                    <button class="small" type="submit" name="small_button">Small</button>
+                {% endif %}
+
+                {% if cart_item.is_big %}
+                    <button style="background-color: dimgray; color: white" type="submit" name="big_button">Big</button>
+                {% else %}
+                    <button type="submit" name="big_button">Big</button>
+                {% endif %}
+
+                {% if cart_item.is_large %}
+                    <button class="large" style="background-color: dimgray; color: white" type="submit" name="large_button">Large</button>
+                {% else %}
+                    <button class="large" type="submit" name="large_button">Large</button>
+                {% endif %}
+            </form>
+        </div>
         <div class="delete-item">
             <form action="{% url 'delete_from_cart' cart_item.pk %}" method="post">
                 {% csrf_token %}
-                <button type="submit"><i class="fa-solid fa-ban"></i></button>
+                <button type="submit"><i class="fa-solid fa-xmark"></i></button>
             </form>
         </div>
     </div>
