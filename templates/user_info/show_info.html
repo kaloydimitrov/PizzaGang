@@ -53,7 +53,7 @@
         <div class="show-info-sidebar">
             <a href="{% url 'show_user' user.pk %}">Info</a>
             <a href="">Address</a>
-            <a href="{% url 'show_user_orders' %}">Orders</a>
+            <a href="{% url 'show_user_orders' user.pk %}">Orders</a>
             <a href="{% url 'edit_user' user.pk %}">Edit</a>
         </div>
     </div>

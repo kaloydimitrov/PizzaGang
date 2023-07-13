@@ -224,8 +224,8 @@ def CreateOrderView(request):
     return redirect('show_user_orders')
 
 
-def ShowOrdersUserView(request):
-    user = request.user
+def ShowOrdersUserView(request, pk):
+    user = User.objects.get(pk=pk)
     orders = Order.objects.filter(user=user).order_by('-created_at')
     active_orders = Order.objects.filter(user=user, is_finished=False)
 
