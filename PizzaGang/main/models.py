@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
+from .validators import validate_positive
 
 
 class Profile(models.Model):
@@ -40,7 +41,7 @@ class Pizza(models.Model):
 
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    total_price = models.FloatField(default=0.00)
+    total_price = models.FloatField(validators=[validate_positive], default=0.00)
 
     def __str__(self):
         return f"{self.user.username}'s Cart"
@@ -67,3 +68,14 @@ class CartItem(models.Model):
 
     def __str__(self):
         return f"{self.pizza.name} | {self.quantity} ({self.cart.user.username})"
+
+
+class Order(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_finished = models.BooleanField(default=False)
+    cart_items = models.TextField()
+    total_price = models.FloatField(validators=[validate_positive], default=0.00)
+
+    def __str__(self):
+        return f"{self.user.username}'s Order ({self.pk})"

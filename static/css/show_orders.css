@@ -1,0 +1,118 @@
+p, h1 {
+    margin: 0;
+    cursor: default;
+}
+
+a {
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.show-orders-stats {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1100px;
+    height: 150px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.show-orders-stats p {
+    display: inline-block;
+    font-size: 45px;
+    color: dimgray;
+}
+
+.order-container-finished, .order-container-in-progress {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    display: grid;
+    grid-template-columns: 1fr 3fr 2fr 1fr 1fr;
+    width: 1100px;
+    height: 100px;
+    background-color: white;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.order-container-finished div, .order-container-in-progress div {
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.order-container-finished {
+    background-color: rgba(212,212,212,0.6);
+    color: rgba(0,0,0,0.5);
+}
+
+.order-container-finished a {
+    color: rgba(0,0,0,0.5);
+}
+
+.order-container-in-progress a {
+    color: black;
+}
+
+.order-items-container {
+    position: relative;
+}
+
+.items-message-container {
+    position: absolute;
+    top: 75px;
+    background-color: white;
+    color: black;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    z-index: 1;
+    display: none;
+}
+
+.items-message-container.arrow-top {
+  margin-top: 40px;
+}
+
+.items-message-container.arrow-top:after {
+  content: " ";
+  position: absolute;
+  top: -15px;
+  border-top: none;
+  border-right: 15px solid transparent;
+  border-left: 15px solid transparent;
+  border-bottom: 15px solid dimgray;
+}
+
+.order-items-container:hover .items-message-container {
+    display: block;
+}
+
+.order-is-finished {
+    position: relative;
+}
+
+.order-is-finished button {
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 0;
+    border-radius: 0 10px 10px 0;
+    color: white;
+    background-color: rgb(129, 182, 76);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.order-is-finished button:hover {
+    background-color: rgb(162, 208, 95);
+}

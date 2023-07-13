@@ -7,44 +7,54 @@
 {% endblock %}
 
 {% block content %}
-    <div class="show-info-avatar-container">
-        <div class="cover-avatar-container">
-            <a href="{% url 'edit_user' user.pk %}">
-                <i class="fa-solid fa-pencil"></i>
-            </a>
-            {% if user.profile.avatar %}
-                <img src="{{ user.profile.avatar.url }}" alt="avatar">
-            {% else %}
-                <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
-            {% endif %}
-        </div>
-    </div>
-
-    <div class="show-info-container">
-        <div>
-            <p class="title">Username</p>
-            <p class="info">{{ user.username }}</p>
-        </div>
-        <div>
-            <p class="title">Name</p>
-            <p class="info">{{ user.get_full_name }}</p>
-        </div>
-        <div>
-            <p class="title">Email</p>
-            <p class="info">{{ user.email }}</p>
-        </div>
-        <div>
-            <p class="title">Address</p>
-            <p class="info">{{ user.profile.address }}</p>
-        </div>
-
-        <a href="{% url 'edit_user' user.pk %}">
-            <i class="fa-solid fa-pencil"></i>
-        </a>
-        <a href="{% url 'sign_out' %}">
-            <div class="sign-out-container">
-                <p>Sign Out</p>
+    <div class="show-info-main-container">
+        <div class="show-info-avatar-info-container">
+            <div class="show-info-avatar-container">
+                <div class="cover-avatar-container">
+                    <a href="{% url 'edit_user' user.pk %}">
+                        <i class="fa-solid fa-pencil"></i>
+                    </a>
+                    {% if user.profile.avatar %}
+                        <img src="{{ user.profile.avatar.url }}" alt="avatar">
+                    {% else %}
+                        <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
+                    {% endif %}
+                </div>
             </div>
-        </a>
+
+            <div class="show-info-container">
+                <div>
+                    <p class="title">Username</p>
+                    <p class="info">{{ user.username }}</p>
+                </div>
+                <div>
+                    <p class="title">Name</p>
+                    <p class="info">{{ user.get_full_name }}</p>
+                </div>
+                <div>
+                    <p class="title">Email</p>
+                    <p class="info">{{ user.email }}</p>
+                </div>
+                <div>
+                    <p class="title">Address</p>
+                    <p class="info">{{ user.profile.address }}</p>
+                </div>
+
+                <a href="{% url 'edit_user' user.pk %}">
+                    <i class="fa-solid fa-pencil"></i>
+                </a>
+                <a href="{% url 'sign_out' %}">
+                    <div class="sign-out-container">
+                        <p>Sign Out</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="show-info-sidebar">
+            <a href="{% url 'show_user' user.pk %}">Info</a>
+            <a href="">Address</a>
+            <a href="{% url 'show_user_orders' %}">Orders</a>
+            <a href="{% url 'edit_user' user.pk %}">Edit</a>
+        </div>
     </div>
 {% endblock %}

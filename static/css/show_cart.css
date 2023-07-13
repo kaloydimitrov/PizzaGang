@@ -193,3 +193,29 @@ hr {
     font-size: 40px;
     font-weight: bold;
 }
+
+.order-container {
+    position: relative;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.order-container div {
+    position: absolute;
+    right: 0;
+}
+
+.order-container a {
+    margin: 0;
+    text-decoration: none;
+    color: white;
+    font-size: 25px;
+    padding: 10px 20px 10px 20px;
+    border-radius: 5px;
+    background-color: rgb(129, 182, 76);
+}
+
+.order-container a:hover {
+    background-color: rgb(162, 208, 95);
+}

@@ -1,0 +1,24 @@
+<div class="order-username-container">
+    <a href="{% url 'show_user' order.user.pk %}">
+        <b>{{ order.user.username|truncatechars:10 }} (You)</b>
+    </a>
+</div>
+<div class="order-items-container">
+    <p>{{ order.cart_items|truncatechars:200 }}</p>
+    <div class="items-message-container arrow-top">
+        <p>{{ order.cart_items }}</p>
+    </div>
+</div>
+<div class="order-time-created-container">
+    <p>{{ order.created_at }}</p>
+</div>
+<div class="order-price-container">
+    <p><b>{{ order.total_price|floatformat:2 }}</b> lv.</p>
+</div>
+<div class="order-is-finished">
+    {% if order.is_finished %}
+        <p>Finished</p>
+    {% else %}
+        <p>In progress</p><i class="fa-regular fa-clock"></i>
+    {% endif %}
+</div>

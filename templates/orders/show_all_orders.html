@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Orders - PizzaGang</title>
+    <link rel="stylesheet" href="{% static 'css/show_orders.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="show-orders-stats">
+        <p>Orders left: <b>{{ orders.count }}</b></p>
+        <p>Orders finished: <b>{{ orders_finished.count }}</b></p>
+    </div>
+    {% for order in orders %}
+        <div class="order-container-in-progress">
+            <div class="order-username-container">
+                <a href="{% url 'show_user' order.user.pk %}">
+                    <b>{{ order.user.username|truncatechars:10 }}</b>
+                </a>
+            </div>
+            <div class="order-items-container">
+                <p>{{ order.cart_items|truncatechars:200 }}</p>
+                <div class="items-message-container arrow-top">
+                    <p>{{ order.cart_items }}</p>
+                </div>
+            </div>
+            <div class="order-time-created-container">
+                <p>{{ order.created_at }}</p>
+            </div>
+            <div class="order-price-container">
+                <p><b>{{ order.total_price|floatformat:2 }}</b> lv.</p>
+            </div>
+            <div class="order-is-finished">
+                <form action="{% url 'make_finished_order' order.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Finish</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

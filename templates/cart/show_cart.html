@@ -87,5 +87,12 @@
             <p>Total:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ cart_total_price|floatformat:2 }} lv.</p>
         {% endif %}
     </div>
+    {% if cart_total_price > 0 %}
+        <div class="order-container">
+            <div>
+                <a href="{% url 'create_order' %}">Order Now</a>
+            </div>
+        </div>
+    {% endif %}
 </div>
 {% endblock %}

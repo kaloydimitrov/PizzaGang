@@ -1,7 +1,8 @@
 from django.urls import path, include
 from .views import HomeView, SignUpView, SignInView, SignOutView, MenuView, UserEditView, UserAddressView, \
                     CreatePizzaView, EditPizzaView, DeletePizzaView, UserShowView, AddToCartView, \
-                    ShowCartView, DeleteFromCartView, SelectItemSizeView
+                    ShowCartView, DeleteFromCartView, SelectItemSizeView, CreateOrderView, ShowOrdersUserView, \
+                    ShowOrdersAllView, MakeOrderFinishedView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='home'),
@@ -25,5 +26,11 @@ urlpatterns = (
         path('delete/<int:pk>/', DeleteFromCartView, name='delete_from_cart'),
         path('select-size/<int:pk>/', SelectItemSizeView, name='select_item_size'),
         path('show/', ShowCartView, name='show_cart'),
+    ])),
+    path('orders/', include([
+        path('create/', CreateOrderView, name='create_order'),
+        path('show/', ShowOrdersUserView, name='show_user_orders'),
+        path('show-all/', ShowOrdersAllView, name='show_all_orders'),
+        path('make-finished/<int:pk>', MakeOrderFinishedView, name='make_finished_order')
     ]))
 )

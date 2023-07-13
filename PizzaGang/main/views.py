@@ -6,9 +6,8 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm
-from .models import Pizza, Profile, Cart, CartItem
+from .models import Pizza, Profile, Cart, CartItem, Order
 from .filters import PizzaOrderFilter
-
 
 User = get_user_model()
 
@@ -116,13 +115,6 @@ def AddToCartView(request, pk):
     cart_item = CartItem(cart=cart, pizza=pizza, final_price=pizza.price)
     cart_item.save()
 
-    # Adds pizza price to total cart price
-    cart_price = cart.total_price
-    pizza_price = cart_item.final_price
-    cart_total_price = cart_price + pizza_price
-    cart.total_price = cart_total_price
-    cart.save()
-
     # Checks for duplication
     duplication_count = CartItem.objects.filter(cart=cart, pizza=pizza).count()
     pizza.duplication_count = duplication_count
@@ -140,40 +132,24 @@ def SelectItemSizeView(request, pk):
         cart_item.is_big = False
         cart_item.is_large = False
 
-        cart_total_price = cart.total_price
-        cart_total_price -= cart_item.final_price
         cart_item.final_price = cart_item.pizza.price * 0.75
-        cart_total_price += cart_item.final_price
-        cart.total_price = cart_total_price
-
         cart_item.save()
-        cart.save()
+
     elif 'big_button' in request.POST:
         cart_item.is_small = False
         cart_item.is_big = True
         cart_item.is_large = False
 
-        cart_total_price = cart.total_price
-        cart_total_price -= cart_item.final_price
         cart_item.final_price = cart_item.pizza.price
-        cart_total_price += cart_item.final_price
-        cart.total_price = cart_total_price
-
         cart_item.save()
-        cart.save()
+
     elif 'large_button' in request.POST:
         cart_item.is_small = False
         cart_item.is_big = False
         cart_item.is_large = True
 
-        cart_total_price = cart.total_price
-        cart_total_price -= cart_item.final_price
         cart_item.final_price = cart_item.pizza.price * 1.25
-        cart_total_price += cart_item.final_price
-        cart.total_price = cart_total_price
-
         cart_item.save()
-        cart.save()
 
     return redirect('show_cart')
 
@@ -183,13 +159,6 @@ def DeleteFromCartView(request, pk):
     pizza = cart_item.pizza
     user = request.user
     cart = Cart.objects.get(user=user)
-
-    # Subtracts pizza price from total cart price
-    cart_price = cart.total_price
-    pizza_price = cart_item.final_price
-    cart_total_price = cart_price - pizza_price
-    cart.total_price = cart_total_price
-    cart.save()
 
     # Removes pizza from cart
     cart_item.delete()
@@ -212,14 +181,80 @@ def ShowCartView(request):
     cart = get_object_or_404(Cart, user=user)
 
     cart_items = CartItem.objects.filter(cart=cart)
-    cart_total_price = cart.total_price
+
+    cart_total_price = 0
+    for item in cart_items:
+        cart_total_price += item.final_price
+
+    cart.total_price = cart_total_price
+    cart.save()
 
     context = {
         'cart_items': cart_items,
-        'cart_total_price': cart_total_price
+        'cart_total_price': cart.total_price
     }
 
     return render(request, 'cart/show_cart.html', context)
+
+
+def CreateOrderView(request):
+    user = request.user
+    cart = get_object_or_404(Cart, user=user)
+
+    cart_items = CartItem.objects.filter(cart=cart)
+    order_items = []
+    for item in cart_items:
+        size = 'None'
+        if item.is_small:
+            size = 'SM'
+        elif item.is_big:
+            size = 'BI'
+        elif item.is_large:
+            size = 'LA'
+
+        order_items.append(f"{item.pizza.name} {size}, {item.final_price}")
+    order_items_string = ' • '.join(order_items)
+
+    print(cart.total_price)
+    order = Order(user=user, cart_items=order_items_string, total_price=cart.total_price)
+    order.save()
+
+    cart_items.delete()
+
+    return redirect('show_user_orders')
+
+
+def ShowOrdersUserView(request):
+    user = request.user
+    orders = Order.objects.filter(user=user).order_by('-created_at')
+    active_orders = Order.objects.filter(user=user, is_finished=False)
+
+    context = {
+        'orders': orders,
+        'active_orders': active_orders
+    }
+
+    return render(request, 'orders/show_user_orders.html', context)
+
+
+def ShowOrdersAllView(request):
+    orders = Order.objects.filter(is_finished=False).order_by('created_at')
+    orders_finished = Order.objects.filter(is_finished=True)
+
+    context = {
+        'orders': orders,
+        'orders_finished': orders_finished
+    }
+
+    return render(request, 'orders/show_all_orders.html', context)
+
+
+def MakeOrderFinishedView(request, pk):
+    order = Order.objects.get(pk=pk)
+    order.is_finished = True
+    order.save()
+
+    return redirect('show_all_orders')
 
 
 def CreatePizzaView(request):
