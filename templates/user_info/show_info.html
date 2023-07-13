@@ -51,10 +51,15 @@
             </div>
         </div>
         <div class="show-info-sidebar">
-            <a href="{% url 'show_user' user.pk %}">Info</a>
-            <a href="">Address</a>
-            <a href="{% url 'show_user_orders' user.pk %}">Orders</a>
-            <a href="{% url 'edit_user' user.pk %}">Edit</a>
+            <div class="info-sidebar-top">
+                <a href="{% url 'show_user' user.pk %}">Info</a>
+                <a href="">Address</a>
+                <a href="{% url 'show_user_orders' user.pk %}">Orders</a>
+            </div>
+            <div class="info-sidebar-bottom">
+                <a href="{% url 'edit_user' user.pk %}">Edit</a>
+                <a href="{% url 'sign_out' %}">Sign Out</a>
+            </div>
         </div>
     </div>
 {% endblock %}

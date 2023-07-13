@@ -31,6 +31,6 @@ urlpatterns = (
         path('create/', CreateOrderView, name='create_order'),
         path('show/<int:pk>/', ShowOrdersUserView, name='show_user_orders'),
         path('show-all/', ShowOrdersAllView, name='show_all_orders'),
-        path('make-finished/<int:pk>', MakeOrderFinishedView, name='make_finished_order')
+        path('make-finished/<int:pk>/', MakeOrderFinishedView, name='make_finished_order')
     ]))
 )
