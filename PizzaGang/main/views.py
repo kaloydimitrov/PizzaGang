@@ -29,7 +29,7 @@ class SignUpView(CreateView):
     template_name = 'authentication/sign_up.html'
     success_url = reverse_lazy('sign_in')
 
-    # TODO: This fields should be updated in forms.py
+    # TODO: These fields should be updated in forms.py
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields['password1'].widget.attrs['placeholder'] = 'Enter your password'
@@ -42,7 +42,7 @@ class SignInView(LoginView):
     next_page = reverse_lazy('home')
     form_class = AuthenticationForm
 
-    # TODO: This fields should be updated in forms.py
+    # TODO: These fields should be updated in forms.py
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
         form.fields['username'].widget.attrs['placeholder'] = 'Username'
@@ -75,7 +75,7 @@ def UserEditView(request, pk):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            user_view_link = f'http://127.0.0.1:8000/user-info/show/{pk}/'
+            user_view_link = f'/user-info/show/{pk}/'
             return redirect(user_view_link)
     else:
         user_form = UserEditForm(instance=user)
@@ -125,7 +125,6 @@ def AddToCartView(request, pk):
 
 def SelectItemSizeView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
-    cart = cart_item.cart
 
     if 'small_button' in request.POST:
         cart_item.is_small = True
@@ -221,7 +220,8 @@ def CreateOrderView(request):
 
     cart_items.delete()
 
-    return redirect('show_user_orders')
+    user_orders_link = f'/orders/show/{user.pk}/'
+    return redirect(user_orders_link)
 
 
 def ShowOrdersUserView(request, pk):
