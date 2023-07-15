@@ -14,11 +14,11 @@
     {% for order in orders %}
         {% if order.is_finished %}
             <div class="order-container-finished">
-                {% include 'orders/order-container-user.html' %}
+                {% include 'orders/order_container_user.html' %}
             </div>
         {% else %}
             <div class="order-container-in-progress">
-                {% include 'orders/order-container-user.html' %}
+                {% include 'orders/order_container_user.html' %}
             </div>
         {% endif %}
     {% endfor %}

@@ -22,7 +22,7 @@ urlpatterns = (
         path('delete/<int:pk>/', DeletePizzaView.as_view(), name='delete_pizza')
     ])),
     path('cart/', include([
-        path('add/<int:pk>', AddToCartView, name='add_to_cart'),
+        path('add/<int:pk>/', AddToCartView, name='add_to_cart'),
         path('delete/<int:pk>/', DeleteFromCartView, name='delete_from_cart'),
         path('select-size/<int:pk>/', SelectItemSizeView, name='select_item_size'),
         path('show/', ShowCartView, name='show_cart'),
