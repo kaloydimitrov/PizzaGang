@@ -1,7 +1,8 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Pizza, CartItem
+from .models import Profile, Pizza
+from django.utils.translation import gettext_lazy as _
 
 
 class SignUpForm(UserCreationForm):
@@ -47,6 +48,8 @@ class UserEditForm(forms.ModelForm):
 
 class ProfileEditForm(forms.ModelForm):
     address = forms.CharField(max_length=100)
+    avatar = forms.ImageField(label=_('avatar'), required=False, error_messages={'invalid': _("Image files only")},
+                              widget=forms.FileInput)
 
     class Meta:
         model = Profile

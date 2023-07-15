@@ -46,12 +46,23 @@ form button:hover {
 }
 
 .edit-avatar-container {
-    background-color: rgba(0, 123, 255, 0.7);
+    position: relative;
     height: 200px;
     width: 200px;
     border-radius: 100%;
     margin-left: auto;
     margin-right: auto;
+}
+
+.edit-avatar-container input[type="file"] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 1px solid #ccc;
+    border-radius: 100%;
+    background-color: rgba(0, 123, 255, 0.7);
 }
 
 .username-info p {
