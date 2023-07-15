@@ -126,29 +126,34 @@ def AddToCartView(request, pk):
 def SelectItemSizeView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
 
+    # big_button
+    multiply_number = 1
+
     if 'small_button' in request.POST:
         cart_item.is_small = True
         cart_item.is_big = False
         cart_item.is_large = False
 
-        cart_item.final_price = cart_item.pizza.price * 0.75
-        cart_item.save()
+        multiply_number = 0.75
 
     elif 'big_button' in request.POST:
         cart_item.is_small = False
         cart_item.is_big = True
         cart_item.is_large = False
 
-        cart_item.final_price = cart_item.pizza.price
-        cart_item.save()
-
     elif 'large_button' in request.POST:
         cart_item.is_small = False
         cart_item.is_big = False
         cart_item.is_large = True
 
-        cart_item.final_price = cart_item.pizza.price * 1.25
-        cart_item.save()
+        multiply_number = 1.25
+
+    if cart_item.is_half_price:
+        cart_item.final_price = (cart_item.pizza.price / 2) * multiply_number
+    else:
+        cart_item.final_price = cart_item.pizza.price * multiply_number
+
+    cart_item.save()
 
     return redirect('show_cart')
 
@@ -179,8 +184,36 @@ def ShowCartView(request):
     user = request.user
     cart = get_object_or_404(Cart, user=user)
 
-    cart_items = CartItem.objects.filter(cart=cart)
+    cart_items = CartItem.objects.filter(cart=cart).order_by('created_at')
 
+    # Second pizza half price
+    if cart_items.count() >= 2:
+        cart_item = cart_items[1]
+
+        if not cart_item.is_half_price:
+            cart_item.final_price = cart_item.final_price / 2
+            cart_item.is_half_price = True
+            cart_item.save()
+
+    if cart_items.count() == 1 and cart_items.get().is_half_price:
+        cart_item = cart_items.get()
+        cart_item.is_small = False
+        cart_item.is_big = True
+        cart_item.is_large = False
+        cart_item.is_half_price = False
+        cart_item.final_price = cart_item.pizza.price
+        cart_item.save()
+
+    elif cart_items.filter(is_half_price=True).count() > 1:
+        cart_item = cart_items[0]
+        cart_item.is_small = False
+        cart_item.is_big = True
+        cart_item.is_large = False
+        cart_item.is_half_price = False
+        cart_item.final_price = cart_item.pizza.price
+        cart_item.save()
+
+    # Calculates total price
     cart_total_price = 0
     for item in cart_items:
         cart_total_price += item.final_price

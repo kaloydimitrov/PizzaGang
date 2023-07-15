@@ -65,6 +65,8 @@ class CartItem(models.Model):
     is_small = models.BooleanField(default=False)
     is_big = models.BooleanField(default=True)
     is_large = models.BooleanField(default=False)
+    is_half_price = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.pizza.name} | {self.quantity} ({self.cart.user.username})"
@@ -72,10 +74,10 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
     is_finished = models.BooleanField(default=False)
     cart_items = models.TextField()
     total_price = models.FloatField(validators=[validate_positive], default=0.00)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.username}'s Order ({self.pk})"

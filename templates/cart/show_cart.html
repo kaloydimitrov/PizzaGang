@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block head %}
     <title>PizzaGang - Checkout</title>
@@ -26,7 +27,12 @@
         </div>
         <div class="pizza-info">
             <div class="basic-info">
-                <p class="price">{{ cart_item.final_price|floatformat:2 }} lv.</p>
+                <p class="price">
+                    {{ cart_item.final_price|floatformat:2 }} lv.
+                    {% if cart_item.is_half_price %}
+                        &nbsp;&nbsp;&nbsp;&nbsp;<s>{{ cart_item.final_price|multiply:2|floatformat:2 }} lv.</s>
+                    {% endif %}
+                </p>
                 <p class="name">{{ cart_item.pizza.name }}</p>
                 <p class="ingres">{{ cart_item.pizza.ingredients }}</p>
             </div>

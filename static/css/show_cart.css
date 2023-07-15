@@ -83,6 +83,10 @@ hr {
     margin: 0;
 }
 
+.price s {
+    color: rgba(105, 105, 105, 0.5);
+}
+
 .basic-info .name {
     color: dimgray;
     margin: 0;
