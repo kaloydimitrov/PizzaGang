@@ -7,72 +7,74 @@
 {% endblock %}
 
 {% block content %}
-    <div class="sidebar">
-        <form method="get" action="{% url 'menu' %}">
-            <div class="item">
-                {{ pizza_filter.form.name }}
-                <hr>
-            </div>
+    <div class="main-menu-container">
+        <div class="sidebar">
+            <form method="get" action="{% url 'menu' %}">
+                <div class="item">
+                    {{ pizza_filter.form.name }}
+                    <hr>
+                </div>
 
-            <div class="item">
-                {{ pizza_filter.form.ingredients }}
-                <hr>
-            </div>
+                <div class="item">
+                    {{ pizza_filter.form.ingredients }}
+                    <hr>
+                </div>
 
-            <button type="submit">
-                Search<i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
-    </div>
-
-    <div class="main-container">
-        {% for pizza in pizza_filter.qs %}
-        <div class="pizza-container">
-        <div class="edit-delete-pizza-container">
-            <div>
-                <a href="{% url 'edit_pizza' pizza.pk %}">
-                    <i class="fa-solid fa-file-pen"></i>
-                </a>
-            </div>
-            <div>
-                <a href="{% url 'delete_pizza' pizza.pk %}">
-                    <i class="fa-solid fa-trash"></i>
-                </a>
-            </div>
+                <button type="submit">
+                    Search<i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
         </div>
-            <div class="img-container">
-                <img src="{{ pizza.image.url }}" alt="pizza-img">
+
+        <div class="main-container">
+            {% for pizza in pizza_filter.qs %}
+            <div class="pizza-container">
+            <div class="edit-delete-pizza-container">
+                <div>
+                    <a href="{% url 'edit_pizza' pizza.pk %}">
+                        <i class="fa-solid fa-file-pen"></i>
+                    </a>
+                </div>
+                <div>
+                    <a href="{% url 'delete_pizza' pizza.pk %}">
+                        <i class="fa-solid fa-trash"></i>
+                    </a>
+                </div>
             </div>
-            <div class="info-container">
-                <h1>{{ pizza.name }}</h1>
-                <p class="ingredients">{{ pizza.ingredients|truncatechars:80 }}</p>
+                <div class="img-container">
+                    <img src="{{ pizza.image.url }}" alt="pizza-img">
+                </div>
+                <div class="info-container">
+                    <h1>{{ pizza.name }}</h1>
+                    <p class="ingredients">{{ pizza.ingredients|truncatechars:80 }}</p>
+                </div>
+                <div class="filters-container">
+                    {% if pizza.is_offer %}
+                        <img src="{% static 'images/icons/discount.png' %}" alt="pizza-offer-img">
+                    {% endif %}
+                    {% if pizza.is_vege %}
+                        <img src="{% static 'images/icons/vege.png' %}" alt="pizza-vege-img">
+                    {% endif %}
+                    {% if pizza.is_special %}
+                        <img src="{% static 'images/icons/special.png' %}" alt="pizza-special-img">
+                    {% endif %}
+                    {% if not pizza.is_special and not pizza.is_vege and not pizza.is_offer %}
+                        <p>No filters for this pizza.</p>
+                    {% endif %}
+                </div>
+                <div class="order-button-container">
+                    <form action="{% url 'add_to_cart' pizza.pk %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit">ADD TO CART</button>
+                    </form>
+                </div>
             </div>
-            <div class="filters-container">
-                {% if pizza.is_offer %}
-                    <img src="{% static 'images/icons/discount.png' %}" alt="pizza-offer-img">
-                {% endif %}
-                {% if pizza.is_vege %}
-                    <img src="{% static 'images/icons/vege.png' %}" alt="pizza-vege-img">
-                {% endif %}
-                {% if pizza.is_special %}
-                    <img src="{% static 'images/icons/special.png' %}" alt="pizza-special-img">
-                {% endif %}
-                {% if not pizza.is_special and not pizza.is_vege and not pizza.is_offer %}
-                    <p>No filters for this pizza.</p>
-                {% endif %}
-            </div>
-            <div class="order-button-container">
-                <form action="{% url 'add_to_cart' pizza.pk %}" method="post">
-                    {% csrf_token %}
-                    <button type="submit">ADD TO CART</button>
-                </form>
-            </div>
+            {% endfor %}
+            <a href="{% url 'create_pizza' %}">
+                <div class="add-pizza-container">
+                    <img src="{% static 'images/icons/add.png' %}" alt="add-pizza">
+                </div>
+            </a>
         </div>
-        {% endfor %}
-        <a href="{% url 'create_pizza' %}">
-            <div class="add-pizza-container">
-                <img src="{% static 'images/icons/add.png' %}" alt="add-pizza">
-            </div>
-        </a>
     </div>
 {% endblock %}
