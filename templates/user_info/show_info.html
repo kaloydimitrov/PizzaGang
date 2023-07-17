@@ -39,6 +39,10 @@
                     <p class="title">Address</p>
                     <p class="info">{{ user.profile.address }}</p>
                 </div>
+                <div>
+                    <p class="title">Phone Number</p>
+                    <p class="info">{{ user.profile.phone_number }}</p>
+                </div>
 
                 <a href="{% url 'edit_user' user.pk %}">
                     <i class="fa-solid fa-pencil"></i>

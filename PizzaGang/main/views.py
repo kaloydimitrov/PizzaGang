@@ -313,7 +313,7 @@ def EditPizzaView(request, pk):
         form = PizzaForm(request.POST, request.FILES, instance=pizza)
         if form.is_valid():
             form.save()
-            return redirect('menu')
+            return redirect('show_pizza_settings')
     else:
         form = PizzaForm(instance=pizza)
 
@@ -329,3 +329,27 @@ class DeletePizzaView(DeleteView):
     model = Pizza
     template_name = 'pizza/delete_pizza.html'
     success_url = reverse_lazy('menu')
+
+
+def ShowUsersSettingsView(request):
+    username_filter = request.GET.get('username', '')
+    user_list = User.objects.filter(username__icontains=username_filter)
+
+    context = {
+        'user_list': user_list,
+        'username_filter': username_filter
+    }
+
+    return render(request, 'admin/admin_settings_users.html', context)
+
+
+def ShowPizzaSettingsView(request):
+    name_filter = request.GET.get('name', '')
+    pizza_list = Pizza.objects.filter(name__icontains=name_filter)
+
+    context = {
+        'pizza_list': pizza_list,
+        'name_filter': name_filter
+    }
+
+    return render(request, 'admin/admin_settings_pizza.html', context)

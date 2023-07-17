@@ -8,7 +8,15 @@
 <form action="{% url 'sign_up' %}" method="post">
     {% csrf_token %}
     {{ form.username }}
-    {{ form.email }}
+    <div class="email-field">
+        {{ form.email }}
+        <div class="email-field-icon-container">
+            <i class="fa-regular fa-circle-question"></i>
+            <div class="email-field-message-box">
+                <p>This field is <b>not required</b>, and you can leave it blank. The email field is not necessary!</p>
+            </div>
+        </div>
+    </div>
     {{ form.password1 }}
     {{ form.password2 }}
     <button type="submit">Sign Up</button>

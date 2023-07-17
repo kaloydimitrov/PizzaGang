@@ -1,7 +1,6 @@
 import django_filters
 from django_filters import CharFilter
 from django.forms.widgets import TextInput
-
 from .models import Pizza
 
 
@@ -19,4 +18,4 @@ class PizzaOrderFilter(django_filters.FilterSet):
 
     class Meta:
         model = Pizza
-        fields = ('name', 'ingredients', 'is_special', 'is_offer', 'is_vege')
+        fields = ('name', 'ingredients')

@@ -10,4 +10,4 @@ def get_cart_items_count(request):
         cart_items = CartItem.objects.filter(cart=cart)
         cart_items_count = cart_items.count()
 
-    return {'cart_items_count': cart_items_count}
+    return {'cart_items_count': cart_items_count, 'user': request.user}

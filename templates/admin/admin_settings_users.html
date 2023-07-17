@@ -1,0 +1,51 @@
+{% extends 'admin/admin_settings_base.html' %}
+{% load static %}
+
+{% block admin_settings_head %}
+    <link rel="stylesheet" href="{% static 'css/admin_settings.css' %}">
+{% endblock %}
+
+{% block admin_settings_content %}
+    <form method="get" action="{% url 'show_users_settings' %}">
+        <div class="filter-container">
+            <div>
+                <label>
+                    <input type="text" name="username" placeholder="Search username" value="{{ username_filter }}">
+                </label>
+            </div>
+
+            <div>
+                <button type="submit">
+                    Search <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="user-main-container">
+        {% for user in user_list %}
+            <div class="user-container">
+                <div class="user-username-container">
+                    <a href="{% url 'show_user' user.pk %}">{{ user.username|truncatechars:15 }}</a>
+                </div>
+                <div class="user-info">
+                    <p>ID: {{ user.pk }}</p>
+                    <p><b>{{ user.email|truncatechars:35 }}</b></p>
+                    <p>{{ user.profile.address|truncatechars:35 }}</p>
+                    <p><b>{{ user.profile.phone_number|truncatechars:35 }}</b></p>
+                    <p>{{ user.get_full_name|truncatechars:35 }}</p>
+                </div>
+                <div class="user-img-container">
+                    {% if not user.profile.avatar %}
+                        <p>No avatar</p>
+                    {% else %}
+                        <img src="{{ user.profile.avatar.url }}" alt="user-img">
+                    {% endif %}
+                </div>
+                <div class="user-show-a-container">
+                    <a href="{% url 'show_user' user.pk %}">Show</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

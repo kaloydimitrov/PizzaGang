@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'PizzaGang.main',
     'django_filters',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [

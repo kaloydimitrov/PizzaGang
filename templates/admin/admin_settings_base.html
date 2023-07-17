@@ -1,0 +1,25 @@
+{% extends 'admin/admin_base.html' %}
+{% load static %}
+
+{% block admin_head %}
+    <title>Admin - Settings</title>
+    <link rel="stylesheet" href="{% static 'css/admin_settings_base.css' %}">
+    {% block admin_settings_head %}
+    {% endblock %}
+{% endblock %}
+
+{% block admin_content %}
+    <div class="admin-settings-container">
+        <div class="settings-sidebar">
+            <p>Settings</p>
+            <hr>
+            <a href="{% url 'show_users_settings' %}">Users</a>
+            <a href="{% url 'show_pizza_settings' %}">Pizza</a>
+        </div>
+
+        <div class="admin-settings-content-container">
+            {% block admin_settings_content %}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

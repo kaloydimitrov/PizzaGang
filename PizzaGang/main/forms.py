@@ -53,7 +53,7 @@ class ProfileEditForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('avatar', 'address')
+        fields = ('avatar', 'address', 'phone_number')
 
 
 class PizzaForm(forms.ModelForm):

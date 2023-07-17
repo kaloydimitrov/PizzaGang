@@ -1,14 +1,17 @@
-{% extends 'base/base.html' %}
+{% extends 'admin/admin_base.html' %}
 {% load static %}
 
-{% block head %}
-    <title>Orders - PizzaGang</title>
+{% block admin_head %}
     <link rel="stylesheet" href="{% static 'css/show_orders.css' %}">
 {% endblock %}
 
-{% block content %}
+{% block admin_content %}
     <div class="show-orders-stats">
-        <p>Orders left: <b>{{ orders.count }}</b></p>
+        {% if orders.count == 0 %}
+            <p>No orders left!</p>
+        {% else %}
+            <p>Orders left: <b>{{ orders.count }}</b></p>
+        {% endif %}
         <p>Orders finished: <b>{{ orders_finished.count }}</b></p>
     </div>
     {% for order in orders %}

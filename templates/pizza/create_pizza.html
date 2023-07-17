@@ -1,9 +1,17 @@
-{% extends 'base/base.html' %}
+{% extends 'admin/admin_settings_base.html' %}
+{% load static %}
 
-{% block content %}
-<form action="{% url 'create_pizza' %}" method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Create Pizza</button>
-</form>
+{% block admin_settings_head %}
+    <link rel="stylesheet" href="{% static 'css/edit_create_delete_pizza.css' %}">
+{% endblock %}
+
+{% block admin_settings_content %}
+    <div class="container">
+        <h1>Create Pizza</h1>
+        <form action="{% url 'create_pizza' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="submit-btn">Create Pizza</button>
+        </form>
+    </div>
 {% endblock %}

@@ -1,0 +1,67 @@
+/*Edit and Create*/
+.container {
+    max-width: 600px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+input,
+textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.submit-btn {
+    background-color: purple;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.submit-btn:hover {
+    background-color: rgba(128, 0, 128, 0.8);
+}
+
+/*Delete*/
+.delete-pizza-cancel-container {
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
+.delete-pizza-cancel-container a {
+    text-decoration: none;
+    font-weight: bold;
+    color: purple;
+}
+
+.delete-pizza-cancel-container a:hover {
+    text-decoration: underline;
+}

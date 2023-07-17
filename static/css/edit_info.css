@@ -1,3 +1,25 @@
+.go-back i {
+    position: fixed;
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 50px;
+    background-color: white;
+    height: 80px;
+    width: 80px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+.go-back i:hover {
+    background-color: dimgray;
+    color: white;
+}
+
 .form {
     position: relative;
     background-color: white;
@@ -78,6 +100,11 @@ input[type="email"] {
     background-color: rgba(0, 0, 0, 0);
     border-radius: 4px;
     box-sizing: border-box;
+    font-size: 18px;
+}
+
+#id_phone_number {
+    border: 0;
     font-size: 18px;
 }
 

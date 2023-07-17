@@ -58,6 +58,34 @@ input:hover {
     border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
+.email-field {
+    position: relative;
+}
+
+.email-field i {
+    position: absolute;
+    font-size: 23px;
+    right: 10px;
+    top: 9px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.email-field i:hover {
+    color: black;
+}
+
+.email-field-message-box {
+    display: none;
+}
+
+.email-field-icon-container:hover {
+    cursor: pointer;
+}
+
+.email-field-icon-container:hover .email-field-message-box {
+    display: block;
+}
+
 button[type="submit"] {
     display: block;
     width: 100%;

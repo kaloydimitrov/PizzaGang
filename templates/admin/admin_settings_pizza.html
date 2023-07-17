@@ -1,0 +1,68 @@
+{% extends 'admin/admin_settings_base.html' %}
+{% load static %}
+
+{% block admin_settings_head %}
+    <link rel="stylesheet" href="{% static 'css/admin_settings.css' %}">
+{% endblock %}
+
+{% block admin_settings_content %}
+    <form method="get" action="{% url 'show_pizza_settings' %}">
+        <div class="filter-container">
+            <div>
+                <label>
+                    <input type="text" name="name" placeholder="Search name" value="{{ name_filter }}">
+                </label>
+            </div>
+
+            <div>
+                <button type="submit">
+                    Search <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="pizza-main-container">
+        {% for pizza in pizza_list %}
+            <div class="pizza-container">
+                <div class="pizza-name-container">
+                    <h1>{{ pizza.name }}</h1>
+                </div>
+                <div class="pizza-info">
+                    <p>ID: {{ pizza.pk }}</p>
+                    <p>{{ pizza.ingredients|truncatechars:100 }}</p>
+                </div>
+                <div class="pizza-filters-container">
+                    {% if pizza.is_offer %}
+                        <img src="{% static 'images/icons/discount.png' %}" alt="pizza-offer-img">
+                    {% endif %}
+                    {% if pizza.is_vege %}
+                        <img src="{% static 'images/icons/vege.png' %}" alt="pizza-vege-img">
+                    {% endif %}
+                    {% if pizza.is_special %}
+                        <img src="{% static 'images/icons/special.png' %}" alt="pizza-special-img">
+                    {% endif %}
+                    {% if not pizza.is_special and not pizza.is_vege and not pizza.is_offer %}
+                        <p>No filters for this pizza.</p>
+                    {% endif %}
+                </div>
+                <div class="pizza-img-container">
+                    <img src="{{ pizza.image.url }}" alt="pizza-img">
+                </div>
+                <div class="pizza-edit-delete-container">
+                    <div>
+                        <a class="edit" href="{% url 'edit_pizza' pizza.pk %}">Edit</a>
+                    </div>
+                    <div>
+                        <a class="delete" href="{% url 'delete_pizza' pizza.pk %}">Delete</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        <a href="{% url 'create_pizza' %}">
+            <div class="pizza-add-container">
+                <img src="{% static 'images/icons/add.png' %}" alt="pizza-add-img">
+            </div>
+        </a>
+    </div>
+{% endblock %}

@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+    <a class="go-back" href="{% url 'show_user' user.pk %}"><i class="fa-solid fa-angle-left"></i></a>
     <div class="form">
         <div class="h1-container">
             <h1>Edit your profile information</h1>
@@ -47,6 +48,11 @@
             <div class="input-container">
                 <p>Address</p>
                 {{ profile_form.address }}
+                <hr>
+            </div>
+            <div class="input-container">
+                <p>Phone Number</p>
+                {{ profile_form.phone_number }}
                 <hr>
             </div>
             <button type="submit"><b>Save Changes</b></button>
