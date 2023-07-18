@@ -25,9 +25,9 @@
     <div class="items-list-main-container">
         {% for order in order_list %}
             <div class="order-container">
-                <a href="{% url 'show_user_orders' order.user.pk %}">{{ order.user.username }}</a>
+                <a href="{% url 'show_user_orders' order.user.pk %}">{{ order.user.username|truncatechars:16 }}</a>
                 <p>ID: {{ order.pk }}</p>
-                <p><b>{{ order.total_price }}</b> lv.</p>
+                <p><b>{{ order.total_price|floatformat:2 }}</b> lv.</p>
                 <p>{{ order.cart_items }}</p>
                     {% if order.is_finished %}
                         <p><b>Finished</b></p>

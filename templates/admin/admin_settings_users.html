@@ -26,7 +26,7 @@
         {% for user in user_list %}
             <div class="user-container">
                 <div class="user-username-container">
-                    <a href="{% url 'show_user' user.pk %}">{{ user.username|truncatechars:15 }}</a>
+                    <a href="{% url 'show_user' user.pk %}">{{ user.username|truncatechars:16 }}</a>
                 </div>
                 <div class="user-info">
                     <p>ID: {{ user.pk }}</p>

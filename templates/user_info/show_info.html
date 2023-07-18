@@ -32,7 +32,7 @@
                     {% if user.first_name or user.last_name %}
                         <p class="info">{{ user.get_full_name }}</p>
                     {% else %}
-                        <p class="info">No name</p>
+                        <p class="info">No Name</p>
                     {% endif %}
                 </div>
                 <div>
@@ -40,7 +40,7 @@
                     {% if user.email %}
                         <p class="info">{{ user.email }}</p>
                     {% else %}
-                        <p class="info">No email</p>
+                        <p class="info">No Email</p>
                     {% endif %}
                 </div>
                 <div>
@@ -48,7 +48,7 @@
                     {% if user.profile.address %}
                         <p class="info">{{ user.profile.address }}</p>
                     {% else %}
-                        <p class="info">No address</p>
+                        <p class="info">No Address</p>
                     {% endif %}
                 </div>
                 <div>
@@ -56,7 +56,7 @@
                     {% if user.profile.phone_number %}
                         <p class="info">{{ user.profile.phone_number }}</p>
                     {% else %}
-                        <p class="info">No phone number</p>
+                        <p class="info">No Phone Number</p>
                     {% endif %}
                 </div>
 
