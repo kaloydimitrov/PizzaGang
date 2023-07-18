@@ -1,29 +1,36 @@
 .admin-settings-container {
     display: grid;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 200px 1fr 250px;
     column-gap: 10px;
 }
 
-.settings-sidebar {
+.settings-left-sidebar, .settings-right-sidebar {
     background-color: white;
-    border-radius: 0 0 10px 0;
     padding: 20px;
     margin-bottom: 50px;
 }
 
-.settings-sidebar p {
+.settings-right-sidebar {
+    border-radius: 0 0 0 10px;
+}
+
+.settings-left-sidebar {
+    border-radius: 0 0 10px 0;
+}
+
+.settings-left-sidebar p {
     font-size: 30px;
     margin: 0;
 }
 
-.settings-sidebar hr {
+.settings-left-sidebar hr {
     border: 0;
     height: 1px;
     background-color: black;
     color: black;
 }
 
-.settings-sidebar a {
+.settings-left-sidebar a {
     margin-top: 10px;
     display: block;
     text-decoration: none;

@@ -3,7 +3,7 @@ from .views import HomeView, SignUpView, SignInView, SignOutView, MenuView, User
                     CreatePizzaView, EditPizzaView, DeletePizzaView, UserShowView, AddToCartView, \
                     ShowCartView, DeleteFromCartView, SelectItemSizeView, CreateOrderView, ShowOrdersUserView, \
                     ShowOrdersAllView, MakeOrderFinishedView, ShowUsersSettingsView, ShowPizzaSettingsView, \
-                    ShowOrdersSettingsView
+                    ShowOrdersSettingsView, DeleteOrderView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='home'),
@@ -30,6 +30,7 @@ urlpatterns = (
     ])),
     path('orders/', include([
         path('create/', CreateOrderView, name='create_order'),
+        path('delete/<int:pk>', DeleteOrderView, name='delete_order'),
         path('show/<int:pk>/', ShowOrdersUserView, name='show_user_orders'),
         path('show-all/', ShowOrdersAllView, name='show_all_orders'),
         path('make-finished/<int:pk>/', MakeOrderFinishedView, name='make_finished_order')

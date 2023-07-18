@@ -10,17 +10,22 @@
 
 {% block admin_content %}
     <div class="admin-settings-container">
-        <div class="settings-sidebar">
+        <div class="settings-left-sidebar">
             <p>Settings</p>
             <hr>
             <a href="{% url 'show_users_settings' %}">Users</a>
             <a href="{% url 'show_pizza_settings' %}">Pizza</a>
             <a href="{% url 'show_orders_settings' %}">Orders</a>
+            <a href="{% url 'menu' %}"><i class="fa-solid fa-angle-left"></i> Menu</a>
         </div>
 
         <div class="admin-settings-content-container">
             {% block admin_settings_content %}
             {% endblock %}
+        </div>
+
+        <div class="settings-right-sidebar">
+
         </div>
     </div>
 {% endblock %}

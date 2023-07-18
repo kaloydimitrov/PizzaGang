@@ -12,14 +12,6 @@ from .filters import PizzaOrderFilter
 User = get_user_model()
 
 
-def BaseView(request):
-    context = {
-        'user': request.user
-    }
-
-    return render(request, 'base/base.html', context)
-
-
 class HomeView(TemplateView):
     template_name = 'index.html'
 
@@ -288,6 +280,13 @@ def MakeOrderFinishedView(request, pk):
     order.save()
 
     return redirect('show_all_orders')
+
+
+def DeleteOrderView(request, pk):
+    order = Order.objects.get(pk=pk)
+    order.delete()
+
+    return redirect('menu')
 
 
 def CreatePizzaView(request):

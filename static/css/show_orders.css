@@ -69,6 +69,30 @@ a:hover {
     padding-top: 10px;
 }
 
+.order-container-in-progress {
+    position: relative;
+}
+
+.order-cancel {
+    cursor: pointer;
+    position: absolute;
+    right: -140px;
+    top: 0;
+    background-color: orangered;
+    height: 100px;
+    width: 120px;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.order-cancel i {
+    font-size: 50px;
+    opacity: 0.5;
+}
+
 .order-container-finished {
     background-color: rgba(212,212,212,0.6);
     color: rgba(0,0,0,0.5);

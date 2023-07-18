@@ -29,7 +29,7 @@
                     <a href="{% url 'show_user' user.pk %}">{{ user.username|truncatechars:16 }}</a>
                 </div>
                 <div class="user-info">
-                    <p>ID: {{ user.pk }}</p>
+                    <p>ID: {{ user.pk }} <b>-</b> {{ user.date_joined }}</p>
                     {% if user.email %}
                         <p><b>{{ user.email|truncatechars:35 }}</b></p>
                     {% else %}

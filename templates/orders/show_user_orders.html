@@ -24,6 +24,9 @@
         {% else %}
             <div class="order-container-in-progress">
                 {% include 'orders/order_container_user.html' %}
+                <form action="{% url 'delete_order' order.pk %}">
+                    <button type="submit" class="order-cancel"><i class="fa-solid fa-xmark"></i></button>
+                </form>
             </div>
         {% endif %}
     {% endfor %}
