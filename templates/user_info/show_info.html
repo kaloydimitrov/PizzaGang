@@ -29,19 +29,35 @@
                 </div>
                 <div>
                     <p class="title">Name</p>
-                    <p class="info">{{ user.get_full_name }}</p>
+                    {% if user.first_name or user.last_name %}
+                        <p class="info">{{ user.get_full_name }}</p>
+                    {% else %}
+                        <p class="info">No name</p>
+                    {% endif %}
                 </div>
                 <div>
                     <p class="title">Email</p>
-                    <p class="info">{{ user.email }}</p>
+                    {% if user.email %}
+                        <p class="info">{{ user.email }}</p>
+                    {% else %}
+                        <p class="info">No email</p>
+                    {% endif %}
                 </div>
                 <div>
                     <p class="title">Address</p>
-                    <p class="info">{{ user.profile.address }}</p>
+                    {% if user.profile.address %}
+                        <p class="info">{{ user.profile.address }}</p>
+                    {% else %}
+                        <p class="info">No address</p>
+                    {% endif %}
                 </div>
                 <div>
                     <p class="title">Phone Number</p>
-                    <p class="info">{{ user.profile.phone_number }}</p>
+                    {% if user.profile.phone_number %}
+                        <p class="info">{{ user.profile.phone_number }}</p>
+                    {% else %}
+                        <p class="info">No phone number</p>
+                    {% endif %}
                 </div>
 
                 <a href="{% url 'edit_user' user.pk %}">

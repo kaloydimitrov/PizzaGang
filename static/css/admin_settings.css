@@ -46,15 +46,15 @@ h1 {
     font-size: 16px;
 }
 
-/*Users*/
-.user-main-container {
+.items-list-main-container {
     margin-top: 20px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     column-gap: 50px;
     row-gap: 40px;
 }
 
+/*Users*/
 .user-container {
     position: relative;
     height: 400px;
@@ -105,7 +105,7 @@ h1 {
 .user-img-container p {
     padding-left: 5px;
     font-size: 25px;
-    color: black;
+    color: rgba(204, 204, 204, 0.3);
 }
 
 .user-show-a-container {
@@ -139,14 +139,6 @@ h1 {
 }
 
 /*Pizza*/
-.pizza-main-container {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 50px;
-    row-gap: 40px;
-}
-
 .pizza-container {
     position: relative;
     width: 300px;
@@ -156,6 +148,7 @@ h1 {
 }
 
 .pizza-name-container {
+    padding-left: 10px;
     background-color: rgba(204, 204, 204, 0.3);
     height: 50px;
     border-radius: 10px 10px 0 0;

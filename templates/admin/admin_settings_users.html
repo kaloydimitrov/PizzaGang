@@ -22,7 +22,7 @@
         </div>
     </form>
 
-    <div class="user-main-container">
+    <div class="items-list-main-container">
         {% for user in user_list %}
             <div class="user-container">
                 <div class="user-username-container">
@@ -30,10 +30,29 @@
                 </div>
                 <div class="user-info">
                     <p>ID: {{ user.pk }}</p>
-                    <p><b>{{ user.email|truncatechars:35 }}</b></p>
-                    <p>{{ user.profile.address|truncatechars:35 }}</p>
-                    <p><b>{{ user.profile.phone_number|truncatechars:35 }}</b></p>
-                    <p>{{ user.get_full_name|truncatechars:35 }}</p>
+                    {% if user.email %}
+                        <p><b>{{ user.email|truncatechars:35 }}</b></p>
+                    {% else %}
+                        <p><b>No email</b></p>
+                    {% endif %}
+
+                    {% if user.profile.address %}
+                        <p>{{ user.profile.address|truncatechars:35 }}</p>
+                    {% else %}
+                        <p>No address</p>
+                    {% endif %}
+
+                    {% if user.profile.phone_number %}
+                        <p><b>{{ user.profile.phone_number|truncatechars:35 }}</b></p>
+                    {% else %}
+                        <p><b>No phone number</b></p>
+                    {% endif %}
+
+                    {% if user.first_name or user.last_name %}
+                        <p>{{ user.get_full_name|truncatechars:35 }}</p>
+                    {% else %}
+                        <p>No name</p>
+                    {% endif %}
                 </div>
                 <div class="user-img-container">
                     {% if not user.profile.avatar %}
