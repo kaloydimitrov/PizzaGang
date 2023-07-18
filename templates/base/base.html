@@ -157,7 +157,7 @@
         {% if user.is_authenticated %}
             <a href="{% url 'show_cart' %}">
                 {% if cart_items_count > 0 %}
-                    <i class="fa-solid fa-cart-shopping fa-beat-fade">{{ cart_items_count }}</i>
+                    <i class="fa-solid fa-cart-shopping fa-bounce">{{ cart_items_count }}</i>
                 {% else %}
                     <i class="fa-solid fa-cart-shopping"></i>
                 {% endif %}

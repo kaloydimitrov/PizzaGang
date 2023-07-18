@@ -2,7 +2,8 @@ from django.urls import path, include
 from .views import HomeView, SignUpView, SignInView, SignOutView, MenuView, UserEditView, UserAddressView, \
                     CreatePizzaView, EditPizzaView, DeletePizzaView, UserShowView, AddToCartView, \
                     ShowCartView, DeleteFromCartView, SelectItemSizeView, CreateOrderView, ShowOrdersUserView, \
-                    ShowOrdersAllView, MakeOrderFinishedView, ShowUsersSettingsView, ShowPizzaSettingsView
+                    ShowOrdersAllView, MakeOrderFinishedView, ShowUsersSettingsView, ShowPizzaSettingsView, \
+                    ShowOrdersSettingsView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='home'),
@@ -37,7 +38,8 @@ urlpatterns = (
         path('show/', ShowOrdersAllView, name='show_admin'),
         path('settings/', include([
             path('users/', ShowUsersSettingsView, name='show_users_settings'),
-            path('pizza/', ShowPizzaSettingsView, name='show_pizza_settings')
+            path('pizza/', ShowPizzaSettingsView, name='show_pizza_settings'),
+            path('orders/',ShowOrdersSettingsView, name='show_orders_settings')
         ]))
     ]))
 )

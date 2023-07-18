@@ -353,3 +353,15 @@ def ShowPizzaSettingsView(request):
     }
 
     return render(request, 'admin/admin_settings_pizza.html', context)
+
+
+def ShowOrdersSettingsView(request):
+    username_filter = request.GET.get('username', '')
+    order_list = Order.objects.filter(user__username__icontains=username_filter)
+
+    context = {
+        'order_list': order_list,
+        'username_filter': username_filter
+    }
+
+    return render(request, 'admin/admin_settings_orders.html', context)

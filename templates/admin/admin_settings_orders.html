@@ -1,0 +1,41 @@
+{% extends 'admin/admin_settings_base.html' %}
+{% load static %}
+
+{% block admin_settings_head %}
+    <link rel="stylesheet" href="{% static 'css/admin_settings.css' %}">
+{% endblock %}
+
+{% block admin_settings_content %}
+    <form method="get" action="{% url 'show_orders_settings' %}">
+        <div class="filter-container">
+            <div>
+                <label>
+                    <input type="text" name="username" placeholder="Search username" value="{{ username_filter }}">
+                </label>
+            </div>
+
+            <div>
+                <button type="submit">
+                    Search <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="items-list-main-container">
+        {% for order in order_list %}
+            <div class="order-container">
+                <a href="{% url 'show_user_orders' order.user.pk %}">{{ order.user.username }}</a>
+                <p>ID: {{ order.pk }}</p>
+                <p><b>{{ order.total_price }}</b> lv.</p>
+                <p>{{ order.cart_items }}</p>
+                    {% if order.is_finished %}
+                        <p><b>Finished</b></p>
+                    {% else %}
+                        <p><b>In progress <i class="fa-regular fa-clock"></i></b></p>
+                    {% endif %}
+                <p>{{ order.created_at }}</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
