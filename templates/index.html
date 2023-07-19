@@ -1,9 +1,73 @@
 {% extends 'base/base.html' %}
+{% load static %}
 
 {% block head %}
-    <title>PizzaGang - your pizza, at a bargain price</title>
+    <title>PizzaGang</title>
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
 {% endblock %}
 
 {% block content %}
-<h1>Main page!</h1>
+    <div class="slider">
+        <span id="slide-1"></span>
+        <span id="slide-2"></span>
+        <span id="slide-3"></span>
+        <div class="image-container">
+            <img src="{% static 'images/pizza/shutterstock_514457074.jpg.webp' %}" class="slide" alt="pizza-img"/>
+            <img src="{% static 'images/pizza/shutterstock_244706695.jpg.webp' %}" class="slide" alt="pizza-img"/>
+            <img src="{% static 'images/pizza/shutterstock_548340295.jpg.webp' %}" class="slide" alt="pizza-img"/>
+        </div>
+        <div class="buttons">
+            <a href="#slide-1" class="button {% if currentSlide == 1 %}active{% endif %}" onclick="changeSlide(1)"></a>
+            <a href="#slide-2" class="button {% if currentSlide == 2 %}active{% endif %}" onclick="changeSlide(2)"></a>
+            <a href="#slide-3" class="button {% if currentSlide == 3 %}active{% endif %}" onclick="changeSlide(3)"></a>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 3;
+        const slideInterval = 3000;
+
+        function changeSlide(slideNumber) {
+            const currentSlideElement = document.getElementById(`slide-${currentSlide}`);
+            const nextSlideElement = document.getElementById(`slide-${slideNumber}`);
+            const imageContainer = document.querySelector('.image-container');
+            const buttons = document.querySelectorAll('.button');
+
+            currentSlideElement.classList.remove('active');
+            nextSlideElement.classList.add('active');
+
+            const offset = (slideNumber - 1) * 1000;
+            imageContainer.style.left = `-${offset}px`;
+
+            currentSlide = slideNumber;
+
+            buttons.forEach((button, index) => {
+                if (index + 1 === currentSlide) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+        }
+
+        function setupSlider() {
+            const initialSlide = window.location.hash.slice(1).split('-')[1];
+            if (initialSlide) {
+                currentSlide = parseInt(initialSlide);
+            }
+
+            const initialButton = document.querySelector(`.buttons .button[href="#slide-${currentSlide}"]`);
+            initialButton.classList.add('active');
+
+            changeSlide(currentSlide);
+        }
+
+        window.addEventListener('load', setupSlider);
+
+        setInterval(() => {
+            const nextSlide = (currentSlide % totalSlides) + 1;
+            changeSlide(nextSlide);
+        }, slideInterval);
+    </script>
 {% endblock %}
