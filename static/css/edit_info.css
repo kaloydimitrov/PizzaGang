@@ -92,11 +92,6 @@ input[type="file"]::file-selector-button {
     display: none;
 }
 
-/*TODO: Fix*/
-input[type="file"]::-webkit-file-upload-button {
-    font-size: 0;
-}
-
 .username-info p {
     color: gray;
     margin-right: 30px;

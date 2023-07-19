@@ -47,7 +47,7 @@ class UserEditForm(forms.ModelForm):
 
 
 class ProfileEditForm(forms.ModelForm):
-    address = forms.CharField(max_length=100)
+    address = forms.CharField(max_length=100, required=False)
     avatar = forms.ImageField(label=_('avatar'), required=False, error_messages={'invalid': _("Image files only")},
                               widget=forms.FileInput)
 
