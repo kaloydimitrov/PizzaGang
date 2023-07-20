@@ -18,4 +18,4 @@ class PizzaOrderFilter(django_filters.FilterSet):
 
     class Meta:
         model = Pizza
-        fields = ('name', 'ingredients')
+        fields = ('name', 'ingredients', 'is_special', 'is_offer', 'is_vege')

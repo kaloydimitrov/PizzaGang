@@ -23,6 +23,12 @@
                 <button type="submit">
                     Search<i class="fa-solid fa-magnifying-glass"></i>
                 </button>
+
+                <a href="/menu/?name=&ingredients=&is_vege=true">Veggie</a>
+                <a href="/menu/?name=&ingredients=&is_offer=true">Offer</a>
+                <a href="/menu/?name=&ingredients=&is_special=true">Special</a>
+
+                <a href="{% url 'menu' %}">Reset</a>
             </form>
         </div>
 
