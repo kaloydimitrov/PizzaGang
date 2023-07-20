@@ -71,6 +71,8 @@ form button:hover {
     position: relative;
     height: 200px;
     width: 200px;
+    outline: 10px solid black;
+    outline-offset: -10px;
     border-radius: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -90,6 +92,10 @@ form button:hover {
 
 input[type="file"]::file-selector-button {
     display: none;
+}
+
+input[type="file"] {
+    color: transparent;
 }
 
 .username-info p {
