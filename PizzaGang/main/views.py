@@ -178,9 +178,9 @@ def ShowCartView(request):
 
     cart_items = CartItem.objects.filter(cart=cart).order_by('created_at')
 
-    # Second pizza half price
+    # Pizza half price
     if cart_items.count() >= 2:
-        cart_item = cart_items[1]
+        cart_item = cart_items.order_by('pizza__price')[0]
 
         if not cart_item.is_half_price:
             cart_item.final_price = cart_item.final_price / 2
@@ -197,7 +197,7 @@ def ShowCartView(request):
         cart_item.save()
 
     elif cart_items.filter(is_half_price=True).count() > 1:
-        cart_item = cart_items[0]
+        cart_item = cart_items.order_by('pizza__price')[1]
         cart_item.is_small = False
         cart_item.is_big = True
         cart_item.is_large = False

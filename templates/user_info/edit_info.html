@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <a class="go-back" href="{% url 'show_user' user.pk %}"><i class="fa-solid fa-angle-left"></i></a>
+    {% include 'go_back.html' %}
     <div class="form">
         <div class="h1-container">
             <h1>Edit your profile information</h1>

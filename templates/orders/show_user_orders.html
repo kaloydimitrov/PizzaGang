@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-    <a class="go-back" href="{% url 'show_user' user.pk %}"><i class="fa-solid fa-angle-left"></i></a>
+    {% include 'go_back.html' %}
     <div class="show-orders-stats">
         {% if orders.count == 0 %}
             <p>No orders, click <a href="{% url 'menu' %}">here</a> to make one!</p>

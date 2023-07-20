@@ -1,0 +1,25 @@
+<a class="go-back" href="{% url 'show_user' user.pk %}"><i class="fa-solid fa-angle-left"></i></a>
+
+<style>
+    .go-back i {
+    position: fixed;
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 50px;
+    background-color: white;
+    height: 80px;
+    width: 80px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.6);
+    text-decoration: none;
+    transition: background-color 0.5s, color 0.5s;
+    }
+
+    .go-back i:hover {
+        background-color: dimgray;
+        color: white;
+    }
+</style>

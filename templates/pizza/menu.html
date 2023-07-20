@@ -24,11 +24,20 @@
                     Search<i class="fa-solid fa-magnifying-glass"></i>
                 </button>
 
-                <a href="/menu/?name=&ingredients=&is_vege=true">Veggie</a>
-                <a href="/menu/?name=&ingredients=&is_offer=true">Offer</a>
-                <a href="/menu/?name=&ingredients=&is_special=true">Special</a>
+                <a href="/menu/?name=&ingredients=&is_vege=true">
+                    Veggie
+                    <img src="{% static 'images/icons/vege.png' %}" alt="ve_img">
+                </a>
+                <a href="/menu/?name=&ingredients=&is_offer=true">
+                    Discount
+                    <img src="{% static 'images/icons/discount.png' %}" alt="di_img">
+                </a>
+                <a href="/menu/?name=&ingredients=&is_special=true">
+                    Special
+                    <img src="{% static 'images/icons/special.png' %}" alt="sp_img">
+                </a>
 
-                <a href="{% url 'menu' %}">Reset</a>
+                <a class="reset" href="{% url 'menu' %}">Reset</a>
             </form>
         </div>
 
