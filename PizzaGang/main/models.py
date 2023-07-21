@@ -29,7 +29,7 @@ class Pizza(models.Model):
     name = models.CharField(max_length=30)
     ingredients = models.TextField()
     image = models.ImageField(upload_to='static/images/pizza/')
-    price = models.FloatField()
+    price = models.FloatField(validators=[validate_positive])
 
     is_special = models.BooleanField(blank=True, null=True)
     is_offer = models.BooleanField(blank=True, null=True)
@@ -62,8 +62,9 @@ post_save.connect(create_cart, sender=User)
 class CartItem(models.Model):
     pizza = models.ForeignKey(Pizza, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    cart = models.ForeignKey('Cart', on_delete=models.CASCADE)
-    final_price = models.FloatField(default=0.00)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True, null=True)
+    offer = models.ForeignKey('Offer', on_delete=models.CASCADE, blank=True, null=True)
+    final_price = models.FloatField(validators=[validate_positive], default=0.00)
     is_small = models.BooleanField(default=False)
     is_big = models.BooleanField(default=True)
     is_large = models.BooleanField(default=False)
@@ -71,7 +72,26 @@ class CartItem(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.pizza.name} | {self.quantity} ({self.cart.user.username})"
+        if self.cart:
+            return f"{self.pizza.name} | ({self.cart.user.username})"
+        elif self.offer:
+            return f"{self.pizza.name} | ()"
+        else:
+            return f"{self.pizza.name} | {self.quantity}"
+
+
+class Offer(models.Model):
+    name = models.CharField(max_length=60, blank=True, null=True)
+    image = models.ImageField(blank=True, null=True)
+    total_price = models.FloatField(validators=[validate_positive], default=0.00)
+    final_price = models.FloatField(validators=[validate_positive], default=0.00)
+    is_active = models.BooleanField(default=False)
+    in_progress = models.BooleanField(default=True)
+
+
+class OfferItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
 
 
 class Order(models.Model):

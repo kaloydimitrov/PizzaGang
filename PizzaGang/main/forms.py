@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Pizza
+from .models import Profile, Pizza, Offer
 from django.utils.translation import gettext_lazy as _
 
 
@@ -60,3 +60,9 @@ class PizzaForm(forms.ModelForm):
     class Meta:
         model = Pizza
         fields = '__all__'
+
+
+class OfferForm(forms.ModelForm):
+    class Meta:
+        model = Offer
+        fields = ('final_price', 'name', 'image', 'is_active')

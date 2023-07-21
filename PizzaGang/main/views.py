@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
-from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm
-from .models import Pizza, Profile, Cart, CartItem, Order
+from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm
+from .models import Pizza, Profile, Cart, CartItem, Order, Offer
 from .filters import PizzaOrderFilter
 
 User = get_user_model()
@@ -147,6 +147,8 @@ def SelectItemSizeView(request, pk):
 
     cart_item.save()
 
+    if cart_item.offer:
+        return redirect('edit_offer')
     return redirect('show_cart')
 
 
@@ -364,3 +366,60 @@ def ShowOrdersSettingsView(request):
     }
 
     return render(request, 'admin/admin_settings_orders.html', context)
+
+
+def ShowOffersSettingsView(request):
+    return render(request, 'admin/admin_settings_offers.html')
+
+
+def CreateOfferView(request):
+    offer = Offer()
+    offer.save()
+
+    return redirect('edit_offer')
+
+
+def EditOfferView(request):
+    pizza_list = Pizza.objects.all()
+    offer = Offer.objects.filter(in_progress=True).get()
+    item_list = CartItem.objects.filter(offer=offer)
+
+    offer_total_price = 0
+    for item in item_list:
+        offer_total_price += item.final_price
+    offer.final_price = offer_total_price
+    offer.save()
+
+    if request.method == 'POST':
+        form = OfferForm(instance=offer)
+        if form.is_valid():
+            form.save()
+            return redirect('show_offers_settings')
+
+    form = OfferForm(instance=offer)
+
+    context = {
+        'pizza_list': pizza_list,
+        'item_list': item_list,
+        'form': form,
+        'offer_total_price': offer_total_price
+    }
+
+    return render(request, 'offer/edit_offer.html', context)
+
+
+def CreateItemOfferView(request, pk):
+    pizza = get_object_or_404(Pizza, pk=pk)
+    offer = Offer.objects.filter(in_progress=True).get()
+
+    item = CartItem(pizza=pizza, final_price=pizza.price, offer=offer)
+    item.save()
+
+    return redirect('edit_offer')
+
+
+def DeleteItemOfferView(request, pk):
+    item = get_object_or_404(CartItem, pk=pk)
+    item.delete()
+
+    return redirect('edit_offer')

@@ -3,7 +3,8 @@ from .views import HomeView, SignUpView, SignInView, SignOutView, MenuView, User
                     CreatePizzaView, EditPizzaView, DeletePizzaView, UserShowView, AddToCartView, \
                     ShowCartView, DeleteFromCartView, SelectItemSizeView, CreateOrderView, ShowOrdersUserView, \
                     ShowOrdersAllView, MakeOrderFinishedView, ShowUsersSettingsView, ShowPizzaSettingsView, \
-                    ShowOrdersSettingsView, DeleteOrderView
+                    ShowOrdersSettingsView, DeleteOrderView, ShowOffersSettingsView, CreateOfferView, \
+                    EditOfferView, CreateItemOfferView, DeleteItemOfferView
 
 urlpatterns = (
     path('', HomeView.as_view(), name='home'),
@@ -30,17 +31,24 @@ urlpatterns = (
     ])),
     path('orders/', include([
         path('create/', CreateOrderView, name='create_order'),
-        path('delete/<int:pk>', DeleteOrderView, name='delete_order'),
+        path('delete/<int:pk>/', DeleteOrderView, name='delete_order'),
         path('show/<int:pk>/', ShowOrdersUserView, name='show_user_orders'),
         path('show-all/', ShowOrdersAllView, name='show_all_orders'),
         path('make-finished/<int:pk>/', MakeOrderFinishedView, name='make_finished_order')
+    ])),
+    path('offer/', include([
+        path('create/', CreateOfferView, name='create_offer'),
+        path('edit/', EditOfferView, name='edit_offer'),
+        path('create-item/<int:pk>/', CreateItemOfferView, name='create_item_offer'),
+        path('delete-item/<int:pk>/', DeleteItemOfferView, name='delete_item_offer')
     ])),
     path('pizzagang-admin/', include([
         path('show/', ShowOrdersAllView, name='show_admin'),
         path('settings/', include([
             path('users/', ShowUsersSettingsView, name='show_users_settings'),
             path('pizza/', ShowPizzaSettingsView, name='show_pizza_settings'),
-            path('orders/',ShowOrdersSettingsView, name='show_orders_settings')
+            path('orders/',ShowOrdersSettingsView, name='show_orders_settings'),
+            path('offers/', ShowOffersSettingsView, name='show_offers_settings')
         ]))
     ]))
 )

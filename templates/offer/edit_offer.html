@@ -1,0 +1,141 @@
+{% extends 'admin/admin_settings_base.html' %}
+{% load static %}
+
+{% block admin_settings_head %}
+    <link rel="stylesheet" href="{% static 'css/admin_settings.css' %}">
+{% endblock %}
+
+{% block admin_settings_content %}
+    <form method="get" action="{% url 'show_pizza_settings' %}">
+        <div class="filter-container">
+            <div>
+                <label>
+                    <input type="text" name="name" placeholder="Search name" value="{{ name_filter }}">
+                </label>
+            </div>
+
+            <div>
+                <button type="submit">
+                    Search <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <div class="edit-offer-main-container">
+        <div>
+            {% for pizza in pizza_list %}
+                <div class="pizza-container">
+                    <div class="pizza-name-container">
+                        <h1>{{ pizza.name }} - {{ pizza.price|floatformat:2 }} lv.</h1>
+                    </div>
+                    <div class="pizza-info">
+                        <p>ID: {{ pizza.pk }}</p>
+                        <p>{{ pizza.ingredients|truncatechars:100 }}</p>
+                    </div>
+                    <div class="pizza-filters-container">
+                        {% if pizza.is_offer %}
+                            <img src="{% static 'images/icons/discount.png' %}" alt="pizza-offer-img">
+                        {% endif %}
+                        {% if pizza.is_vege %}
+                            <img src="{% static 'images/icons/vege.png' %}" alt="pizza-vege-img">
+                        {% endif %}
+                        {% if pizza.is_special %}
+                            <img src="{% static 'images/icons/special.png' %}" alt="pizza-special-img">
+                        {% endif %}
+                        {% if not pizza.is_special and not pizza.is_vege and not pizza.is_offer %}
+                            <p>No filters for this pizza.</p>
+                        {% endif %}
+                    </div>
+                    <div class="pizza-img-container">
+                        <img src="{{ pizza.image.url }}" alt="pizza-img">
+                    </div>
+                    <div class="pizza-edit-delete-container">
+                        <form action="{% url 'create_item_offer' pizza.pk %}">
+                            <button type="submit">Pick</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="edit-offer-container">
+            <div>
+                {% for item in item_list %}
+                    <div class="pizza-container">
+                        <div class="pizza-name-container">
+                            <h1>{{ item.pizza.name }} - {{ item.final_price|floatformat:2 }} lv.</h1>
+                        </div>
+                        <div class="pizza-info">
+                            <p>ID: {{ item.pizza.pk }}</p>
+                            <p>{{ item.pizza.ingredients|truncatechars:100 }}</p>
+                        </div>
+                        <div class="pizza-filters-container">
+                            {% if item.pizza.is_offer %}
+                                <img src="{% static 'images/icons/discount.png' %}" alt="pizza-offer-img">
+                            {% endif %}
+                            {% if item.pizza.is_vege %}
+                                <img src="{% static 'images/icons/vege.png' %}" alt="pizza-vege-img">
+                            {% endif %}
+                            {% if item.pizza.is_special %}
+                                <img src="{% static 'images/icons/special.png' %}" alt="pizza-special-img">
+                            {% endif %}
+                            {% if not item.pizza.is_special and not item.pizza.is_vege and not item.pizza.is_offer %}
+                                <p>No filters for this pizza.</p>
+                            {% endif %}
+                        </div>
+                        <div class="pizza-fake-img-container">
+                            <p>{{ item.pizza.image.name|truncatechars:38 }}</p>
+                            <div class="image-box">
+                                <img src="{{ item.pizza.image.url }}" alt="pizza-img">
+                            </div>
+                        </div>
+                        <div class="pizza-size-container">
+                            <form action="{% url 'select_item_size' item.pk %}" method="post">
+                                {% csrf_token %}
+
+                                <div>
+                                    {% if item.is_small %}
+                                        <button class="small" style="background-color: purple" type="submit" name="small_button">Small</button>
+                                    {% else %}
+                                        <button class="small" type="submit" name="small_button">Small</button>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    {% if item.is_big %}
+                                        <button style="background-color: purple" type="submit" name="big_button">Big</button>
+                                    {% else %}
+                                        <button type="submit" name="big_button">Big</button>
+                                    {% endif %}
+                                </div>
+
+                                <div>
+                                    {% if item.is_large %}
+                                        <button class="large" style="background-color: purple" type="submit" name="large_button">Large</button>
+                                    {% else %}
+                                        <button class="large" type="submit" name="large_button">Large</button>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                        <div class="pizza-edit-delete-container">
+                            <form action="{% url 'delete_item_offer' item.pk %}">
+                                <button type="submit">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="form-info">
+                <p>Current price: {{ offer_total_price|floatformat:2 }} lv.</p>
+                <form action="{% url 'edit_offer' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="submit-btn" type="submit">Create</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
