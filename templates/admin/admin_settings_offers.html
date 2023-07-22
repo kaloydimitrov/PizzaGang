@@ -6,8 +6,52 @@
 {% endblock %}
 
 {% block admin_settings_content %}
-    <div class="items-list-main-container">
-        <h1>Hello!</h1>
-    </div>
+    <form method="get" action="{% url 'show_offers_settings' %}">
+        <div class="filter-container">
+            <div>
+                <label>
+                    <input type="text" name="name" placeholder="Search name" value="{{ name_filter }}">
+                </label>
+            </div>
 
+            <div>
+                <button type="submit">
+                    Search <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+    
+    <div class="offer-list-main-container">
+        {% if in_progress %}
+            <p class="in-progress-message">
+               You have one unfinished Offer. If you want to <b>create</b>
+               it go <a href="{% url 'edit_offer' %}">here</a>.
+            </p>
+        {% else %}
+            <a class="submit-btn" href="{% url 'create_offer' %}">Create</a>
+        {% endif %}
+
+        {% for offer in offer_list %}
+            <h1>{{ offer.name }}</h1>
+            <p>{{ offer.final_price }}</p>
+            <s>{{ offer.total_price }}</s>
+
+            {% for item in offer.cartitem_set.all %}
+                <p>{{ item.pizza.name }}</p>
+                {% if item.is_small %}
+                    <p>Small</p>
+                {% endif %}
+
+                {% if item.is_big %}
+                    <p>Big</p>
+                {% endif %}
+
+                {% if item.is_large %}
+                    <p>Large</p>
+                {% endif %}
+            {% endfor %}
+            <hr>
+        {% endfor %}
+    </div>
 {% endblock %}

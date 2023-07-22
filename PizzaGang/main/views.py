@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -369,10 +370,24 @@ def ShowOrdersSettingsView(request):
 
 
 def ShowOffersSettingsView(request):
-    return render(request, 'admin/admin_settings_offers.html')
+    name_filter = request.GET.get('name', '')
+    offer_list = Offer.objects.filter(name__icontains=name_filter, in_progress=False)
+    in_progress = True if Offer.objects.filter(in_progress=True).count() >= 1 else False
+
+    context = {
+        'offer_list': offer_list,
+        'in_progress': in_progress
+    }
+
+    return render(request, 'admin/admin_settings_offers.html', context)
 
 
 def CreateOfferView(request):
+    in_progress_offer_list = Offer.objects.filter(in_progress=True)
+
+    if in_progress_offer_list.count() >= 1:
+        return redirect('edit_offer')
+
     offer = Offer()
     offer.save()
 
@@ -380,29 +395,29 @@ def CreateOfferView(request):
 
 
 def EditOfferView(request):
-    pizza_list = Pizza.objects.all()
+    name_filter = request.GET.get('name', '')
+    pizza_list = Pizza.objects.filter(name__icontains=name_filter)
     offer = Offer.objects.filter(in_progress=True).get()
     item_list = CartItem.objects.filter(offer=offer)
 
     offer_total_price = 0
     for item in item_list:
         offer_total_price += item.final_price
-    offer.final_price = offer_total_price
-    offer.save()
+    offer.total_price = offer_total_price
 
     if request.method == 'POST':
-        form = OfferForm(instance=offer)
+        form = OfferForm(request.POST, instance=offer)
         if form.is_valid():
             form.save()
-            return redirect('show_offers_settings')
-
-    form = OfferForm(instance=offer)
+            return redirect('edit_offer')
+    else:
+        form = OfferForm(instance=offer)
 
     context = {
         'pizza_list': pizza_list,
         'item_list': item_list,
         'form': form,
-        'offer_total_price': offer_total_price
+        'offer': offer
     }
 
     return render(request, 'offer/edit_offer.html', context)
@@ -423,3 +438,32 @@ def DeleteItemOfferView(request, pk):
     item.delete()
 
     return redirect('edit_offer')
+
+
+def PushOfferView(request):
+    offer = Offer.objects.filter(in_progress=True).get()
+
+    if not offer.name or not offer.image or not offer.final_price == 0:
+        messages.error(request, "Please fill in all required fields before continuing.")
+        return redirect('edit_offer')
+
+    offer.in_progress = False
+    offer.save()
+
+    return redirect('show_offers_settings')
+
+
+def DeleteOfferView(request, pk):
+    offer = get_object_or_404(Offer, pk=pk)
+    items = CartItem.objects.filter(offer=offer)
+
+    offer.delete()
+    items.delete()
+
+    return redirect('show_offers_settings')
+
+
+def MakeOfferActiveView(request, pk):
+    offer = get_object_or_404(Offer, pk=pk)
+    offer.is_active = True
+    offer.save()

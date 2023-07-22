@@ -74,10 +74,12 @@ class CartItem(models.Model):
     def __str__(self):
         if self.cart:
             return f"{self.pizza.name} | ({self.cart.user.username})"
-        elif self.offer:
-            return f"{self.pizza.name} | ()"
+        elif self.offer.in_progress:
+            return f"{self.pizza.name} | In progress"
+        elif not self.offer.in_progress and self.offer.name:
+            return f"{self.pizza.name} | Offer - {self.offer.name}"
         else:
-            return f"{self.pizza.name} | {self.quantity}"
+            return f"{self.pizza.name}"
 
 
 class Offer(models.Model):

@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block admin_settings_content %}
-    <form method="get" action="{% url 'show_pizza_settings' %}">
+    <form method="get" action="{% url 'edit_offer' %}">
         <div class="filter-container">
             <div>
                 <label>
@@ -129,12 +129,15 @@
             </div>
 
             <div class="form-info">
-                <p>Current price: {{ offer_total_price|floatformat:2 }} lv.</p>
-                <form action="{% url 'edit_offer' %}">
+                <p>Current price: {{ offer.total_price|floatformat:2 }} lv.</p>
+                <form action="{% url 'edit_offer' %}" method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button class="submit-btn" type="submit">Create</button>
+                    <button class="submit-btn" type="submit">Save</button>
                 </form>
+                <a class="submit-btn" href="{% url 'push_offer' %}">Create</a>
+                <a class="submit-btn" href="{% url 'delete_offer' offer.pk %}">Cancel</a>
+                <a class="submit-btn" href="{% url 'show_offers_settings' %}">Go Back</a>
             </div>
         </div>
     </div>
