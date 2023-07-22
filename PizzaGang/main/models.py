@@ -84,7 +84,7 @@ class CartItem(models.Model):
 
 class Offer(models.Model):
     name = models.CharField(max_length=60, blank=True, null=True)
-    image = models.ImageField(blank=True, null=True)
+    image = models.ImageField(upload_to='static/images/offers/', blank=True, null=True)
     total_price = models.FloatField(validators=[validate_positive], default=0.00)
     final_price = models.FloatField(validators=[validate_positive], default=0.00)
     is_active = models.BooleanField(default=False)

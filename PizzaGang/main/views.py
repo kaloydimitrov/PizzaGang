@@ -13,8 +13,14 @@ from .filters import PizzaOrderFilter
 User = get_user_model()
 
 
-class HomeView(TemplateView):
-    template_name = 'index.html'
+def HomeView(request):
+    offer_list = Offer.objects.filter(in_progress=False, is_active=True)
+
+    context = {
+        'offer_list': offer_list
+    }
+
+    return render(request, 'index.html', context)
 
 
 class SignUpView(CreateView):
@@ -406,7 +412,7 @@ def EditOfferView(request):
     offer.total_price = offer_total_price
 
     if request.method == 'POST':
-        form = OfferForm(request.POST, instance=offer)
+        form = OfferForm(request.POST, request.FILES, instance=offer)
         if form.is_valid():
             form.save()
             return redirect('edit_offer')
@@ -443,7 +449,7 @@ def DeleteItemOfferView(request, pk):
 def PushOfferView(request):
     offer = Offer.objects.filter(in_progress=True).get()
 
-    if not offer.name or not offer.image or not offer.final_price == 0:
+    if not offer.name or not offer.image or not offer.final_price:
         messages.error(request, "Please fill in all required fields before continuing.")
         return redirect('edit_offer')
 
@@ -463,7 +469,13 @@ def DeleteOfferView(request, pk):
     return redirect('show_offers_settings')
 
 
-def MakeOfferActiveView(request, pk):
+def MakeOfferActiveInactiveView(request, pk):
     offer = get_object_or_404(Offer, pk=pk)
-    offer.is_active = True
+
+    if 'active' in request.POST:
+        offer.is_active = True
+    elif 'inactive' in request.POST:
+        offer.is_active = False
+
     offer.save()
+    return redirect('show_offers_settings')

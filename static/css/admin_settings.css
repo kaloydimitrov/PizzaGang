@@ -73,7 +73,7 @@ h1 {
 
 .user-username-container a {
     padding-left: 10px;
-    font-size: 28px;
+    font-size: 26px;
     text-decoration: none;
     color: black;
     font-weight: bold;
@@ -139,7 +139,7 @@ h1 {
 }
 
 /*Pizza*/
-.pizza-container {
+.pizza-container-main {
     position: relative;
     width: 300px;
     height: 400px;
@@ -271,18 +271,156 @@ h1 {
     border-radius: 10px;
     margin-bottom: 10px;
     text-decoration: none;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
     color: black;
 }
 
 /*Offer*/
-.in-progress-message {
-    margin-top: 5px;
-    font-size: 25px;
+.main-offer-container {
+    margin-top: 10px;
+    display: grid;
+    grid-template-rows: 50px 200px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.main-offer-container div {
+    width: 100%;
+    height: 100%;
+}
+
+.offer-name-container {
+    background-color: rgba(204, 204, 204, 0.3);
+    display: flex;
+    align-items: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.offer-name-container h1 {
+    font-size: 26px;
+    margin-left: 10px;
+}
+
+.offer-container {
+    display: grid;
+    grid-template-columns: 330px 2fr 2fr 2fr 1fr;
+}
+
+.offer-price-container, .offer-items-container {
+    padding-top: 5px;
+    padding-left: 5px;
+}
+
+.offer-price-container {
+    font-size: 30px;
+}
+
+.offer-img-container {
+    position: relative;
+}
+
+.offer-img-container img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0 0 0 10px;
+}
+
+.offer-buttons-container {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+}
+
+.offer-buttons-container button {
+    cursor: pointer;
+    height: 100%;
+    border: 0;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    background-color: rgba(128, 0, 128, 0.5);
+}
+
+.offer-delete-container {
+    position: relative;
+}
+
+.offer-delete-container a {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: purple;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 0 0 10px 0;
+}
+
+.offer-buttons-container button, .offer-delete-container a {
+    transition: font-size 0.2s;
+}
+
+.offer-buttons-container button:hover, .offer-delete-container a:hover  {
+    font-size: 23px;
 }
 
 /*Offer - Edit*/
+.progress-create-message {
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+
+.progress-create-message .create-a {
+    background-color: purple;
+    height: 50px;
+    width: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.progress-create-message .create-a:hover {
+    background-color: rgba(128, 0, 128, 0.8);
+}
+
+.progress-create-message .progress-container {
+    height: 50px;
+    background-color: purple;
+    width: 100%;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 1fr 100px;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.progress-container a {
+    text-decoration: none;
+    color: white;
+}
+
+.progress-container a:hover {
+    text-decoration: underline;
+}
+
 .edit-offer-main-container {
     display: grid;
     grid-template-columns: 1fr 3fr;
@@ -292,6 +430,11 @@ h1 {
 
 .pizza-container {
     margin-bottom: 30px;
+    position: relative;
+    width: 300px;
+    height: 400px;
+    background-color: white;
+    border-radius: 10px;
 }
 
 .pizza-edit-delete-container button {
@@ -445,4 +588,8 @@ h1 {
 
 .form-info p {
     font-weight: bold;
+}
+
+.form-info form a {
+    font-size: 5px;
 }

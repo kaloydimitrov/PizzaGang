@@ -23,35 +23,67 @@
     </form>
     
     <div class="offer-list-main-container">
-        {% if in_progress %}
-            <p class="in-progress-message">
-               You have one unfinished Offer. If you want to <b>create</b>
-               it go <a href="{% url 'edit_offer' %}">here</a>.
-            </p>
-        {% else %}
-            <a class="submit-btn" href="{% url 'create_offer' %}">Create</a>
-        {% endif %}
+        <div class="progress-create-message">
+            {% if in_progress %}
+                <div class="progress-container">
+                    <p>You have one unfinished offer...</p>
+                    <a href="{% url 'edit_offer' %}">Continue</a>
+                </div>
+            {% else %}
+                <a class="create-a" href="{% url 'create_offer' %}">Create</a>
+            {% endif %}
+        </div>
 
         {% for offer in offer_list %}
-            <h1>{{ offer.name }}</h1>
-            <p>{{ offer.final_price }}</p>
-            <s>{{ offer.total_price }}</s>
+            <div class="main-offer-container">
+                <div class="offer-name-container">
+                    <h1>{{ offer.name }}</h1>
+                </div>
+                <div class="offer-container">
+                    <div class="offer-img-container">
+                        <img src="{{ offer.image.url }}" alt="offer-img">
+                    </div>
 
-            {% for item in offer.cartitem_set.all %}
-                <p>{{ item.pizza.name }}</p>
-                {% if item.is_small %}
-                    <p>Small</p>
-                {% endif %}
+                    <div class="offer-price-container">
+                        <p>{{ offer.final_price }} lv.</p>
+                        <s>{{ offer.total_price }} lv.</s>
+                    </div>
 
-                {% if item.is_big %}
-                    <p>Big</p>
-                {% endif %}
+                    <div class="offer-items-container">
+                        {% for item in offer.cartitem_set.all %}
+                            <p>
+                            {{ item.pizza.name }} -
+                            {% if item.is_small %}
+                                <b>Small</b>
+                            {% endif %}
 
-                {% if item.is_large %}
-                    <p>Large</p>
-                {% endif %}
-            {% endfor %}
-            <hr>
+                            {% if item.is_big %}
+                                <b>Big</b>
+                            {% endif %}
+
+                            {% if item.is_large %}
+                                <b>Large</b>
+                            {% endif %}
+                            </p>
+                        {% endfor %}
+                    </div>
+                    <form action="{% url 'make_active_inactive_offer' offer.pk %}" method="post">
+                        {% csrf_token %}
+                        <div class="offer-buttons-container">
+                            {% if offer.is_active %}
+                                <button style="background-color: purple" name="active" type="submit">Active</button>
+                                <button type="submit" name="inactive">Inactive</button>
+                            {% else %}
+                                <button name="active" type="submit">Active</button>
+                                <button style="background-color: purple" type="submit" name="inactive">Inactive</button>
+                            {% endif %}
+                        </div>
+                    </form>
+                    <div class="offer-delete-container">
+                        <a href="{% url 'delete_offer' offer.pk %}">Delete</a>
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </div>
 {% endblock %}
