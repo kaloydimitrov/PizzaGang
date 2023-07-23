@@ -12,7 +12,7 @@
             {% for offer in offer_list %}
                 <div class="slide {% if forloop.first %}active{% endif %}">
                     <img src="{{ offer.image.url }}" alt="pizza-img"/>
-                    <h1>{{ offer.name }}</h1>
+                    <h1 class="title">{{ offer.name }}</h1>
                 </div>
             {% endfor %}
         </div>
@@ -27,6 +27,13 @@
         const totalSlides = {{ offer_list|length }};
         let currentSlide = 1;
         const slideInterval = 3000;
+
+        function setContainerWidth() {
+            const imageContainer = document.getElementById('imageContainer');
+            const slideWidth = 1000; // Width of each slide
+            const containerWidth = totalSlides * slideWidth;
+            imageContainer.style.width = `${containerWidth}px`;
+        }
 
         function changeSlide(slideNumber) {
             const imageContainer = document.getElementById('imageContainer');
@@ -55,6 +62,7 @@
             const initialButton = document.querySelector(`.buttons .button[href="#slide-${currentSlide}"]`);
             initialButton.classList.add('active');
 
+            setContainerWidth();
             changeSlide(currentSlide);
         }
 

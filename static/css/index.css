@@ -35,7 +35,7 @@
     position: relative;
 }
 
-.slide h1 {
+.slide .title {
     position: absolute;
     top: 10%;
     left: 25%;
