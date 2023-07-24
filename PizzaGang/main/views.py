@@ -239,25 +239,40 @@ def CreateOrderView(request):
     user = request.user
     cart = get_object_or_404(Cart, user=user)
 
-    cart_items = CartItem.objects.filter(cart=cart)
     order_items = []
+
+    cart_items = CartItem.objects.filter(cart=cart)
     for item in cart_items:
         size = 'None'
         if item.is_small:
-            size = 'SM'
+            size = 'SMALL'
         elif item.is_big:
-            size = 'BI'
+            size = 'BIG'
         elif item.is_large:
-            size = 'LA'
+            size = 'LARGE'
 
-        order_items.append(f"{item.pizza.name} {size}, {item.final_price}")
+        order_items.append(f"{item.pizza.name} - {size}")
+        item.delete()
+
+    offer_items = OfferItem.objects.filter(cart=cart)
+    for offer_item in offer_items:
+        cart_items = CartItem.objects.filter(offer=offer_item.offer)
+        for item in cart_items:
+            size = 'None'
+            if item.is_small:
+                size = 'SMALL'
+            elif item.is_big:
+                size = 'BIG'
+            elif item.is_large:
+                size = 'LARGE'
+
+            order_items.append(f"{item.pizza.name} - {size}")
+        offer_item.delete()
+
     order_items_string = ' • '.join(order_items)
 
-    print(cart.total_price)
     order = Order(user=user, cart_items=order_items_string, total_price=cart.total_price)
     order.save()
-
-    cart_items.delete()
 
     user_orders_link = f'/orders/show/{user.pk}/'
     return redirect(user_orders_link)

@@ -12,7 +12,7 @@ class Profile(models.Model):
     phone_number = PhoneNumberField(null=True, blank=True)
 
     def __str__(self):
-        return f"{self.user.username} Profile"
+        return f"{self.user.username}'s Profile"
 
 
 # Creates Profile when a new user signs up
@@ -73,7 +73,7 @@ class CartItem(models.Model):
 
     def __str__(self):
         if self.cart:
-            return f"{self.pizza.name} | ({self.cart.user.username})"
+            return f"{self.pizza.name} ({self.cart.user.username})"
         elif self.offer.in_progress:
             return f"{self.pizza.name} | In progress"
         elif not self.offer.in_progress and self.offer.name:
@@ -90,10 +90,16 @@ class Offer(models.Model):
     is_active = models.BooleanField(default=False)
     in_progress = models.BooleanField(default=True)
 
+    def __str__(self):
+        return f"{self.name} | {self.final_price} lv."
+
 
 class OfferItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.offer.name} | {self.offer.final_price} lv. ({self.cart.user.username})"
 
 
 class Order(models.Model):
@@ -105,3 +111,11 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Order ({self.pk})"
+
+
+class Review(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
