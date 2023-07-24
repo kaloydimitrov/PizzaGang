@@ -12,12 +12,8 @@ def get_cart_items_count(request):
 
         offer_items_count = 0
         offer_items = OfferItem.objects.filter(cart=cart)
-        offers = []
         for offer_item in offer_items:
-            offers.append(offer_item.offer)
-        for offer in offers:
-            offer_items = CartItem.objects.filter(offer=offer)
-            offer_items_count += offer_items.count()
+            offer_items_count += CartItem.objects.filter(offer=offer_item.offer).count()
 
         cart_items_count = pizza_items_count + offer_items_count
 
