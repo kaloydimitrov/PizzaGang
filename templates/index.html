@@ -12,7 +12,44 @@
             {% for offer in offer_list %}
                 <div class="slide {% if forloop.first %}active{% endif %}">
                     <img src="{{ offer.image.url }}" alt="pizza-img"/>
-                    <h1 class="title">{{ offer.name }}</h1>
+                    <div class="title-box">
+                        <p class="title">{{ offer.name }}</p>
+                    </div>
+                    <div class="items-box">
+                        {% for item in offer.cartitem_set.all %}
+                            <div class="item-container">
+                                <div class="pizza-size-container">
+                                    <p>
+                                    {{ item.pizza.name }} &bull;
+                                    {% if item.is_small %}
+                                        <b>Small</b>
+                                    {% endif %}
+
+                                    {% if item.is_big %}
+                                        <b>Big</b>
+                                    {% endif %}
+
+                                    {% if item.is_large %}
+                                        <b>Large</b>
+                                    {% endif %}
+                                    </p>
+                                </div>
+                                <div class="pizza-img-container">
+                                    <img src="{{ item.pizza.image.url }}" alt="pizza-img">
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="price-box">
+                        <div>
+                            <p>{{ offer.final_price|floatformat:2 }} lv.</p>
+                            <s>{{ offer.total_price|floatformat:2 }} lv.</s>
+                        </div>
+                    </div>
+                    <div class="order-menu-box">
+                        <a href="{% url 'menu' %}">Menu</a>
+                        <a href="{% url 'create_offer_item' offer.pk %}">Order Now</a>
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -24,9 +61,10 @@
     </div>
 
     <script>
+        let slideIntervalId;
         const totalSlides = {{ offer_list|length }};
         let currentSlide = 1;
-        const slideInterval = 3000;
+        const slideInterval = 3700;
 
         function setContainerWidth() {
             const imageContainer = document.getElementById('imageContainer');
@@ -59,16 +97,31 @@
                 currentSlide = parseInt(initialSlide);
             }
 
-            const initialButton = document.querySelector(`.buttons .button[href="#slide-${currentSlide}"]`);
+            const initialButton = document.querySelector(`.buttons .button:nth-child(${currentSlide})`);
             initialButton.classList.add('active');
 
             setContainerWidth();
             changeSlide(currentSlide);
+
+            // Clear the previous interval and set a new one when a button is clicked
+            const buttons = document.querySelectorAll('.button');
+            buttons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    clearInterval(slideIntervalId);
+                    slideIntervalId = setInterval(() => {
+                        const nextSlide = (currentSlide % totalSlides) + 1;
+                        changeSlide(nextSlide);
+                    }, slideInterval);
+
+                    changeSlide(index + 1);
+                });
+            });
         }
 
         window.addEventListener('load', setupSlider);
 
-        setInterval(() => {
+        // Set the initial interval for automatic slide change
+        slideIntervalId = setInterval(() => {
             const nextSlide = (currentSlide % totalSlides) + 1;
             changeSlide(nextSlide);
         }, slideInterval);

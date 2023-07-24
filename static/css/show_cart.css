@@ -8,6 +8,7 @@ hr {
     margin-bottom: 10px;
 }
 
+/*Pizza Item*/
 .cart-main-container {
     background-color: white;
     padding: 40px;
@@ -222,4 +223,95 @@ hr {
 
 .order-container a:hover {
     background-color: rgb(162, 208, 95);
+}
+
+/*Offer Item*/
+.offer-item-container {
+    margin-top: 20px;
+    position: relative;
+    padding: 75px 20px 80px 20px;
+    border: 1px solid orangered;
+    border-radius: 10px;
+}
+
+.delete-item h1 {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    margin-top: 10px;
+    font-size: 40px;
+}
+
+.choose-size #not:hover {
+    cursor: default;
+    color: dimgray;
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+#no-delete {
+    grid-template-columns: 350px 1fr 200px;
+}
+
+#no-dup-offer-container {
+    height: auto;
+    width: auto;
+    border-radius: 10px;
+    color: orangered;
+}
+
+#no-dup-offer-container .offer {
+    font-weight: lighter;
+    font-size: 33px;
+    padding: 0 9px 0 9px;
+}
+
+.offer-price-container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    column-gap: 15px;
+}
+
+.offer-price-container p, .offer-price-container s {
+    font-size: 44px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.offer-price-container s {
+    color: rgba(105, 105, 105, 0.5);
+}
+
+.offer-item-delete-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: orangered;
+    border-radius: 0 0 10px 10px;
+}
+
+.offer-item-delete-container a {
+    height: 100%;
+    width: 100%;
+    font-size: 38px;
+    color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.offer-name-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background-color: orangered;
+    display: flex;
+    align-items: center;
+    border-radius: 10px 10px 0 0;
+    color: rgba(0, 0, 0, 0.5);
+    padding-left: 10px;
 }

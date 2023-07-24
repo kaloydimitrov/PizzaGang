@@ -5,7 +5,7 @@ from .views import HomeView, SignUpView, SignInView, SignOutView, MenuView, User
                     ShowOrdersAllView, MakeOrderFinishedView, ShowUsersSettingsView, ShowPizzaSettingsView, \
                     ShowOrdersSettingsView, DeleteOrderView, ShowOffersSettingsView, CreateOfferView, \
                     EditOfferView, CreateItemOfferView, DeleteItemOfferView, PushOfferView, DeleteOfferView, \
-                    MakeOfferActiveInactiveView
+                    MakeOfferActiveInactiveView, CreateOfferItemView, DeleteOfferItemView
 
 urlpatterns = (
     path('', HomeView, name='home'),
@@ -44,7 +44,9 @@ urlpatterns = (
         path('delete-item/<int:pk>/', DeleteItemOfferView, name='delete_item_offer'),
         path('push/', PushOfferView, name='push_offer'),
         path('delete/<int:pk>/', DeleteOfferView, name='delete_offer'),
-        path('make-active/<int:pk>/', MakeOfferActiveInactiveView, name='make_active_inactive_offer')
+        path('make-active/<int:pk>/', MakeOfferActiveInactiveView, name='make_active_inactive_offer'),
+        path('create-offer-item/<int:pk>/', CreateOfferItemView, name='create_offer_item'),
+        path('delete-offer-item/<int:pk>/', DeleteOfferItemView, name='delete_offer_item')
     ])),
     path('pizzagang-admin/', include([
         path('show/', ShowOrdersAllView, name='show_admin'),

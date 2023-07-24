@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm
-from .models import Pizza, Profile, Cart, CartItem, Order, Offer
+from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem
 from .filters import PizzaOrderFilter
 
 User = get_user_model()
@@ -168,9 +168,9 @@ def DeleteFromCartView(request, pk):
     # Removes pizza from cart
     cart_item.delete()
 
-    # Returns to menu if there are no pizzas in cart
-    cart_items = CartItem.objects.filter(cart=cart)
-    if cart_items.count() == 0:
+    # Returns to menu if there are no items in cart
+    cart_items = CartItem.objects.filter(cart=cart).count() + OfferItem.objects.filter(cart=cart).count()
+    if cart_items == 0:
         return redirect('menu')
 
     # Checks for duplication
@@ -186,6 +186,7 @@ def ShowCartView(request):
     cart = get_object_or_404(Cart, user=user)
 
     cart_items = CartItem.objects.filter(cart=cart).order_by('created_at')
+    offer_items = OfferItem.objects.filter(cart=cart)
 
     # Pizza half price
     if cart_items.count() >= 2:
@@ -219,12 +220,16 @@ def ShowCartView(request):
     for item in cart_items:
         cart_total_price += item.final_price
 
+    for item in offer_items:
+        cart_total_price += item.offer.final_price
+
     cart.total_price = cart_total_price
     cart.save()
 
     context = {
         'cart_items': cart_items,
-        'cart_total_price': cart.total_price
+        'cart_total_price': cart.total_price,
+        'offer_items': offer_items
     }
 
     return render(request, 'cart/show_cart.html', context)
@@ -479,3 +484,27 @@ def MakeOfferActiveInactiveView(request, pk):
 
     offer.save()
     return redirect('show_offers_settings')
+
+
+def CreateOfferItemView(request, pk):
+    user = request.user
+    cart = get_object_or_404(Cart, user=user)
+    offer = get_object_or_404(Offer, pk=pk)
+
+    offer_item = OfferItem(cart=cart, offer=offer)
+    offer_item.save()
+
+    return redirect('home')
+
+
+def DeleteOfferItemView(request, pk):
+    user = request.user
+    cart = get_object_or_404(Cart, user=user)
+    offer_item = get_object_or_404(OfferItem, pk=pk)
+    offer_item.delete()
+
+    cart_items = CartItem.objects.filter(cart=cart).count() + OfferItem.objects.filter(cart=cart).count()
+    if cart_items == 0:
+        return redirect('menu')
+
+    return redirect('show_cart')

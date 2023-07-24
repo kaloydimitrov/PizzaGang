@@ -45,8 +45,8 @@
                     </div>
 
                     <div class="offer-price-container">
-                        <p>{{ offer.final_price }} lv.</p>
-                        <s>{{ offer.total_price }} lv.</s>
+                        <p>{{ offer.final_price|floatformat:2 }} lv.</p>
+                        <s>{{ offer.total_price|floatformat:2 }} lv.</s>
                     </div>
 
                     <div class="offer-items-container">

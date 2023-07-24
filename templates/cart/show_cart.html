@@ -18,7 +18,7 @@
     <hr>
     <div class="cart-container">
         <div class="pizza-img">
-            <img src="{{ cart_item.pizza.image.url }}" alt="">
+            <img src="{{ cart_item.pizza.image.url }}" alt="pizza-img">
             {% if cart_item.pizza.duplication_count > 1 %}
                 <div class="duplication-container">
                     <p>{{ cart_item.pizza.duplication_count }}</p>
@@ -82,6 +82,77 @@
         </div>
     </div>
     {% endfor %}
+    {% for offer_item in offer_items %}
+        <div class="offer-item-container">
+            <div class="offer-name-container">
+                <h1>Offer <i class="fa-solid fa-fire"></i> {{ offer_item.offer.name|truncatechars:55 }}</h1>
+            </div>
+            <div class="offer-price-container">
+                <p><s>{{ offer_item.offer.total_price|floatformat:2 }} lv.</s></p>
+                <p>{{ offer_item.offer.final_price|floatformat:2 }} lv.</p>
+            </div>
+
+            {% for cart_item in offer_item.offer.cartitem_set.all %}
+                <hr>
+                <div class="cart-container" id="no-delete">
+                    <div class="pizza-img">
+                        <img src="{{ cart_item.pizza.image.url }}" alt="pizza-img">
+                        <div class="duplication-container" id="no-dup-offer-container">
+                            <p class="offer">Offer</p>
+                        </div>
+                    </div>
+                    <div class="pizza-info">
+                        <div class="basic-info">
+                            <p class="price">
+                                <s>{{ cart_item.final_price|floatformat:2 }} lv.</s>
+                            </p>
+                            <p class="name">{{ cart_item.pizza.name }}</p>
+                            <p class="ingres">{{ cart_item.pizza.ingredients }}</p>
+                        </div>
+
+                        <div class="show-cart-filters">
+                            {% if cart_item.pizza.is_offer %}
+                                <img src="{% static 'images/icons/discount.png' %}" alt="pizza-offer-img">
+                            {% endif %}
+                            {% if cart_item.pizza.is_vege %}
+                                <img src="{% static 'images/icons/vege.png' %}" alt="pizza-vege-img">
+                            {% endif %}
+                            {% if cart_item.pizza.is_special %}
+                                <img src="{% static 'images/icons/special.png' %}" alt="pizza-special-img">
+                            {% endif %}
+                            {% if not cart_item.pizza.is_special and not cart_item.pizza.is_vege and not cart_item.pizza.is_offer %}
+                                <p>No filters for this pizza.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="choose-size">
+                        {% csrf_token %}
+                        {% if cart_item.is_small %}
+                            <button class="small" id="not">Small</button>
+                            <button class="big" id="not"></button>
+                            <button class="large" id="not"></button>
+                        {% endif %}
+
+                        {% if cart_item.is_big %}
+                            <button class="small" id="not"></button>
+                            <button class="big" id="not">Big</button>
+                            <button class="large" id="not"></button>
+                        {% endif %}
+
+                        {% if cart_item.is_large %}
+                            <button class="small" id="not"></button>
+                            <button class="big" id="not"></button>
+                            <button class="large" id="not">Large</button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="offer-item-delete-container">
+                <a href="{% url 'delete_offer_item' offer_item.pk %}"><i class="fa-solid fa-xmark"></i></a>
+            </div>
+        </div>
+    {% endfor %}
+
     {% if cart_items_count == 0 %}
         <div class="show-cart-no-items">
             <h1>You currently have 0 items in your cart, would you like to go back?</h1>
