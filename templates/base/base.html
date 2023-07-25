@@ -154,7 +154,7 @@
         </div>
     </div>
     <div class="cart-container-base">
-        {% if user.is_authenticated %}
+        {% if current_user.is_authenticated %}
             <a href="{% url 'show_cart' %}">
                 {% if cart_items_count > 0 %}
                     <i class="fa-solid fa-cart-shopping fa-bounce">{{ cart_items_count }}</i>
@@ -165,14 +165,14 @@
         {% endif %}
     </div>
     <div class="avatar-container">
-        {% if user.is_authenticated %}
-                <a href="{% url 'show_user' user.pk %}">
+        {% if current_user.is_authenticated %}
+                <a href="{% url 'show_user' current_user.pk %}">
                     <div class="img-selector">
                         <div class="message-container">
-                            <p>{{ user.username|truncatechars:10 }}</p>
+                            <p>{{ current_user.username|truncatechars:10 }}</p>
                         </div>
-                        {% if user.profile.avatar %}
-                            <img src="{{ user.profile.avatar.url }}" alt="avatar">
+                        {% if current_user.profile.avatar %}
+                            <img src="{{ current_user.profile.avatar.url }}" alt="avatar">
                         {% else %}
                             <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
                         {% endif %}

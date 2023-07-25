@@ -4,7 +4,7 @@
 {% block head %}
     <title>PizzaGang</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" href="{% static 'css/show_edit_review.css' %}">
+    <link rel="stylesheet" href="{% static 'css/show_create_review.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -61,12 +61,18 @@
         </div>
     </div>
 
-    <div class="review">
+    <div class="review-home-container">
         {% for review in review_list %}
             <div class="review-container" id="home-review-container">
                 <div class="avatar-review-container">
                     <div>
-                        <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
+                        <a href="{% url 'show_user_private' review.user.pk %}">
+                            {% if review.user.profile.avatar %}
+                                <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
+                            {% else %}
+                                <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-img">
+                            {% endif %}
+                        </a>
                     </div>
                     <div>
                         <p>{{ review.created_at }}</p>

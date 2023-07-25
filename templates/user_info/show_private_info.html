@@ -1,0 +1,88 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'css/show_info.css' %}">
+    <link rel="stylesheet" href="{% static 'css/show_create_review.css' %}">
+    <title>{{ user.username }}'s Profile Page - PizzaGang</title>
+{% endblock %}
+
+{% block content %}
+    <div class="show-info-avatar-container">
+        <div class="cover-avatar-container">
+            {% if user.profile.avatar %}
+                <img src="{{ user.profile.avatar.url }}" alt="avatar">
+            {% else %}
+                <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="show-info-container" id="show-private-info-container">
+        <div>
+            <p class="title">Username</p>
+            <p class="info">{{ user.username }}</p>
+        </div>
+        <div>
+            <p class="title">Name</p>
+            {% if user.first_name or user.last_name %}
+                <p class="info">{{ user.get_full_name }}</p>
+            {% else %}
+                <p class="info">No Name</p>
+            {% endif %}
+        </div>
+        <div>
+            <p class="title">Email</p>
+            {% if user.email %}
+                <p class="info">{{ user.email }}</p>
+            {% else %}
+                <p class="info">No Email</p>
+            {% endif %}
+        </div>
+        <div>
+            <p class="title">Address</p>
+            {% if user.profile.address %}
+                <p class="info">{{ user.profile.address }}</p>
+            {% else %}
+                <p class="info">No Address</p>
+            {% endif %}
+        </div>
+        <div>
+            <p class="title">Phone Number</p>
+            {% if user.profile.phone_number %}
+                <p class="info">{{ user.profile.phone_number }}</p>
+            {% else %}
+                <p class="info">No Phone Number</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {% for review in review_list %}
+        <div class="review-container" id="review-pr-info-container">
+            <div class="avatar-review-container">
+                <div>
+                    {% if review.user.profile.avatar %}
+                        <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
+                    {% else %}
+                        <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-img">
+                    {% endif %}
+                </div>
+                <div>
+                    <p>{{ review.created_at }}</p>
+                </div>
+            </div>
+            <p class="text">{{ review.text }}</p>
+
+            {#ChatGPT#}
+            <div class="star-rating">
+                {% for i in '12345' %}
+                    {% if i|add:'0' <= review.rating %}
+                        <i class="fas fa-solid fa-star"></i>
+                    {% else %}
+                        <i class="far fa-regular fa-star"></i>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

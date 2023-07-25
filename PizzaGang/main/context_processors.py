@@ -17,4 +17,4 @@ def get_cart_items_count(request):
 
         cart_items_count = pizza_items_count + offer_items_count
 
-    return {'cart_items_count': cart_items_count, 'user': request.user}
+    return {'cart_items_count': cart_items_count, 'current_user': request.user}

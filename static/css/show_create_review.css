@@ -28,24 +28,24 @@ hr {
 
 .review-container {
     position: relative;
-    margin-top: 50px;
+    margin-top: 30px;
     margin-left: auto;
     margin-right: auto;
     background-color: white;
     width: 800px;
-    padding: 10px 10px 70px 10px;
+    padding: 20px 20px 70px 20px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.title {
+.review-container .title {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100px;
 }
 
-.title h1 {
+.review-container .title h1 {
     margin: 0;
     color: dimgray;
 }
@@ -73,10 +73,6 @@ hr {
 }
 
 /*List User Reviews*/
-.review-container {
-    margin-bottom: 50px;
-}
-
 .avatar-review-container {
     display: grid;
     grid-template-columns: 200px 1fr;
@@ -141,6 +137,12 @@ hr {
     font-size: 40px;
     right: 10px;
     top: 10px;
+}
+
+/*List Info Reviews*/
+#review-pr-info-container {
+    padding: 20px;
+
 }
 
 /*List Home Reviews*/

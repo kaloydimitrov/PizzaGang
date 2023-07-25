@@ -15,7 +15,7 @@ User = get_user_model()
 
 def HomeView(request):
     offer_list = Offer.objects.filter(in_progress=False, is_active=True)
-    review_list = Review.objects.all()
+    review_list = Review.objects.all().order_by('-created_at')
 
     context = {
         'offer_list': offer_list,
@@ -63,6 +63,23 @@ def UserShowView(request, pk):
     }
 
     return render(request, 'user_info/show_info.html', context)
+
+
+def UserShowPrivateView(request, pk):
+    user = User.objects.get(pk=pk)
+
+    if user == request.user:
+        user_view_link = f'/user-info/show/{pk}/'
+        return redirect(user_view_link)
+
+    review_list = Review.objects.filter(user=user)
+
+    context = {
+        'user': user,
+        'review_list': review_list
+    }
+
+    return render(request, 'user_info/show_private_info.html', context)
 
 
 def UserEditView(request, pk):

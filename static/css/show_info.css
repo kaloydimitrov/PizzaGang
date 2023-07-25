@@ -1,3 +1,4 @@
+/*Show Info*/
 .show-info-main-container {
     display: grid;
     grid-template-columns: 1fr 300px;
@@ -123,4 +124,11 @@ i {
     color: white;
     text-decoration: none;
     font-weight: bold;
+}
+
+/*Show Private Info*/
+#show-private-info-container {
+    margin-left: 30px;
+    margin-right: 30px;
+    padding: 40px;
 }
