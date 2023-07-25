@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm
-from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem
+from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem, Review
 from .filters import PizzaOrderFilter
 
 User = get_user_model()
@@ -15,9 +15,11 @@ User = get_user_model()
 
 def HomeView(request):
     offer_list = Offer.objects.filter(in_progress=False, is_active=True)
+    review_list = Review.objects.all()
 
     context = {
-        'offer_list': offer_list
+        'offer_list': offer_list,
+        'review_list': review_list
     }
 
     return render(request, 'index.html', context)
@@ -523,3 +525,39 @@ def DeleteOfferItemView(request, pk):
         return redirect('menu')
 
     return redirect('show_cart')
+
+
+def CreateReviewView(request):
+    user = request.user
+
+    if request.method == 'POST':
+        text = request.POST.get('text')
+        rating = request.POST.get('rating')
+
+        review = Review(user=user, text=text, rating=rating)
+        review.save()
+
+        user_reviews_link = f'/review/show/{user.pk}/'
+        return redirect(user_reviews_link)
+
+    return render(request, 'review/create_review.html')
+
+
+def ShowReviewsUserView(request, pk):
+    user = User.objects.get(pk=pk)
+    review_list = Review.objects.filter(user=user).order_by('-created_at')
+
+    context = {
+        'review_list': review_list
+    }
+
+    return render(request, 'review/show_user_reviews.html', context)
+
+
+def DeleteReviewView(request, pk):
+    user = request.user
+    review = Review.objects.get(pk=pk)
+    review.delete()
+
+    user_reviews_link = f'/review/show/{user.pk}/'
+    return redirect(user_reviews_link)

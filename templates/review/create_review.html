@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Create Review - PizzaGang</title>
+    <link rel="stylesheet" href="{% static 'css/show_edit_review.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'go_back.html' %}
+    <form action="{% url 'create_review' %}" method="post">
+        {% csrf_token %}
+
+        <div class="review-container">
+            <div class="title">
+                <label for="text"><h1>Create a Review</h1></label>
+            </div>
+            <textarea name="text" id="text" class="custom-textarea" placeholder="Enter your thoughts"></textarea>
+
+            <div id="star-rating">
+                <span class="star" data-value="1">☆</span>
+                <span class="star" data-value="2">☆</span>
+                <span class="star" data-value="3">☆</span>
+                <span class="star" data-value="4">☆</span>
+                <span class="star" data-value="5">☆</span>
+                <input type="hidden" id="rating" name="rating" value="1">
+            </div>
+            <button type="submit" class="create-review">Create</button>
+        </div>
+    </form>
+
+    {#ChatGPT#}
+    <script>
+        const stars = document.querySelectorAll(".star");
+        const ratingInput = document.getElementById("rating");
+
+        stars.forEach(star => {
+            star.addEventListener("click", () => {
+                const value = star.dataset.value;
+                ratingInput.value = value;
+                updateStarRating(value);
+            });
+        });
+
+        function updateStarRating(value) {
+            stars.forEach(star => {
+                star.textContent = star.dataset.value <= value ? "★" : "☆";
+            });
+        }
+    </script>
+{% endblock %}

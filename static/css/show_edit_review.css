@@ -1,0 +1,151 @@
+hr {
+    border: 0;
+    height: 1px;
+    background-color: dimgray;
+    color: dimgray;
+}
+
+/*Create Review*/
+.star {
+    cursor: pointer;
+    color: yellow;
+    font-size: 30px;
+}
+
+.custom-textarea {
+    resize: none;
+    text-align: left;
+    direction: ltr;
+    height: 200px;
+    width: 100%;
+    border: none;
+    font-size: 20px;
+}
+
+.custom-textarea:focus {
+    outline: none;
+}
+
+.review-container {
+    position: relative;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+    width: 800px;
+    padding: 10px 10px 70px 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+}
+
+.title h1 {
+    margin: 0;
+    color: dimgray;
+}
+
+.create-review {
+    cursor: pointer;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 45px;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(129, 182, 76);
+    border-radius: 0 0 10px 10px;
+    border: none;
+}
+
+.create-review:hover {
+    background-color: rgb(162, 208, 95);
+}
+
+.star {
+    font-size: 48px;
+}
+
+/*List User Reviews*/
+.review-container {
+    margin-bottom: 50px;
+}
+
+.avatar-review-container {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+}
+
+.avatar-review-container div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.avatar-review-container img {
+    width: 130px;
+    height: 130px;
+    object-fit: cover;
+    border-radius: 100%;
+}
+
+.review-container p {
+    color: dimgray;
+}
+
+#user-review-container {
+    position: relative;
+    padding: 10px;
+}
+
+.text {
+    font-size: 30px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.star-rating i {
+    color: yellow;
+    font-size: 20px;
+}
+
+.no-review-message {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-review-message h1 {
+    color: dimgray;
+}
+
+.no-review-message a {
+    color: black;
+    text-decoration: none;
+}
+
+.no-review-message a:hover {
+    text-decoration: underline;
+}
+
+.fa-circle-minus {
+    position: absolute;
+    color: orangered;
+    font-size: 40px;
+    right: 10px;
+    top: 10px;
+}
+
+/*List Home Reviews*/
+#home-review-container {
+    margin: 0 auto;
+    padding: 10px;
+    width: 900px;
+}

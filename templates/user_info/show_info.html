@@ -75,6 +75,8 @@
                 <a href="{% url 'show_user' user.pk %}">Info</a>
                 <a href="">Address</a>
                 <a href="{% url 'show_user_orders' user.pk %}">Orders</a>
+                <a href="{% url 'show_user_reviews' user.pk %}">Reviews</a>
+                <a href="{% url 'create_review' %}"><i class="fa-solid fa-plus"></i></a>
             </div>
             <div class="info-sidebar-bottom">
                 <a href="{% url 'edit_user' user.pk %}">Edit</a>

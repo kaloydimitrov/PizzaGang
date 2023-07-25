@@ -40,6 +40,10 @@ i {
     font-size: 27px;
 }
 
+.fa-plus {
+    color: dimgray;
+}
+
 .show-info-avatar-container {
     height: 400px;
     display: flex;

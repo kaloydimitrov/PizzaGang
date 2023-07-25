@@ -1,3 +1,4 @@
+/*Slider*/
 .slider {
     margin-top: 30px;
     width: 1000px;
@@ -187,3 +188,5 @@
 .buttons .button.active {
     background-color: rgb(129, 182, 76);
 }
+
+/*Review*/

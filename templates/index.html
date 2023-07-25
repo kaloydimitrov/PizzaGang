@@ -4,6 +4,7 @@
 {% block head %}
     <title>PizzaGang</title>
     <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/show_edit_review.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -60,6 +61,34 @@
         </div>
     </div>
 
+    <div class="review">
+        {% for review in review_list %}
+            <div class="review-container" id="home-review-container">
+                <div class="avatar-review-container">
+                    <div>
+                        <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
+                    </div>
+                    <div>
+                        <p>{{ review.created_at }}</p>
+                    </div>
+                </div>
+                <p class="text">{{ review.text }}</p>
+
+                {#ChatGPT#}
+                <div class="star-rating">
+                    {% for i in '12345' %}
+                        {% if i|add:'0' <= review.rating %}
+                            <i class="fas fa-solid fa-star"></i>
+                        {% else %}
+                            <i class="far fa-regular fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {#ChatGPT#}
     <script>
         let slideIntervalId;
         const totalSlides = {{ offer_list|length }};
@@ -68,7 +97,7 @@
 
         function setContainerWidth() {
             const imageContainer = document.getElementById('imageContainer');
-            const slideWidth = 1000; // Width of each slide
+            const slideWidth = 1000;
             const containerWidth = totalSlides * slideWidth;
             imageContainer.style.width = `${containerWidth}px`;
         }
@@ -103,7 +132,6 @@
             setContainerWidth();
             changeSlide(currentSlide);
 
-            // Clear the previous interval and set a new one when a button is clicked
             const buttons = document.querySelectorAll('.button');
             buttons.forEach((button, index) => {
                 button.addEventListener('click', () => {
@@ -120,7 +148,6 @@
 
         window.addEventListener('load', setupSlider);
 
-        // Set the initial interval for automatic slide change
         slideIntervalId = setInterval(() => {
             const nextSlide = (currentSlide % totalSlides) + 1;
             changeSlide(nextSlide);

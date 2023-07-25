@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>My Reviews - PizzaGang</title>
+    <link rel="stylesheet" href="{% static 'css/show_edit_review.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'go_back.html' %}
+    {% if review_list.count == 0 %}
+        <div class="no-review-message">
+            <h1>You don't have any reviews yet! Click <a href="{% url 'create_review' %}">here</a> to make one.</h1>
+        </div>
+    {% endif %}
+    {% for review in review_list %}
+        <div class="review-container" id="user-review-container">
+            <a href="{% url 'delete_review' review.pk %}"><i class="fa-solid fa-circle-minus"></i></a>
+            <div class="avatar-review-container">
+                <div>
+                    <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
+                </div>
+                <div>
+                    <p>{{ review.created_at }}</p>
+                </div>
+            </div>
+            <p class="text">{{ review.text }}</p>
+            {#ChatGPT#}
+            <div class="star-rating">
+                {% for i in '12345' %}
+                    {% if i|add:'0' <= review.rating %}
+                        <i class="fas fa-solid fa-star"></i>
+                    {% else %}
+                        <i class="far fa-regular fa-star"></i>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
