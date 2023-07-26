@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
@@ -16,10 +17,16 @@ User = get_user_model()
 def HomeView(request):
     offer_list = Offer.objects.filter(in_progress=False, is_active=True)
     review_list = Review.objects.all().order_by('-created_at')
+    pizza_list_veggie = Pizza.objects.filter(Q(is_vege=True) & ~Q(is_offer=True) & ~Q(is_special=True))
+    pizza_list_offer = Pizza.objects.filter(Q(is_offer=True) & ~Q(is_vege=True) & ~Q(is_special=True))
+    pizza_list_special = Pizza.objects.filter(Q(is_special=True) & ~Q(is_vege=True) & ~Q(is_offer=True))
 
     context = {
         'offer_list': offer_list,
-        'review_list': review_list
+        'review_list': review_list,
+        'pizza_list_veggie': pizza_list_veggie,
+        'pizza_list_offer': pizza_list_offer,
+        'pizza_list_special': pizza_list_special
     }
 
     return render(request, 'index.html', context)
@@ -119,6 +126,7 @@ def MenuView(request):
     context = {
         'pizza_list': pizza_list,
         'pizza_filter': pizza_filter,
+        'in_menu': True
     }
 
     return render(request, 'pizza/menu.html', context)

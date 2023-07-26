@@ -126,6 +126,15 @@ i {
     font-weight: bold;
 }
 
+.review-a {
+    font-weight: bold;
+}
+
+.review-a i {
+    color: black;
+    font-size: 20px;
+}
+
 /*Show Private Info*/
 #show-private-info-container {
     margin-left: 30px;

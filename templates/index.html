@@ -61,11 +61,78 @@
         </div>
     </div>
 
+    <div class="pizza-home-offer">
+        <img src="{% static 'images/offers/buy_one_get _one_half_off.jpg' %}" alt="main-offer-img">
+    </div>
+
+    <div>
+        <div class="pizza-home-filters">
+            <div class="filters-header">
+                <p>Veggie</p> <img src="{% static 'images/icons/vege.png' %}" alt="veggie-img">
+            </div>
+            <div class="filters-pizzas">
+                {% for pizza in pizza_list_veggie %}
+                    <div class="filters-pizza-container">
+                        <div class="pizza-name">
+                            <p>{{ pizza.name }}</p>
+                        </div>
+                        <div class="pizza-img">
+                            <img src="{{ pizza.image.url }}" alt="pizza-img">
+                        </div>
+                        <div class="pizza-info">
+                            <p>{{ pizza.ingredients }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="filters-header">
+                <p>Discount</p> <img src="{% static 'images/icons/discount.png' %}" alt="discount-img">
+            </div>
+            <div class="filters-pizzas">
+                {% for pizza in pizza_list_offer %}
+                    <div class="filters-pizza-container">
+                        <div class="pizza-name">
+                            <p>{{ pizza.name }}</p>
+                        </div>
+                        <div class="pizza-img">
+                            <img src="{{ pizza.image.url }}" alt="pizza-img">
+                        </div>
+                        <div class="pizza-info">
+                            <p>{{ pizza.ingredients }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="filters-header">
+                <p>Special</p> <img src="{% static 'images/icons/special.png' %}" alt="discount-img">
+            </div>
+            <div class="filters-pizzas">
+                {% for pizza in pizza_list_special %}
+                    <div class="filters-pizza-container">
+                        <div class="pizza-name">
+                            <p>{{ pizza.name }}</p>
+                        </div>
+                        <div class="pizza-img">
+                            <img src="{{ pizza.image.url }}" alt="pizza-img">
+                        </div>
+                        <div class="pizza-info">
+                            <p>{{ pizza.ingredients }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
     <div class="review-home-container">
+        <p class="reviews-title">Reviews</p>
         {% for review in review_list %}
             <div class="review-container" id="home-review-container">
+                <p class="username-p" style="color: white">{{ review.user.username }}</p>
                 <div class="avatar-review-container">
-                    <div>
+                    <div class="avatar-review-container-inside">
                         <a href="{% url 'show_user_private' review.user.pk %}">
                             {% if review.user.profile.avatar %}
                                 <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
@@ -92,10 +159,13 @@
                 </div>
             </div>
         {% endfor %}
+        <div id="show-more-button-container">
+            <button id="show-more-button" onclick="showMoreReviews()"><i class="fa-solid fa-chevron-down"></i> More</button>
+        </div>
     </div>
 
-    {#ChatGPT#}
     <script>
+        {#ChatGPT - slider#}
         let slideIntervalId;
         const totalSlides = {{ offer_list|length }};
         let currentSlide = 1;
@@ -158,5 +228,44 @@
             const nextSlide = (currentSlide % totalSlides) + 1;
             changeSlide(nextSlide);
         }, slideInterval);
+
+
+        {#ChatGPT - reviews (show more)#}
+        let visibleReviews = 1;
+        const reviewsPerPage = 2;
+
+        function showMoreReviews() {
+            const reviews = document.querySelectorAll('.review-container');
+            for (let i = visibleReviews; i < visibleReviews + reviewsPerPage; i++) {
+                if (reviews[i]) {
+                    reviews[i].style.display = 'block';
+                }
+            }
+            visibleReviews += reviewsPerPage;
+
+            const totalReviews = {{ review_list|length }};
+            if (visibleReviews >= totalReviews) {
+                document.getElementById('show-more-button-container').style.display = 'none';
+            }
+        }
+
+        function setupInitialReviews() {
+            const reviews = document.querySelectorAll('.review-container');
+            for (let i = 0; i < reviews.length; i++) {
+                if (i >= visibleReviews) {
+                    reviews[i].style.display = 'none';
+                }
+            }
+
+            const totalReviews = {{ review_list|length }};
+            if (visibleReviews < totalReviews) {
+                document.getElementById('show-more-button-container').style.display = 'block';
+            }
+        }
+
+        window.addEventListener('load', () => {
+            setupSlider();
+            setupInitialReviews();
+        });
     </script>
 {% endblock %}

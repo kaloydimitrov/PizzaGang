@@ -147,6 +147,7 @@ hr {
 
 /*List Home Reviews*/
 #home-review-container {
+    position: relative;
     margin: 0 auto;
     padding: 10px;
     width: 900px;

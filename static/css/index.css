@@ -189,13 +189,156 @@
     background-color: rgb(129, 182, 76);
 }
 
+/*Buy One, Get One Half Off*/
+.pizza-home-offer {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+    height: 600px;
+    background-color: green;
+}
+
+.pizza-home-offer img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+/*Pizza Filters*/
+.pizza-home-filters {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}
+
+.filters-header {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    column-gap: 50px;
+}
+
+.filters-header p {
+    font-size: 50px;
+    margin: 0;
+}
+
+.filters-header img {
+    width: 60px;
+}
+
+.filters-pizzas {
+    display: grid;
+    column-gap: 80px;
+    row-gap: 40px;
+    justify-content: center;
+    grid-template-columns: 250px 250px 250px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.filters-pizza-container {
+    position: relative;
+    height: 200px;
+}
+
+.filters-pizza-container .pizza-name {
+    position: absolute;
+    top: 0;
+    bottom: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+}
+
+.pizza-name p {
+    font-size: 23px;
+    margin: 0;
+}
+
+.filters-pizza-container .pizza-img {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: 50px;
+}
+
+.pizza-img img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 0 0 10px 10px;
+}
+
+.filters-pizza-container .pizza-info {
+    position: absolute;
+    bottom: 0;
+    top: 50px;
+    left: 0;
+    right: 0;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 0 0 10px 10px;
+}
+
+.pizza-info p {
+    color: white;
+    margin: 0;
+}
+
 /*Review*/
+.reviews-title {
+    font-size: 90px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    letter-spacing: .2rem;
+    color: dimgray;
+}
+
 .review-home-container {
     width: 1000px;
     margin-left: auto;
     margin-right: auto;
-    background-color: yellow;
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 20px;
+}
+
+.username-p {
+    position: absolute;
+    top: 0;
+    left: 200px;
+    margin: 0;
+    background-color: gray;
+    padding: 0 7px 3px 7px;
+    border-radius: 0 0 5px 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 5px 10px;
+}
+
+#show-more-button-container {
+    position: relative;
+}
+
+#show-more-button-container button {
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    border: 0;
+    font-size: 23px;
+    font-weight: bold;
+    padding: 0 10px 0 10px;
+    border-radius: 5px;
+    color: dimgray;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 5px 5px;
+    margin-right: 40px;
 }
