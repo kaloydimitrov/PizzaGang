@@ -1,0 +1,15 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>My Address - PizzaGang</title>
+    <link rel="stylesheet" href="{% static 'css/show_address.css' %}">
+{% endblock %}
+
+{% block content %}
+    {% include 'go_back.html' %}
+    <div class="address-container">
+        <p class="title">Address</p>
+        
+    </div>
+{% endblock %}

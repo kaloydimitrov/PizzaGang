@@ -1,0 +1,85 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+
+{% block head %}
+    <title>Our Products - PizzaGang</title>
+    <link rel="stylesheet" href="{% static 'css/products.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="filters-container-main">
+        <div class="filters-container">
+            <div class="filters-container-header">
+                <p>Veggie</p>
+                <img src="{% static 'images/icons/vege.png' %}" alt="veggie-img">
+            </div>
+            <div class="filters-container-info">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A alias blanditiis, fugiat harum illum ipsam
+                    molestias nemo nobis non optio quidem quod quos sit soluta velit. Eveniet optio quidem quod?
+                </p>
+            </div>
+            <div class="filters-container-button">
+                <a style="border-radius: 0 0 0 10px" href="/menu/?name=&ingredients=&is_vege=true">View</a>
+            </div>
+        </div>
+
+
+        <div class="filters-container">
+            <div class="filters-container-header">
+                <p>Discount</p>
+                <img src="{% static 'images/icons/discount.png' %}" alt="veggie-img">
+            </div>
+            <div class="filters-container-info">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A alias blanditiis, fugiat harum illum ipsam
+                    molestias nemo nobis non optio quidem quod quos sit soluta velit. Eveniet optio quidem quod?
+                </p>
+            </div>
+            <div class="filters-container-button">
+                <a href="/menu/?name=&ingredients=&is_offer=true">View</a>
+            </div>
+        </div>
+
+
+        <div class="filters-container">
+            <div class="filters-container-header">
+                <p>Special</p>
+                <img src="{% static 'images/icons/special.png' %}" alt="veggie-img">
+            </div>
+            <div class="filters-container-info">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. A alias blanditiis, fugiat harum illum ipsam
+                    molestias nemo nobis non optio quidem quod quos sit soluta velit. Eveniet optio quidem quod?
+                </p>
+            </div>
+            <div class="filters-container-button">
+                <a style="border-radius: 0 0 10px 0" href="/menu/?name=&ingredients=&is_special=true">View</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="product-header">
+        <p>Our Products</p>
+    </div>
+    <div class="product-info">
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A alias blanditiis, fugiat harum illum ipsam
+            molestias nemo nobis non optio quidem quod quos sit soluta velit. Eveniet optio quidem quod?
+        </p>
+    </div>
+
+
+    <div class="product-header">
+        <p>Photos from the Lab</p>
+    </div>
+    <div class="product-container">
+        {% for product_img in productimage_list %}
+            <div class="product-img-container">
+                <img src="{{ product_img.image.url }}" alt="product-img">
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

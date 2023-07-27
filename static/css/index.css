@@ -1,6 +1,13 @@
+.main-home-container {
+    display: grid;
+    row-gap: 50px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
 /*Slider*/
 .slider {
-    margin-top: 30px;
+    position: relative;
     width: 1000px;
     height: 600px;
     margin-left: auto;
@@ -191,17 +198,35 @@
 
 /*Buy One, Get One Half Off*/
 .pizza-home-offer {
+    position: relative;
     margin-left: auto;
     margin-right: auto;
     width: 1000px;
     height: 600px;
     background-color: green;
+    box-shadow: rgba(100, 100, 111, 0.7) 0 7px 29px 0;
 }
 
 .pizza-home-offer img {
     height: 100%;
     width: 100%;
     object-fit: cover;
+}
+
+.pizza-home-offer a {
+    position: absolute;
+    right: 7%;
+    bottom: 10%;
+    background-color: rgb(129, 182, 76);
+    font-size: 23px;
+    padding: 8px 12px 8px 12px;
+    text-decoration: none;
+    color: white;
+    border-radius: 5px;
+}
+
+.pizza-home-offer a:hover {
+    background-color: rgb(162, 208, 95);
 }
 
 /*Pizza Filters*/
@@ -253,6 +278,7 @@
     background-color: white;
     width: 100%;
     border-radius: 10px 10px 0 0;
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .pizza-name p {
@@ -273,6 +299,7 @@
     width: 100%;
     object-fit: cover;
     border-radius: 0 0 10px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .filters-pizza-container .pizza-info {
@@ -301,7 +328,7 @@
     justify-content: center;
     margin: 20px 0;
     letter-spacing: .2rem;
-    color: dimgray;
+    color: rgba(0, 0, 0, 0.8);
 }
 
 .review-home-container {

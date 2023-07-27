@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block head %}
+    <title>About PizzaGang</title>
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="about-container">
+        <p class="title">
+            About PizzaGang
+            <div class="black-bar"></div>
+        </p>
+        <p class="info">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aspernatur, deleniti illum ipsum
+            modi molestiae nam nemo nobis officiis perspiciatis quae quisquam ratione repudiandae, sapiente sint tempora
+            totam vel voluptatum.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam blanditiis dolorum fugiat hic iure labore
+            maiores minima molestias necessitatibus nostrum odio praesentium quidem quo recusandae repellendus suscipit,
+            voluptate, voluptatibus?
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. At consequatur, cupiditate doloribus eius enim,
+            labore laboriosam, mollitia nulla officiis quisquam suscipit tempore veritatis voluptatum. Adipisci eligendi
+            magnam odit perspiciatis temporibus?
+        </p>
+        <i class="fa-solid fa-pizza-slice"></i>
+    </div>
+{% endblock %}

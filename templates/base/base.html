@@ -144,14 +144,22 @@
     </div>
     <div class="menu-container">
         <div>
-            <a href="">PizzaGang</a>
+            {% if in_about %}
+                <a style="color: black; font-weight: bold" href="{% url 'about' %}">PizzaGang</a>
+            {% else %}
+                <a href="{% url 'about' %}">PizzaGang</a>
+            {% endif %}
         </div>
         <div>
-            <a href="">Products</a>
+            {% if in_products %}
+                <a style="color: black; font-weight: bold" href="{% url 'products' %}">Products</a>
+            {% else %}
+                <a href="{% url 'products' %}">Products</a>
+            {% endif %}
         </div>
         <div>
             {% if in_menu %}
-                <a style="color: black" href="{% url 'menu' %}">Menu</a>
+                <a style="color: black; font-weight: bold" href="{% url 'menu' %}">Menu</a>
             {% else %}
                 <a href="{% url 'menu' %}">Menu</a>
             {% endif %}

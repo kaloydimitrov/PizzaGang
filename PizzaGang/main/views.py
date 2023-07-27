@@ -1,4 +1,3 @@
-from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
@@ -6,9 +5,10 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.db.models import Q
 from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm
-from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem, Review
+from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem, Review, ProductImage
 from .filters import PizzaOrderFilter
 
 User = get_user_model()
@@ -30,6 +30,25 @@ def HomeView(request):
     }
 
     return render(request, 'index.html', context)
+
+
+class ProductsView(ListView):
+    model = ProductImage
+    template_name = 'products.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['in_products'] = True
+        return context
+
+
+class AboutView(TemplateView):
+    template_name = 'about.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['in_about'] = True
+        return context
 
 
 class SignUpView(CreateView):
@@ -115,8 +134,13 @@ def UserEditView(request, pk):
     return render(request, 'user_info/edit_info.html', context)
 
 
-def UserAddressView(request, pk):
-    pass
+class UserAddressView(TemplateView):
+    template_name = 'user_info/show_address.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
 
 
 def MenuView(request):

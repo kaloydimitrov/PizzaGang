@@ -8,159 +8,162 @@
 {% endblock %}
 
 {% block content %}
-    <div class="slider">
-        <div class="image-container" id="imageContainer">
-            {% for offer in offer_list %}
-                <div class="slide {% if forloop.first %}active{% endif %}">
-                    <img src="{{ offer.image.url }}" alt="pizza-img"/>
-                    <div class="title-box">
-                        <p class="title">{{ offer.name }}</p>
-                    </div>
-                    <div class="items-box">
-                        {% for item in offer.cartitem_set.all %}
-                            <div class="item-container">
-                                <div class="pizza-size-container">
-                                    <p>
-                                    {{ item.pizza.name }} &bull;
-                                    {% if item.is_small %}
-                                        <b>Small</b>
-                                    {% endif %}
+    <div class="main-home-container">
+        <div class="slider">
+            <div class="image-container" id="imageContainer">
+                {% for offer in offer_list %}
+                    <div class="slide {% if forloop.first %}active{% endif %}">
+                        <img src="{{ offer.image.url }}" alt="pizza-img"/>
+                        <div class="title-box">
+                            <p class="title">{{ offer.name }}</p>
+                        </div>
+                        <div class="items-box">
+                            {% for item in offer.cartitem_set.all %}
+                                <div class="item-container">
+                                    <div class="pizza-size-container">
+                                        <p>
+                                        {{ item.pizza.name }} &bull;
+                                        {% if item.is_small %}
+                                            <b>Small</b>
+                                        {% endif %}
 
-                                    {% if item.is_big %}
-                                        <b>Big</b>
-                                    {% endif %}
+                                        {% if item.is_big %}
+                                            <b>Big</b>
+                                        {% endif %}
 
-                                    {% if item.is_large %}
-                                        <b>Large</b>
-                                    {% endif %}
-                                    </p>
+                                        {% if item.is_large %}
+                                            <b>Large</b>
+                                        {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="pizza-img-container">
+                                        <img src="{{ item.pizza.image.url }}" alt="pizza-img">
+                                    </div>
                                 </div>
-                                <div class="pizza-img-container">
-                                    <img src="{{ item.pizza.image.url }}" alt="pizza-img">
-                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="price-box">
+                            <div>
+                                <p>{{ offer.final_price|floatformat:2 }} lv.</p>
+                                <s>{{ offer.total_price|floatformat:2 }} lv.</s>
                             </div>
-                        {% endfor %}
-                    </div>
-                    <div class="price-box">
-                        <div>
-                            <p>{{ offer.final_price|floatformat:2 }} lv.</p>
-                            <s>{{ offer.total_price|floatformat:2 }} lv.</s>
+                        </div>
+                        <div class="order-menu-box">
+                            <a href="{% url 'menu' %}">Menu</a>
+                            <a href="{% url 'create_offer_item' offer.pk %}">Order Now</a>
                         </div>
                     </div>
-                    <div class="order-menu-box">
-                        <a href="{% url 'menu' %}">Menu</a>
-                        <a href="{% url 'create_offer_item' offer.pk %}">Order Now</a>
-                    </div>
+                {% endfor %}
+            </div>
+            <div class="buttons">
+                {% for offer in offer_list %}
+                    <a href="#slide-{{ forloop.counter }}" class="button {% if forloop.first %}active{% endif %}" onclick="changeSlide({{ forloop.counter }})"></a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="pizza-home-offer">
+            <img src="{% static 'images/offers/buy_one_get _one_half_off.jpg' %}" alt="main-offer-img">
+            <a href="{% url 'menu' %}">Menu</a>
+        </div>
+
+        <div>
+            <div class="pizza-home-filters">
+                <div class="filters-header">
+                    <p>Veggie</p> <img src="{% static 'images/icons/vege.png' %}" alt="veggie-img">
                 </div>
-            {% endfor %}
-        </div>
-        <div class="buttons">
-            {% for offer in offer_list %}
-                <a href="#slide-{{ forloop.counter }}" class="button {% if forloop.first %}active{% endif %}" onclick="changeSlide({{ forloop.counter }})"></a>
-            {% endfor %}
-        </div>
-    </div>
-
-    <div class="pizza-home-offer">
-        <img src="{% static 'images/offers/buy_one_get _one_half_off.jpg' %}" alt="main-offer-img">
-    </div>
-
-    <div>
-        <div class="pizza-home-filters">
-            <div class="filters-header">
-                <p>Veggie</p> <img src="{% static 'images/icons/vege.png' %}" alt="veggie-img">
-            </div>
-            <div class="filters-pizzas">
-                {% for pizza in pizza_list_veggie %}
-                    <div class="filters-pizza-container">
-                        <div class="pizza-name">
-                            <p>{{ pizza.name }}</p>
+                <div class="filters-pizzas">
+                    {% for pizza in pizza_list_veggie %}
+                        <div class="filters-pizza-container">
+                            <div class="pizza-name">
+                                <p>{{ pizza.name }}</p>
+                            </div>
+                            <div class="pizza-img">
+                                <img src="{{ pizza.image.url }}" alt="pizza-img">
+                            </div>
+                            <div class="pizza-info">
+                                <p>{{ pizza.ingredients }}</p>
+                            </div>
                         </div>
-                        <div class="pizza-img">
-                            <img src="{{ pizza.image.url }}" alt="pizza-img">
-                        </div>
-                        <div class="pizza-info">
-                            <p>{{ pizza.ingredients }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div class="filters-header">
-                <p>Discount</p> <img src="{% static 'images/icons/discount.png' %}" alt="discount-img">
-            </div>
-            <div class="filters-pizzas">
-                {% for pizza in pizza_list_offer %}
-                    <div class="filters-pizza-container">
-                        <div class="pizza-name">
-                            <p>{{ pizza.name }}</p>
-                        </div>
-                        <div class="pizza-img">
-                            <img src="{{ pizza.image.url }}" alt="pizza-img">
-                        </div>
-                        <div class="pizza-info">
-                            <p>{{ pizza.ingredients }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-
-            <div class="filters-header">
-                <p>Special</p> <img src="{% static 'images/icons/special.png' %}" alt="discount-img">
-            </div>
-            <div class="filters-pizzas">
-                {% for pizza in pizza_list_special %}
-                    <div class="filters-pizza-container">
-                        <div class="pizza-name">
-                            <p>{{ pizza.name }}</p>
-                        </div>
-                        <div class="pizza-img">
-                            <img src="{{ pizza.image.url }}" alt="pizza-img">
-                        </div>
-                        <div class="pizza-info">
-                            <p>{{ pizza.ingredients }}</p>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-
-    <div class="review-home-container">
-        <p class="reviews-title">Reviews</p>
-        {% for review in review_list %}
-            <div class="review-container" id="home-review-container">
-                <p class="username-p" style="color: white">{{ review.user.username }}</p>
-                <div class="avatar-review-container">
-                    <div class="avatar-review-container-inside">
-                        <a href="{% url 'show_user_private' review.user.pk %}">
-                            {% if review.user.profile.avatar %}
-                                <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
-                            {% else %}
-                                <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-img">
-                            {% endif %}
-                        </a>
-                    </div>
-                    <div>
-                        <p>{{ review.created_at }}</p>
-                    </div>
+                    {% endfor %}
                 </div>
-                <p class="text">{{ review.text }}</p>
 
-                {#ChatGPT#}
-                <div class="star-rating">
-                    {% for i in '12345' %}
-                        {% if i|add:'0' <= review.rating %}
-                            <i class="fas fa-solid fa-star"></i>
-                        {% else %}
-                            <i class="far fa-regular fa-star"></i>
-                        {% endif %}
+                <div class="filters-header">
+                    <p>Discount</p> <img src="{% static 'images/icons/discount.png' %}" alt="discount-img">
+                </div>
+                <div class="filters-pizzas">
+                    {% for pizza in pizza_list_offer %}
+                        <div class="filters-pizza-container">
+                            <div class="pizza-name">
+                                <p>{{ pizza.name }}</p>
+                            </div>
+                            <div class="pizza-img">
+                                <img src="{{ pizza.image.url }}" alt="pizza-img">
+                            </div>
+                            <div class="pizza-info">
+                                <p>{{ pizza.ingredients }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="filters-header">
+                    <p>Special</p> <img src="{% static 'images/icons/special.png' %}" alt="discount-img">
+                </div>
+                <div class="filters-pizzas">
+                    {% for pizza in pizza_list_special %}
+                        <div class="filters-pizza-container">
+                            <div class="pizza-name">
+                                <p>{{ pizza.name }}</p>
+                            </div>
+                            <div class="pizza-img">
+                                <img src="{{ pizza.image.url }}" alt="pizza-img">
+                            </div>
+                            <div class="pizza-info">
+                                <p>{{ pizza.ingredients }}</p>
+                            </div>
+                        </div>
                     {% endfor %}
                 </div>
             </div>
-        {% endfor %}
-        <div id="show-more-button-container">
-            <button id="show-more-button" onclick="showMoreReviews()"><i class="fa-solid fa-chevron-down"></i> More</button>
+        </div>
+
+        <div class="review-home-container">
+            <p class="reviews-title">Reviews</p>
+            {% for review in review_list %}
+                <div class="review-container" id="home-review-container">
+                    <p class="username-p" style="color: white">{{ review.user.username }}</p>
+                    <div class="avatar-review-container">
+                        <div class="avatar-review-container-inside">
+                            <a href="{% url 'show_user_private' review.user.pk %}">
+                                {% if review.user.profile.avatar %}
+                                    <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
+                                {% else %}
+                                    <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-img">
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div>
+                            <p>{{ review.created_at }}</p>
+                        </div>
+                    </div>
+                    <p class="text">{{ review.text }}</p>
+
+                    {#ChatGPT#}
+                    <div class="star-rating">
+                        {% for i in '12345' %}
+                            {% if i|add:'0' <= review.rating %}
+                                <i class="fas fa-solid fa-star"></i>
+                            {% else %}
+                                <i class="far fa-regular fa-star"></i>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+            <div id="show-more-button-container">
+                <button id="show-more-button" onclick="showMoreReviews()"><i class="fa-solid fa-chevron-down"></i> More</button>
+            </div>
         </div>
     </div>
 

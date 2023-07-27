@@ -1,0 +1,13 @@
+.address-container {
+    margin-top: 50px;
+    width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.address-container .title {
+    margin: 0;
+    font-size: 70px;
+    letter-spacing: .2rem;
+    color: dimgray;
+}

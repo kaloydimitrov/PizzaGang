@@ -122,3 +122,10 @@ class Review(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s Review"
+
+
+class ProductImage(models.Model):
+    image = models.ImageField(upload_to='static/images/products/')
+
+    def __str__(self):
+        return f"{self.image.name}"
