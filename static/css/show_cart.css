@@ -123,11 +123,11 @@ hr {
     font-weight: bold;
     color: dimgray;
     background-color: rgba(128, 128, 128, 0.1);
+    transition: font-size 0.2s;
 }
 
 .choose-size button:hover {
-    background-color: dimgray;
-    color: white;
+    font-size: 25px;
 }
 
 .choose-size .small {

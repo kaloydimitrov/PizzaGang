@@ -328,7 +328,7 @@
     justify-content: center;
     margin: 20px 0;
     letter-spacing: .2rem;
-    color: rgba(0, 0, 0, 0.8);
+    color: dimgray;
 }
 
 .review-home-container {
@@ -360,12 +360,12 @@
     cursor: pointer;
     right: 0;
     border: 0;
-    font-size: 23px;
+    font-size: 17px;
     font-weight: bold;
     padding: 0 10px 0 10px;
     border-radius: 5px;
     color: dimgray;
     background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.1) 0 5px 5px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 3px 5px;
     margin-right: 40px;
 }

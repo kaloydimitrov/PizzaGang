@@ -11,3 +11,15 @@
     letter-spacing: .2rem;
     color: dimgray;
 }
+
+.address-container .address {
+    background-color: white;
+    color: dimgray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
