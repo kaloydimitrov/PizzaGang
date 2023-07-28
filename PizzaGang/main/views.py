@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
@@ -81,6 +82,7 @@ class SignOutView(LogoutView):
     next_page = reverse_lazy('home')
 
 
+@login_required(login_url=reverse_lazy('home'))
 def UserShowView(request, pk):
     user = User.objects.get(pk=pk)
 
@@ -156,6 +158,7 @@ def MenuView(request):
     return render(request, 'pizza/menu.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def AddToCartView(request, pk):
     pizza = Pizza.objects.get(pk=pk)
     user = request.user
@@ -369,20 +372,11 @@ def DeleteOrderView(request, pk):
     return redirect('menu')
 
 
-def CreatePizzaView(request):
-    if request.method == 'POST':
-        form = PizzaForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = PizzaForm
-
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'pizza/create_pizza.html', context)
+class CreatePizzaView(CreateView):
+    model = Pizza
+    form_class = PizzaForm
+    template_name = 'pizza/create_pizza.html'
+    success_url = reverse_lazy('home')
 
 
 def EditPizzaView(request, pk):
@@ -552,6 +546,7 @@ def MakeOfferActiveInactiveView(request, pk):
     return redirect('show_offers_settings')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def CreateOfferItemView(request, pk):
     user = request.user
     cart = get_object_or_404(Cart, user=user)

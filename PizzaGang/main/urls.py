@@ -25,7 +25,7 @@ urlpatterns = (
     ])),
     path('menu/', MenuView, name='menu'),
     path('pizza/', include([
-        path('create/', CreatePizzaView, name='create_pizza'),
+        path('create/', CreatePizzaView.as_view(), name='create_pizza'),
         path('edit/<int:pk>/', EditPizzaView, name='edit_pizza'),
         path('delete/<int:pk>/', DeletePizzaView.as_view(), name='delete_pizza')
     ])),
