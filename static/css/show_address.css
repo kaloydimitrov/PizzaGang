@@ -1,3 +1,36 @@
+.here-a {
+    text-decoration: none;
+    color: black;
+}
+
+.here-a:hover {
+    text-decoration: underline;
+}
+
+.change-container {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    width: 1000px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.change-a {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 7px 12px 7px 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.change-a:hover {
+    background-color: gray;
+}
+
 .address-container {
     margin-top: 50px;
     width: 1000px;

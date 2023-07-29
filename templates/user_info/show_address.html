@@ -10,9 +10,16 @@
 {% block content %}
     {% include 'go_back.html' %}
     <div class="address-container">
-        <p class="title">Address</p>
-        <p class="address">{{ user.profile.address }}</p>
-        <div id="map"></div>
+        {% if not user.profile.address %}
+            <p class="title">No address... click <a class="here-a" href="{% url 'edit_user' user.pk %}">here</a> to set one!</p>
+        {% else %}
+            <p class="title">Address</p>
+            <p class="address">{{ user.profile.address }}</p>
+            <div id="map"></div>
+            <div class="change-container">
+                <a class="change-a" href="{% url 'edit_user' user.pk %}">Change</a>
+            </div>
+        {% endif %}
     </div>
 
     <script>

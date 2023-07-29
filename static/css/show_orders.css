@@ -91,8 +91,8 @@ a:hover {
 .items-message-container {
     position: absolute;
     top: 75px;
-    background-color: white;
-    color: black;
+    background-color: dimgray;
+    color: white;
     border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 10px;
     padding: 20px;
