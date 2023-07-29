@@ -15,7 +15,12 @@
         <form action="{% url 'edit_user' user.pk %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="edit-avatar-container">
+                <label class="choose-photo" for="id_avatar">
+                    <i class="fas fa-camera"></i>
+                    <span>Choose a photo</span>
+                </label>
                 {{ profile_form.avatar }}
+                <button type="button" class="file-name-display">No file chosen</button>
             </div>
             <div class="username-info">
                 <p>
@@ -58,4 +63,21 @@
             <button type="submit"><b>Save Changes</b></button>
         </form>
     </div>
+
+    {#ChatGPT#}
+    <script>
+        const fileInput = document.querySelector('#id_avatar');
+        const fileNameDisplay = document.querySelector('.file-name-display');
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                fileNameDisplay.textContent = file.name;
+                fileNameDisplay.classList.add('file-selected');
+            } else {
+                fileNameDisplay.textContent = 'No file chosen';
+                fileNameDisplay.classList.remove('file-selected');
+            }
+        });
+    </script>
 {% endblock %}
