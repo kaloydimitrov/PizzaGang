@@ -15,6 +15,7 @@
     text-align: center;
     overflow: hidden;
     box-shadow: rgba(100, 100, 111, 0.7) 0 7px 29px 0;
+    border-radius: 10px;
 }
 
 .image-container {
@@ -43,7 +44,7 @@
     position: relative;
 }
 
-.slide .title-box {
+.title-box {
     top: 8%;
     left: 7%;
     position: absolute;
@@ -203,14 +204,14 @@
     margin-right: auto;
     width: 1000px;
     height: 600px;
-    background-color: green;
-    box-shadow: rgba(100, 100, 111, 0.7) 0 7px 29px 0;
 }
 
 .pizza-home-offer img {
     height: 100%;
     width: 100%;
     object-fit: cover;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.7) 0 7px 29px 0;
 }
 
 .pizza-home-offer a {
@@ -229,11 +230,32 @@
     background-color: rgb(162, 208, 95);
 }
 
+#title-box {
+    height: 400px;
+    display: block;
+    align-items: center;
+    justify-content: center;
+}
+
+#title {
+    font-size: 91px;
+}
+
+#title-box .description {
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 29px;
+}
+
 /*Pizza Filters*/
 .pizza-home-filters {
     margin-left: auto;
     margin-right: auto;
     width: 1000px;
+    background-color: white;
+    padding-bottom: 50px;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0 7px 29px 0;
 }
 
 .filters-header {
@@ -264,8 +286,11 @@
 }
 
 .filters-pizza-container {
+    cursor: default;
     position: relative;
     height: 200px;
+    box-shadow: rgba(100, 100, 111, 0.5) 0 7px 29px 0;
+    border-radius: 10px;
 }
 
 .filters-pizza-container .pizza-name {
@@ -275,15 +300,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    background-color: gray;
     width: 100%;
     border-radius: 10px 10px 0 0;
-    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .pizza-name p {
     font-size: 23px;
     margin: 0;
+    color: white;
 }
 
 .filters-pizza-container .pizza-img {
@@ -299,7 +324,6 @@
     width: 100%;
     object-fit: cover;
     border-radius: 0 0 10px 10px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
 }
 
 .filters-pizza-container .pizza-info {
@@ -327,7 +351,7 @@
     align-items: center;
     justify-content: center;
     margin: 20px 0;
-    letter-spacing: .2rem;
+    letter-spacing: 15px;
 }
 
 .review-home-container {

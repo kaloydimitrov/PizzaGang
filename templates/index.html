@@ -63,7 +63,15 @@
         </div>
 
         <div class="pizza-home-offer">
-            <img src="{% static 'images/offers/buy_one_get _one_half_off.jpg' %}" alt="main-offer-img">
+            <img src="{% static 'images/offers/buy_one_get _one_half_off.png' %}" alt="main-offer-img">
+            <div class="title-box" id="title-box">
+                <p class="title" id="title">BOGO Extravaganza</p>
+                <p class="description">Indulge in our amazing Buy One, Get One Half Off deal! Order any pizza from our
+                    menu, and we'll treat you to a second pizza at 50% off. Mix and match your favorite flavors and
+                    toppings, and make it a pizza feast for everyone to enjoy. Don't miss out on this incredible offer
+                    - it's perfect for sharing the pizza love!
+                </p>
+            </div>
             <a href="{% url 'menu' %}">Menu</a>
         </div>
 
@@ -74,17 +82,19 @@
                 </div>
                 <div class="filters-pizzas">
                     {% for pizza in pizza_list_veggie %}
-                        <div class="filters-pizza-container">
-                            <div class="pizza-name">
-                                <p>{{ pizza.name }}</p>
+                        <a href="{% url 'menu' %}">
+                            <div class="filters-pizza-container">
+                                <div class="pizza-name">
+                                    <p>{{ pizza.name }}</p>
+                                </div>
+                                <div class="pizza-img">
+                                    <img src="{{ pizza.image.url }}" alt="pizza-img">
+                                </div>
+                                <div class="pizza-info">
+                                    <p>{{ pizza.ingredients }}</p>
+                                </div>
                             </div>
-                            <div class="pizza-img">
-                                <img src="{{ pizza.image.url }}" alt="pizza-img">
-                            </div>
-                            <div class="pizza-info">
-                                <p>{{ pizza.ingredients }}</p>
-                            </div>
-                        </div>
+                        </a>
                     {% endfor %}
                 </div>
 
@@ -93,17 +103,19 @@
                 </div>
                 <div class="filters-pizzas">
                     {% for pizza in pizza_list_offer %}
-                        <div class="filters-pizza-container">
-                            <div class="pizza-name">
-                                <p>{{ pizza.name }}</p>
+                        <a href="{% url 'menu' %}">
+                            <div class="filters-pizza-container">
+                                <div class="pizza-name">
+                                    <p>{{ pizza.name }}</p>
+                                </div>
+                                <div class="pizza-img">
+                                    <img src="{{ pizza.image.url }}" alt="pizza-img">
+                                </div>
+                                <div class="pizza-info">
+                                    <p>{{ pizza.ingredients }}</p>
+                                </div>
                             </div>
-                            <div class="pizza-img">
-                                <img src="{{ pizza.image.url }}" alt="pizza-img">
-                            </div>
-                            <div class="pizza-info">
-                                <p>{{ pizza.ingredients }}</p>
-                            </div>
-                        </div>
+                        </a>
                     {% endfor %}
                 </div>
 
@@ -112,17 +124,19 @@
                 </div>
                 <div class="filters-pizzas">
                     {% for pizza in pizza_list_special %}
-                        <div class="filters-pizza-container">
-                            <div class="pizza-name">
-                                <p>{{ pizza.name }}</p>
+                        <a href="{% url 'menu' %}">
+                            <div class="filters-pizza-container">
+                                <div class="pizza-name">
+                                    <p>{{ pizza.name }}</p>
+                                </div>
+                                <div class="pizza-img">
+                                    <img src="{{ pizza.image.url }}" alt="pizza-img">
+                                </div>
+                                <div class="pizza-info">
+                                    <p>{{ pizza.ingredients }}</p>
+                                </div>
                             </div>
-                            <div class="pizza-img">
-                                <img src="{{ pizza.image.url }}" alt="pizza-img">
-                            </div>
-                            <div class="pizza-info">
-                                <p>{{ pizza.ingredients }}</p>
-                            </div>
-                        </div>
+                        </a>
                     {% endfor %}
                 </div>
             </div>
