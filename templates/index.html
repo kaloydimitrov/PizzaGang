@@ -247,42 +247,32 @@
         }, slideInterval);
 
 
-        {#ChatGPT - reviews (show more)#}
-        let visibleReviews = 1;
-        const reviewsPerPage = 2;
+        {#ChatGPT - Reviews (show more)#}
+        let reviewContainerIndex = 0;
+        const reviewsPerPage = 1;
+        const reviewContainers = document.querySelectorAll('.review-container');
 
         function showMoreReviews() {
-            const reviews = document.querySelectorAll('.review-container');
-            for (let i = visibleReviews; i < visibleReviews + reviewsPerPage; i++) {
-                if (reviews[i]) {
-                    reviews[i].style.display = 'block';
+            for (let i = reviewContainerIndex; i < reviewContainerIndex + reviewsPerPage; i++) {
+                if (reviewContainers[i]) {
+                    reviewContainers[i].style.display = 'block';
                 }
             }
-            visibleReviews += reviewsPerPage;
+            reviewContainerIndex += reviewsPerPage;
 
-            const totalReviews = {{ review_list|length }};
-            if (visibleReviews >= totalReviews) {
+            if (reviewContainerIndex >= reviewContainers.length) {
                 document.getElementById('show-more-button-container').style.display = 'none';
             }
         }
 
-        function setupInitialReviews() {
-            const reviews = document.querySelectorAll('.review-container');
-            for (let i = 0; i < reviews.length; i++) {
-                if (i >= visibleReviews) {
-                    reviews[i].style.display = 'none';
-                }
-            }
-
-            const totalReviews = {{ review_list|length }};
-            if (visibleReviews < totalReviews) {
-                document.getElementById('show-more-button-container').style.display = 'block';
-            }
+        for (let i = 1; i < reviewContainers.length; i++) {
+            reviewContainers[i].style.display = 'none';
         }
 
-        window.addEventListener('load', () => {
-            setupSlider();
-            setupInitialReviews();
-        });
+        if (reviewContainers.length > reviewsPerPage) {
+            document.getElementById('show-more-button-container').style.display = 'block';
+        }
+
+        document.getElementById('show-more-button').addEventListener('click', showMoreReviews);
     </script>
 {% endblock %}
