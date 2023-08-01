@@ -149,7 +149,7 @@
                     <p class="username-p" style="color: white">{{ review.user.username }}</p>
                     <div class="avatar-review-container">
                         <div class="avatar-review-container-inside">
-                            <a href="{% url 'show_user_private' review.user.pk %}">
+                            <a href="{% url 'show_user_public' review.user.pk %}">
                                 {% if review.user.profile.avatar %}
                                     <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
                                 {% else %}

@@ -84,6 +84,9 @@ class SignOutView(LogoutView):
 
 @login_required(login_url=reverse_lazy('home'))
 def UserShowView(request, pk):
+    if request.user.pk != pk:
+        return redirect('home')
+
     user = User.objects.get(pk=pk)
 
     context = {
@@ -93,7 +96,7 @@ def UserShowView(request, pk):
     return render(request, 'user_info/show_info.html', context)
 
 
-def UserShowPrivateView(request, pk):
+def UserShowPublicView(request, pk):
     user = User.objects.get(pk=pk)
 
     if user == request.user:
@@ -107,7 +110,7 @@ def UserShowPrivateView(request, pk):
         'review_list': review_list
     }
 
-    return render(request, 'user_info/show_private_info.html', context)
+    return render(request, 'user_info/show_public_info.html', context)
 
 
 def UserEditView(request, pk):
@@ -290,6 +293,9 @@ def ShowCartView(request):
 
 
 def CreateOrderView(request):
+    if not request.user.profile.address:
+        return redirect('show_user_address')
+
     user = request.user
     cart = get_object_or_404(Cart, user=user)
 

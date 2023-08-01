@@ -10,7 +10,7 @@
     {% include 'go_back.html' %}
     {% if review_list.count == 0 %}
         <div class="no-review-message">
-            <h1>You don't have any reviews yet! Click <a href="{% url 'create_review' %}">here</a> to make one.</h1>
+            <p>You don't have any reviews yet... click <a href="{% url 'create_review' %}">here</a> to make one!</p>
         </div>
     {% endif %}
     {% for review in review_list %}

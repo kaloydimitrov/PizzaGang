@@ -113,13 +113,18 @@ hr {
 
 .no-review-message {
     height: 100px;
+    width: 700px;
+    margin-top: 30px;
+    margin-left: 240px;
+    margin-right: auto;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.no-review-message h1 {
+.no-review-message p {
     color: dimgray;
+    font-size: 45px;
 }
 
 .no-review-message a {

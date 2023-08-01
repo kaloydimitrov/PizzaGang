@@ -6,7 +6,7 @@ from .views import HomeView, SignUpView, SignInView, SignOutView, MenuView, User
                     ShowOrdersSettingsView, DeleteOrderView, ShowOffersSettingsView, CreateOfferView, \
                     EditOfferView, CreateItemOfferView, DeleteItemOfferView, PushOfferView, DeleteOfferView, \
                     MakeOfferActiveInactiveView, CreateOfferItemView, DeleteOfferItemView, CreateReviewView, \
-                    ShowReviewsUserView, DeleteReviewView, UserShowPrivateView, ProductsView, AboutView
+                    ShowReviewsUserView, DeleteReviewView, UserShowPublicView, ProductsView, AboutView
 
 urlpatterns = (
     path('', HomeView, name='home'),
@@ -19,7 +19,7 @@ urlpatterns = (
     ])),
     path('user-info/', include([
         path('show/<int:pk>/', UserShowView, name='show_user'),
-        path('show-private/<int:pk>/', UserShowPrivateView, name='show_user_private'),
+        path('show-public/<int:pk>/', UserShowPublicView, name='show_user_public'),
         path('edit/<int:pk>/', UserEditView, name='edit_user'),
         path('address/', UserAddressView.as_view(), name='show_user_address')
     ])),
