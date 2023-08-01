@@ -114,6 +114,9 @@ def UserShowPublicView(request, pk):
 
 
 def UserEditView(request, pk):
+    if request.user.pk != pk:
+        return redirect('home')
+
     user = User.objects.get(pk=pk)
     profile = Profile.objects.get(user=user)
 
