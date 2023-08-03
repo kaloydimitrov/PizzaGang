@@ -18,7 +18,7 @@
     {% for order in orders %}
         <div class="order-container-in-progress">
             <div class="order-username-container">
-                <a href="{% url 'show_user' order.user.pk %}">
+                <a href="{% url 'show_user_public' order.user.pk %}">
                     <b>{{ order.user.username|truncatechars:10 }}</b>
                 </a>
             </div>

@@ -2,7 +2,6 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -11,6 +10,7 @@ from django.views.generic import TemplateView, CreateView, ListView, UpdateView,
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm
 from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem, Review, ProductImage
 from .filters import PizzaOrderFilter
+from .decorators import allowed_groups
 
 User = get_user_model()
 
@@ -82,12 +82,12 @@ class SignOutView(LogoutView):
     next_page = reverse_lazy('home')
 
 
-@login_required(login_url=reverse_lazy('home'))
+@login_required(login_url=reverse_lazy('sign_in'))
 def UserShowView(request, pk):
     if request.user.pk != pk:
         return redirect('home')
 
-    user = User.objects.get(pk=pk)
+    user = get_object_or_404(User, pk=pk)
 
     context = {
         'user': user
@@ -97,7 +97,7 @@ def UserShowView(request, pk):
 
 
 def UserShowPublicView(request, pk):
-    user = User.objects.get(pk=pk)
+    user = get_object_or_404(User, pk=pk)
 
     if user == request.user:
         user_view_link = f'/user-info/show/{pk}/'
@@ -113,12 +113,13 @@ def UserShowPublicView(request, pk):
     return render(request, 'user_info/show_public_info.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def UserEditView(request, pk):
     if request.user.pk != pk:
         return redirect('home')
 
-    user = User.objects.get(pk=pk)
-    profile = Profile.objects.get(user=user)
+    user = get_object_or_404(User, pk=pk)
+    profile = get_object_or_404(Profile, user=user)
 
     if request.method == 'POST':
         user_form = UserEditForm(request.POST, instance=user)
@@ -142,6 +143,8 @@ def UserEditView(request, pk):
     return render(request, 'user_info/edit_info.html', context)
 
 
+# TODO: Make it work with CBV
+# @login_required(login_url=reverse_lazy('sign_in'))
 class UserAddressView(TemplateView):
     template_name = 'user_info/show_address.html'
 
@@ -166,7 +169,7 @@ def MenuView(request):
 
 @login_required(login_url=reverse_lazy('sign_in'))
 def AddToCartView(request, pk):
-    pizza = Pizza.objects.get(pk=pk)
+    pizza = get_object_or_404(Pizza, pk=pk)
     user = request.user
     cart = get_object_or_404(Cart, user=user)
 
@@ -182,6 +185,7 @@ def AddToCartView(request, pk):
     return redirect('menu')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def SelectItemSizeView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
 
@@ -219,11 +223,12 @@ def SelectItemSizeView(request, pk):
     return redirect('show_cart')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def DeleteFromCartView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
     pizza = cart_item.pizza
     user = request.user
-    cart = Cart.objects.get(user=user)
+    cart = get_object_or_404(Cart,user=user)
 
     # Removes pizza from cart
     cart_item.delete()
@@ -241,6 +246,7 @@ def DeleteFromCartView(request, pk):
     return redirect('show_cart')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def ShowCartView(request):
     user = request.user
     cart = get_object_or_404(Cart, user=user)
@@ -295,6 +301,7 @@ def ShowCartView(request):
     return render(request, 'cart/show_cart.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def CreateOrderView(request):
     if not request.user.profile.address:
         return redirect('show_user_address')
@@ -341,8 +348,9 @@ def CreateOrderView(request):
     return redirect(user_orders_link)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def ShowOrdersUserView(request, pk):
-    user = User.objects.get(pk=pk)
+    user = get_object_or_404(User, pk=pk)
     orders = Order.objects.filter(user=user).order_by('-created_at')
     active_orders = Order.objects.filter(user=user, is_finished=False)
 
@@ -354,6 +362,8 @@ def ShowOrdersUserView(request, pk):
     return render(request, 'orders/show_user_orders.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'order_staff'], redirect_url=reverse_lazy('home'))
 def ShowOrdersAllView(request):
     orders = Order.objects.filter(is_finished=False).order_by('created_at')
     orders_finished = Order.objects.filter(is_finished=True)
@@ -366,21 +376,27 @@ def ShowOrdersAllView(request):
     return render(request, 'orders/show_all_orders.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'order_staff'], redirect_url=reverse_lazy('home'))
 def MakeOrderFinishedView(request, pk):
-    order = Order.objects.get(pk=pk)
+    order = get_object_or_404(Order, pk=pk)
     order.is_finished = True
     order.save()
 
     return redirect('show_all_orders')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def DeleteOrderView(request, pk):
-    order = Order.objects.get(pk=pk)
+    order = get_object_or_404(Order, pk=pk)
     order.delete()
 
     return redirect('menu')
 
 
+# TODO: Make it work with CBV
+# @login_required(login_url=reverse_lazy('sign_in'))
+# @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 class CreatePizzaView(CreateView):
     model = Pizza
     form_class = PizzaForm
@@ -388,8 +404,10 @@ class CreatePizzaView(CreateView):
     success_url = reverse_lazy('home')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def EditPizzaView(request, pk):
-    pizza = Pizza.objects.get(pk=pk)
+    pizza = get_object_or_404(Pizza, pk=pk)
 
     if request.method == 'POST':
         form = PizzaForm(request.POST, request.FILES, instance=pizza)
@@ -407,12 +425,17 @@ def EditPizzaView(request, pk):
     return render(request, 'pizza/edit_pizza.html', context)
 
 
+# TODO: Make it work with CBV
+# @login_required(login_url=reverse_lazy('sign_in'))
+# @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 class DeletePizzaView(DeleteView):
     model = Pizza
     template_name = 'pizza/delete_pizza.html'
     success_url = reverse_lazy('menu')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def ShowUsersSettingsView(request):
     username_filter = request.GET.get('username', '')
     user_list = User.objects.filter(username__icontains=username_filter)
@@ -425,6 +448,8 @@ def ShowUsersSettingsView(request):
     return render(request, 'admin/admin_settings_users.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def ShowPizzaSettingsView(request):
     name_filter = request.GET.get('name', '')
     pizza_list = Pizza.objects.filter(name__icontains=name_filter)
@@ -437,6 +462,8 @@ def ShowPizzaSettingsView(request):
     return render(request, 'admin/admin_settings_pizza.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def ShowOrdersSettingsView(request):
     username_filter = request.GET.get('username', '')
     order_list = Order.objects.filter(user__username__icontains=username_filter)
@@ -449,6 +476,8 @@ def ShowOrdersSettingsView(request):
     return render(request, 'admin/admin_settings_orders.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def ShowOffersSettingsView(request):
     name_filter = request.GET.get('name', '')
     offer_list = Offer.objects.filter(name__icontains=name_filter, in_progress=False)
@@ -462,6 +491,8 @@ def ShowOffersSettingsView(request):
     return render(request, 'admin/admin_settings_offers.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def CreateOfferView(request):
     in_progress_offer_list = Offer.objects.filter(in_progress=True)
 
@@ -474,6 +505,8 @@ def CreateOfferView(request):
     return redirect('edit_offer')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def EditOfferView(request):
     name_filter = request.GET.get('name', '')
     pizza_list = Pizza.objects.filter(name__icontains=name_filter)
@@ -503,6 +536,8 @@ def EditOfferView(request):
     return render(request, 'offer/edit_offer.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def CreateItemOfferView(request, pk):
     pizza = get_object_or_404(Pizza, pk=pk)
     offer = Offer.objects.filter(in_progress=True).get()
@@ -513,6 +548,8 @@ def CreateItemOfferView(request, pk):
     return redirect('edit_offer')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def DeleteItemOfferView(request, pk):
     item = get_object_or_404(CartItem, pk=pk)
     item.delete()
@@ -520,11 +557,12 @@ def DeleteItemOfferView(request, pk):
     return redirect('edit_offer')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def PushOfferView(request):
     offer = Offer.objects.filter(in_progress=True).get()
 
     if not offer.name or not offer.image or not offer.final_price:
-        messages.error(request, "Please fill in all required fields before continuing.")
         return redirect('edit_offer')
 
     offer.in_progress = False
@@ -533,6 +571,8 @@ def PushOfferView(request):
     return redirect('show_offers_settings')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def DeleteOfferView(request, pk):
     offer = get_object_or_404(Offer, pk=pk)
     items = CartItem.objects.filter(offer=offer)
@@ -543,6 +583,8 @@ def DeleteOfferView(request, pk):
     return redirect('show_offers_settings')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def MakeOfferActiveInactiveView(request, pk):
     offer = get_object_or_404(Offer, pk=pk)
 
@@ -556,6 +598,7 @@ def MakeOfferActiveInactiveView(request, pk):
 
 
 @login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def CreateOfferItemView(request, pk):
     user = request.user
     cart = get_object_or_404(Cart, user=user)
@@ -567,6 +610,8 @@ def CreateOfferItemView(request, pk):
     return redirect('home')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
+@allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def DeleteOfferItemView(request, pk):
     user = request.user
     cart = get_object_or_404(Cart, user=user)
@@ -580,6 +625,7 @@ def DeleteOfferItemView(request, pk):
     return redirect('show_cart')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def CreateReviewView(request):
     user = request.user
 
@@ -596,8 +642,9 @@ def CreateReviewView(request):
     return render(request, 'review/create_review.html')
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def ShowReviewsUserView(request, pk):
-    user = User.objects.get(pk=pk)
+    user = get_object_or_404(User, pk=pk)
     review_list = Review.objects.filter(user=user).order_by('-created_at')
 
     context = {
@@ -607,9 +654,10 @@ def ShowReviewsUserView(request, pk):
     return render(request, 'review/show_user_reviews.html', context)
 
 
+@login_required(login_url=reverse_lazy('sign_in'))
 def DeleteReviewView(request, pk):
     user = request.user
-    review = Review.objects.get(pk=pk)
+    review = get_object_or_404(Review, pk=pk)
     review.delete()
 
     user_reviews_link = f'/review/show/{user.pk}/'
