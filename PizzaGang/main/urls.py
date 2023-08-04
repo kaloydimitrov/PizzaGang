@@ -63,7 +63,7 @@ urlpatterns = (
         path('settings/', include([
             path('users/', ShowUsersSettingsView, name='show_users_settings'),
             path('pizza/', ShowPizzaSettingsView, name='show_pizza_settings'),
-            path('orders/',ShowOrdersSettingsView, name='show_orders_settings'),
+            path('orders/', ShowOrdersSettingsView, name='show_orders_settings'),
             path('offers/', ShowOffersSettingsView, name='show_offers_settings')
         ]))
     ]))
