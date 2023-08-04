@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -115,6 +116,14 @@
             justify-content: center;
         }
 
+        .img-selector i {
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            font-size: 25px;
+            color: rgb(129, 182, 76);
+        }
+
         .message-container {
             position: absolute;
             background-color: rgba(0, 0, 0, 0.5);
@@ -179,18 +188,21 @@
     </div>
     <div class="avatar-container">
         {% if current_user.is_authenticated %}
-                <a href="{% url 'show_user' current_user.pk %}">
-                    <div class="img-selector">
-                        <div class="message-container">
-                            <p>{{ current_user.username|truncatechars:10 }}</p>
-                        </div>
-                        {% if current_user.profile.avatar %}
-                            <img src="{{ current_user.profile.avatar.url }}" alt="avatar">
-                        {% else %}
-                            <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
-                        {% endif %}
+            <a href="{% url 'show_user' current_user.pk %}">
+                <div class="img-selector">
+                    {% if user|has_group:"order_staff" or user|has_group:"settings_staff" or user|has_group:"full_staff" %}
+                        <i class="fa-solid fa-clipboard-user"></i>
+                    {% endif %}
+                    <div class="message-container">
+                        <p>{{ current_user.username|truncatechars:10 }}</p>
                     </div>
-                </a>
+                    {% if current_user.profile.avatar %}
+                        <img src="{{ current_user.profile.avatar.url }}" alt="avatar">
+                    {% else %}
+                        <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-avatar">
+                    {% endif %}
+                </div>
+            </a>
         {% else %}
             <a class="sign_in" href="{% url 'sign_in' %}">Sign In</a>
         {% endif %}

@@ -1,5 +1,6 @@
 {% extends 'base/base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'css/show_info.css' %}">
@@ -11,6 +12,13 @@
         <div class="show-info-avatar-info-container">
             <div class="show-info-avatar-container">
                 <div class="cover-avatar-container">
+                    {% if user|has_group:"order_staff" %}
+                        <p class="staff-p">ORDER STAFF</p>
+                    {% elif user|has_group:"settings_staff" %}
+                        <p class="staff-p">SETTINGS STAFF</p>
+                    {% elif user|has_group:"full_staff" %}
+                        <p class="staff-p">FULL STAFF</p>
+                    {% endif %}
                     <a href="{% url 'edit_user' user.pk %}">
                         <i class="fa-solid fa-pencil"></i>
                     </a>
