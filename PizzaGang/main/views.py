@@ -6,7 +6,8 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.db.models import Q
-from django.views.generic import TemplateView, CreateView, ListView, UpdateView, DeleteView
+from django.utils.decorators import method_decorator
+from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm
 from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem, Review, ProductImage
 from .filters import PizzaOrderFilter
@@ -143,8 +144,7 @@ def UserEditView(request, pk):
     return render(request, 'user_info/edit_info.html', context)
 
 
-# TODO: Make it work with CBV
-# @login_required(login_url=reverse_lazy('sign_in'))
+@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
 class UserAddressView(TemplateView):
     template_name = 'user_info/show_address.html'
 
@@ -228,7 +228,7 @@ def DeleteFromCartView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
     pizza = cart_item.pizza
     user = request.user
-    cart = get_object_or_404(Cart,user=user)
+    cart = get_object_or_404(Cart, user=user)
 
     # Removes pizza from cart
     cart_item.delete()
@@ -394,9 +394,8 @@ def DeleteOrderView(request, pk):
     return redirect('menu')
 
 
-# TODO: Make it work with CBV
-# @login_required(login_url=reverse_lazy('sign_in'))
-# @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
+@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
+@method_decorator(allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home')), name='dispatch')
 class CreatePizzaView(CreateView):
     model = Pizza
     form_class = PizzaForm
@@ -425,9 +424,8 @@ def EditPizzaView(request, pk):
     return render(request, 'pizza/edit_pizza.html', context)
 
 
-# TODO: Make it work with CBV
-# @login_required(login_url=reverse_lazy('sign_in'))
-# @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
+@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
+@method_decorator(allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home')), name='dispatch')
 class DeletePizzaView(DeleteView):
     model = Pizza
     template_name = 'pizza/delete_pizza.html'
