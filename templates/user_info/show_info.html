@@ -12,7 +12,9 @@
         <div class="show-info-avatar-info-container">
             <div class="show-info-avatar-container">
                 <div class="cover-avatar-container">
-                    {% if user|has_group:"order_staff" %}
+                    {% if current_user.is_superuser %}
+                        <p class="staff-p">SUPER-USER</p>
+                    {% elif user|has_group:"order_staff" %}
                         <p class="staff-p">ORDER STAFF</p>
                     {% elif user|has_group:"settings_staff" %}
                         <p class="staff-p">SETTINGS STAFF</p>

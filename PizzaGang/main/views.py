@@ -440,7 +440,8 @@ def ShowUsersSettingsView(request):
 
     context = {
         'user_list': user_list,
-        'username_filter': username_filter
+        'username_filter': username_filter,
+        'in_users': True
     }
 
     return render(request, 'admin/admin_settings_users.html', context)
@@ -454,7 +455,8 @@ def ShowPizzaSettingsView(request):
 
     context = {
         'pizza_list': pizza_list,
-        'name_filter': name_filter
+        'name_filter': name_filter,
+        'in_pizza': True
     }
 
     return render(request, 'admin/admin_settings_pizza.html', context)
@@ -468,7 +470,8 @@ def ShowOrdersSettingsView(request):
 
     context = {
         'order_list': order_list,
-        'username_filter': username_filter
+        'username_filter': username_filter,
+        'in_orders': True
     }
 
     return render(request, 'admin/admin_settings_orders.html', context)
@@ -483,7 +486,8 @@ def ShowOffersSettingsView(request):
 
     context = {
         'offer_list': offer_list,
-        'in_progress': in_progress
+        'in_progress': in_progress,
+        'in_offers': True
     }
 
     return render(request, 'admin/admin_settings_offers.html', context)

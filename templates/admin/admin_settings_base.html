@@ -13,13 +13,34 @@
         <div class="settings-left-sidebar">
             <p>Settings</p>
             <hr>
-            <a href="{% url 'show_users_settings' %}">Users</a>
-            <a href="{% url 'show_pizza_settings' %}">Pizza</a>
-            <a href="{% url 'show_orders_settings' %}">Orders</a>
-            <a href="{% url 'show_offers_settings' %}">Offers</a>
+            {% if in_users %}
+                <a href="{% url 'show_users_settings' %}"><i class="fa-solid fa-circle"></i> Users</a>
+            {% else %}
+                <a href="{% url 'show_users_settings' %}">Users</a>
+            {% endif %}
+
+            {% if in_pizza %}
+                <a href="{% url 'show_pizza_settings' %}"><i class="fa-solid fa-circle"></i> Pizza</a>
+            {% else %}
+                <a href="{% url 'show_pizza_settings' %}">Pizza</a>
+            {% endif %}
+
+            {% if in_orders %}
+                <a href="{% url 'show_orders_settings' %}"><i class="fa-solid fa-circle"></i> Orders</a>
+            {% else %}
+                <a href="{% url 'show_orders_settings' %}">Orders</a>
+            {% endif %}
+
+            {% if in_offers %}
+                <a href="{% url 'show_offers_settings' %}"><i class="fa-solid fa-circle"></i> Offers</a>
+            {% else %}
+                <a href="{% url 'show_offers_settings' %}">Offers</a>
+            {% endif %}
+
             <a href="{% url 'menu' %}"><i class="fa-solid fa-angle-left"></i> Menu</a>
             <a href="{% url 'products' %}"><i class="fa-solid fa-angle-left"></i> Products</a>
             <a href="{% url 'about' %}"><i class="fa-solid fa-angle-left"></i> About</a>
+            <a href="{% url 'home' %}"><i class="fa-solid fa-angle-left"></i> Home</a>
         </div>
 
         <div class="admin-settings-content-container">

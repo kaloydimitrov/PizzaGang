@@ -26,7 +26,7 @@
         {% for user in user_list %}
             <div class="user-container">
                 <div class="user-username-container">
-                    <a href="{% url 'show_user' user.pk %}">{{ user.username|truncatechars:16 }}</a>
+                    <a href="{% url 'show_user_public' user.pk %}">{{ user.username|truncatechars:16 }}</a>
                 </div>
                 <div class="user-info">
                     <p>ID: {{ user.pk }} <b>-</b> {{ user.date_joined }}</p>
@@ -62,7 +62,7 @@
                     {% endif %}
                 </div>
                 <div class="user-show-a-container">
-                    <a href="{% url 'show_user' user.pk %}">Show User</a>
+                    <a href="{% url 'show_user_public' user.pk %}">Show User</a>
                 </div>
             </div>
         {% endfor %}

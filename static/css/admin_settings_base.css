@@ -41,6 +41,10 @@
     padding: 10px;
 }
 
+.settings-left-sidebar i {
+    color: purple;
+}
+
 .admin-settings-content-container {
     padding-left: 20px;
     padding-right: 20px;
