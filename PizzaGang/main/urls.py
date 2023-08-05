@@ -58,7 +58,7 @@ urlpatterns = (
         path('show/<int:pk>/', ShowReviewsUserView, name='show_user_reviews'),
         path('delete/<int:pk>/', DeleteReviewView, name='delete_review')
     ])),
-    path('pizzagang-admin/', include([
+    path('pizza-gang-admin/', include([
         path('show/', ShowOrdersAllView, name='show_admin'),
         path('settings/', include([
             path('users/', ShowUsersSettingsView, name='show_users_settings'),
