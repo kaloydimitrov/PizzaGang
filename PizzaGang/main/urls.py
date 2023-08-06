@@ -9,7 +9,7 @@ from .views import HomeView, SignUpView, SignInView, SignOutView, MenuView, User
                     ShowReviewsUserView, DeleteReviewView, UserShowPublicView, ProductsView, AboutView
 
 urlpatterns = (
-    path('', HomeView, name='home'),
+    path('', HomeView.as_view(), name='home'),
     path('products/', ProductsView.as_view(), name='products'),
     path('about/', AboutView.as_view(), name='about'),
     path('identity/', include([

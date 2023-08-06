@@ -16,22 +16,23 @@ from .decorators import allowed_groups
 User = get_user_model()
 
 
-def HomeView(request):
-    offer_list = Offer.objects.filter(in_progress=False, is_active=True)
-    review_list = Review.objects.all().order_by('-created_at')
-    pizza_list_veggie = Pizza.objects.filter(Q(is_vege=True) & ~Q(is_offer=True) & ~Q(is_special=True))
-    pizza_list_offer = Pizza.objects.filter(Q(is_offer=True) & ~Q(is_vege=True) & ~Q(is_special=True))
-    pizza_list_special = Pizza.objects.filter(Q(is_special=True) & ~Q(is_vege=True) & ~Q(is_offer=True))
+class HomeView(TemplateView):
+    template_name = 'index.html'
 
-    context = {
-        'offer_list': offer_list,
-        'review_list': review_list,
-        'pizza_list_veggie': pizza_list_veggie,
-        'pizza_list_offer': pizza_list_offer,
-        'pizza_list_special': pizza_list_special
-    }
+    def get_context_data(self, **kwargs):
+        offer_list = Offer.objects.filter(in_progress=False, is_active=True)
+        review_list = Review.objects.all().order_by('-created_at')
+        pizza_list_veggie = Pizza.objects.filter(Q(is_vege=True) & ~Q(is_offer=True) & ~Q(is_special=True))
+        pizza_list_offer = Pizza.objects.filter(Q(is_offer=True) & ~Q(is_vege=True) & ~Q(is_special=True))
+        pizza_list_special = Pizza.objects.filter(Q(is_special=True) & ~Q(is_vege=True) & ~Q(is_offer=True))
 
-    return render(request, 'index.html', context)
+        context = super().get_context_data(**kwargs)
+        context['offer_list'] = offer_list
+        context['review_list'] = review_list
+        context['pizza_list_veggie'] = pizza_list_veggie
+        context['pizza_list_offer'] = pizza_list_offer
+        context['pizza_list_special'] = pizza_list_special
+        return context
 
 
 class ProductsView(ListView):
