@@ -158,7 +158,7 @@ class UserAddressView(TemplateView):
 class MenuView(ListView):
     template_name = 'pizza/menu.html'
     model = Pizza
-    queryset = Pizza.objects.order_by('price')
+    queryset = Pizza.objects.order_by('price', 'name')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
