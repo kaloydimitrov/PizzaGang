@@ -1,5 +1,5 @@
 .product-header {
-    height: 150px;
+    height: 140px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -9,8 +9,9 @@
 }
 
 .product-header p {
+    margin: 0;
     font-size: 50px;
-    letter-spacing: .2rem;
+    letter-spacing: .1rem;
 }
 
 .filters-container-main {
@@ -44,7 +45,7 @@
 }
 
 .filters-container-header p {
-    font-size: 45px;
+    font-size: 50px;
     margin: 0;
 }
 
@@ -60,8 +61,8 @@
 
 .filters-container-info p {
     font-size: 22px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     padding-top: 20px;
     margin: 0;
 }
@@ -98,7 +99,8 @@
 }
 
 .product-info p {
-    font-size: 30px;
+    font-size: 22px;
+    margin: 0;
 }
 
 .product-container {
