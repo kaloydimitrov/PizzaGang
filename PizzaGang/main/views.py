@@ -32,6 +32,7 @@ class HomeView(TemplateView):
         context['pizza_list_veggie'] = pizza_list_veggie
         context['pizza_list_offer'] = pizza_list_offer
         context['pizza_list_special'] = pizza_list_special
+        context['in_home'] = True
         return context
 
 

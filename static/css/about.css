@@ -1,33 +1,37 @@
 .about-container {
-    position: relative;
     margin-left: auto;
     margin-right: auto;
     width: 1000px;
 }
 
-.about-container .title {
+.title-container {
     position: relative;
-    font-size: 50px;
-    margin-top: 50px;
-    margin-bottom: 80px;
+    height: 160px;
+    display: flex;
+    align-items: center;
 }
 
-.black-bar {
+.title-container p {
+    margin: 0;
+    font-size: 50px;
+}
+
+.title-container .black-bar {
     position: absolute;
     height: 7px;
     width: 100px;
     background-color: black;
-    top: 80px;
+    bottom: 28px;
     border-radius: 10px;
+}
+
+.title-container .fa-pizza-slice {
+    position: absolute;
+    bottom: 28px;
+    right: 0;
+    font-size: 100px;
 }
 
 .about-container .info {
     font-size: 22px;
-}
-
-.fa-pizza-slice {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 100px;
 }

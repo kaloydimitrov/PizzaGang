@@ -73,6 +73,10 @@ hr {
 }
 
 /*List User Reviews*/
+.main-review-container {
+    margin-bottom: 30px;
+}
+
 .avatar-review-container {
     display: grid;
     grid-template-columns: 200px 1fr;

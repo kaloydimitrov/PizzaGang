@@ -88,8 +88,8 @@
                 <h1>Offer <i class="fa-solid fa-fire"></i> {{ offer_item.offer.name|truncatechars:55 }}</h1>
             </div>
             <div class="offer-price-container">
-                <p><s>{{ offer_item.offer.total_price|floatformat:2 }} lv.</s></p>
                 <p>{{ offer_item.offer.final_price|floatformat:2 }} lv.</p>
+                <p><s>{{ offer_item.offer.total_price|floatformat:2 }} lv.</s></p>
             </div>
 
             {% for cart_item in offer_item.offer.cartitem_set.all %}

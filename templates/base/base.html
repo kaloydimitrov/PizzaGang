@@ -21,6 +21,9 @@
         body {
             margin: 0;
             padding-top: 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
             background-color: bisque;
             {#background-image: url("{% static 'images/background.jpg' %}");#}
         }
@@ -145,6 +148,35 @@
         .img-selector:hover .message-container {
             display: block;
         }
+
+        .footer {
+            margin-top: auto;
+            position: relative;
+            height: 300px;
+            background-color: red;
+        }
+
+        .footer .social-media-container {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            top: 220px;
+            background-color: yellow;
+            display: grid;
+            grid-template-columns: 100px 100px 100px 100px 100px;
+            justify-content: center;
+        }
+
+        .social-media-container div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .social-media-container i {
+            font-size: 40px;
+        }
     </style>
 </head>
 <body>
@@ -155,6 +187,13 @@
         </a>
     </div>
     <div class="menu-container">
+        <div>
+            {% if in_home %}
+                <a style="color: black; font-weight: bold" href="{% url 'home' %}">Home</a>
+            {% else %}
+                <a href="{% url 'home' %}">Home</a>
+            {% endif %}
+        </div>
         <div>
             {% if in_about %}
                 <a style="color: black; font-weight: bold" href="{% url 'about' %}">PizzaGang</a>
@@ -224,5 +263,34 @@
 </div>
 {% block content %}
 {% endblock %}
+<div class="footer">
+    <div class="social-media-container">
+        <div>
+            <a href="https://facebook.com">
+                <i class="fa-brands fa-facebook"></i>
+            </a>
+        </div>
+        <div>
+            <a href="https://twitter.com">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
+        </div>
+        <div>
+            <a href="https://instagram.com">
+                <i class="fa-brands fa-instagram"></i>
+            </a>
+        </div>
+        <div>
+            <a href="https://tiktok.com">
+                <i class="fa-brands fa-tiktok"></i>
+            </a>
+        </div>
+        <div>
+            <a href="">
+                <i class="fa-brands fa-github"></i>
+            </a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -13,32 +13,34 @@
             <p>You don't have any reviews yet... click <a href="{% url 'create_review' %}">here</a> to make one!</p>
         </div>
     {% endif %}
-    {% for review in review_list %}
-        <div class="review-container" id="user-review-container">
-            <a href="{% url 'delete_review' review.pk %}"><i class="fa-solid fa-circle-minus"></i></a>
-            <div class="avatar-review-container">
-                <div>
-                    {% if review.user.profile.avatar %}
-                        <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
-                    {% else %}
-                        <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-img">
-                    {% endif %}
+    <div class="main-review-container">
+        {% for review in review_list %}
+            <div class="review-container" id="user-review-container">
+                <a href="{% url 'delete_review' review.pk %}"><i class="fa-solid fa-circle-minus"></i></a>
+                <div class="avatar-review-container">
+                    <div>
+                        {% if review.user.profile.avatar %}
+                            <img src="{{ review.user.profile.avatar.url }}" alt="avatar-img">
+                        {% else %}
+                            <img src="{% static 'images/avatars/default-avatar.jpg' %}" alt="default-img">
+                        {% endif %}
+                    </div>
+                    <div>
+                        <p>{{ review.created_at }}</p>
+                    </div>
                 </div>
-                <div>
-                    <p>{{ review.created_at }}</p>
+                <p class="text">{{ review.text }}</p>
+                {#ChatGPT#}
+                <div class="star-rating">
+                    {% for i in '12345' %}
+                        {% if i|add:'0' <= review.rating %}
+                            <i class="fas fa-solid fa-star"></i>
+                        {% else %}
+                            <i class="far fa-regular fa-star"></i>
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            <p class="text">{{ review.text }}</p>
-            {#ChatGPT#}
-            <div class="star-rating">
-                {% for i in '12345' %}
-                    {% if i|add:'0' <= review.rating %}
-                        <i class="fas fa-solid fa-star"></i>
-                    {% else %}
-                        <i class="far fa-regular fa-star"></i>
-                    {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 {% endblock %}

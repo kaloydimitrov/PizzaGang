@@ -269,6 +269,7 @@
 .filters-header p {
     font-size: 50px;
     margin: 0;
+    color: dimgray;
 }
 
 .filters-header img {
@@ -289,7 +290,7 @@
     cursor: default;
     position: relative;
     height: 200px;
-    box-shadow: rgba(100, 100, 111, 0.5) 0 7px 29px 0;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
     border-radius: 10px;
 }
 
@@ -300,7 +301,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: deepskyblue;
+    background-image: linear-gradient(rgb(133, 232, 0), rgb(107, 152, 60));
     width: 100%;
     border-radius: 10px 10px 0 0;
 }
@@ -346,12 +347,14 @@
 
 /*Review*/
 .reviews-title {
-    font-size: 90px;
+    font-size: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 20px 0;
-    letter-spacing: 15px;
+    letter-spacing: 5px;
+    font-weight: bold;
+    color: white;
 }
 
 .review-home-container {
@@ -361,6 +364,8 @@
     display: grid;
     grid-template-columns: 1fr;
     row-gap: 20px;
+    border-radius: 10px 10px 0 0;
+    background-image: linear-gradient(to top, rgba(255,0,0,0), dimgray);
 }
 
 .username-p {
