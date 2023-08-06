@@ -154,17 +154,17 @@ class UserAddressView(TemplateView):
         return context
 
 
-def MenuView(request):
-    pizza_list = Pizza.objects.all()
-    pizza_filter = PizzaOrderFilter(request.GET, queryset=pizza_list)
+class MenuView(ListView):
+    template_name = 'pizza/menu.html'
+    model = Pizza
+    queryset = Pizza.objects.order_by('price')
 
-    context = {
-        'pizza_list': pizza_list,
-        'pizza_filter': pizza_filter,
-        'in_menu': True
-    }
-
-    return render(request, 'pizza/menu.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pizza_filter = PizzaOrderFilter(self.request.GET, queryset=self.queryset)
+        context['pizza_filter'] = pizza_filter
+        context['in_menu'] = True
+        return context
 
 
 @login_required(login_url=reverse_lazy('sign_in'))

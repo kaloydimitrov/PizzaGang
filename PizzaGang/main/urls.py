@@ -23,7 +23,7 @@ urlpatterns = (
         path('edit/<int:pk>/', UserEditView, name='edit_user'),
         path('address/', UserAddressView.as_view(), name='show_user_address')
     ])),
-    path('menu/', MenuView, name='menu'),
+    path('menu/', MenuView.as_view(), name='menu'),
     path('pizza/', include([
         path('create/', CreatePizzaView.as_view(), name='create_pizza'),
         path('edit/<int:pk>/', EditPizzaView, name='edit_pizza'),
