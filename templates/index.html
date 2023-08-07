@@ -146,7 +146,11 @@
             <p class="reviews-title">Reviews</p>
             {% for review in review_list %}
                 <div class="review-container" id="home-review-container">
-                    <p class="username-p" style="color: white">{{ review.user.username }}</p>
+                    {% if review.user == current_user %}
+                        <p class="username-p" style="color: white">{{ review.user.username }} (You)</p>
+                    {% else %}
+                        <p class="username-p" style="color: white">{{ review.user.username }}</p>
+                    {% endif %}
                     <div class="avatar-review-container">
                         <div class="avatar-review-container-inside">
                             <a href="{% url 'show_user_public' review.user.pk %}">
