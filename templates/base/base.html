@@ -153,7 +153,77 @@
             margin-top: auto;
             position: relative;
             height: 300px;
-            background-color: red;
+        }
+
+        .footer a, p {
+            margin: 0;
+        }
+
+        .footer a {
+            display: block;
+        }
+
+        .footer .main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 80px;
+            background-color: #ffd6a9;
+            display: flex;
+            justify-content: center;
+            padding-top: 30px;
+        }
+
+        .footer .main-footer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            column-gap: 200px;
+            width: 800px;
+        }
+
+        .main-footer div {
+            width: 300px;
+        }
+
+        .footer-info .apply-p {
+            cursor: pointer;
+            position: relative;
+            font-size: 20px;
+            background-color: bisque;
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .apply-p i {
+            position: absolute;
+            right: 10px;
+        }
+
+        .footer-info .contact-p {
+            font-size: 30px;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+        }
+
+        .footer-links p {
+            font-size: 16px;
+            margin-top: 15px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: dimgray;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
         }
 
         .footer .social-media-container {
@@ -162,7 +232,7 @@
             left: 0;
             right: 0;
             top: 220px;
-            background-color: yellow;
+            background-color: dimgray;
             display: grid;
             grid-template-columns: 100px 100px 100px 100px 100px;
             justify-content: center;
@@ -176,6 +246,7 @@
 
         .social-media-container i {
             font-size: 40px;
+            color: white;
         }
     </style>
 </head>
@@ -264,6 +335,25 @@
 {% block content %}
 {% endblock %}
 <div class="footer">
+    <div class="main">
+        <div class="main-footer">
+            <div class="footer-info">
+                <p class="contact-p">Contact us at:<br><b>help@pizzagang.bg</b></p>
+                <p class="apply-p">Apply for a job <i class="fa-solid fa-briefcase"></i></p>
+            </div>
+            <div class="footer-links">
+                <div class="links">
+                    <a href="">Manage cookies</a>
+                    <a href="">Personal data protection</a>
+                    <a href="">Terms and Conditions</a>
+                    <a href="">Support</a>
+                    <a href="{% url 'about' %}">About</a>
+
+                    <p><b>&copy; 2023 - PizzaGang - All Rights Reserved</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="social-media-container">
         <div>
             <a href="https://facebook.com">

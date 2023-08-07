@@ -6,13 +6,24 @@ hr {
 }
 
 /*Create Review*/
+#star-rating {
+    height: 50px;
+    display: flex;
+    align-items: center;
+}
+
 .star {
     cursor: pointer;
     color: yellow;
     font-size: 30px;
+    transition: font-size 0.2s;
 }
 
-.custom-textarea {
+.star:hover {
+    font-size: 58px;
+}
+
+.review-container textarea {
     resize: none;
     text-align: left;
     direction: ltr;
@@ -22,7 +33,11 @@ hr {
     font-size: 20px;
 }
 
-.custom-textarea:focus {
+.review-container textarea::placeholder {
+    padding-left: 5px;
+}
+
+.review-container textarea:focus {
     outline: none;
 }
 
@@ -62,6 +77,7 @@ hr {
     background-color: rgb(129, 182, 76);
     border-radius: 0 0 10px 10px;
     border: none;
+    transition: background-color 0.3s;
 }
 
 .create-review:hover {
@@ -151,7 +167,7 @@ hr {
 /*List Info Reviews*/
 #review-pr-info-container {
     padding: 20px;
-
+    margin-bottom: 20px;
 }
 
 /*List Home Reviews*/

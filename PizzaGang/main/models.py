@@ -116,7 +116,7 @@ class Order(models.Model):
 class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     text = models.TextField()
-    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)])
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], default=1)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

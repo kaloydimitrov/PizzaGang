@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
-from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm
+from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm, ReviewForm
 from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem, Review, ProductImage
 from .filters import PizzaOrderFilter
 from .decorators import allowed_groups
@@ -634,16 +634,22 @@ def CreateReviewView(request):
     user = request.user
 
     if request.method == 'POST':
-        text = request.POST.get('text')
+        form = ReviewForm(request.POST)
         rating = request.POST.get('rating')
+        if form.is_valid():
+            review = Review(user=user, rating=rating, text=form.cleaned_data['text'])
+            review.save()
 
-        review = Review(user=user, text=text, rating=rating)
-        review.save()
+            user_reviews_link = f'/review/show/{user.pk}/'
+            return redirect(user_reviews_link)
+    else:
+        form = ReviewForm()
 
-        user_reviews_link = f'/review/show/{user.pk}/'
-        return redirect(user_reviews_link)
+    context = {
+        'form': form
+    }
 
-    return render(request, 'review/create_review.html')
+    return render(request, 'review/create_review.html', context)
 
 
 @login_required(login_url=reverse_lazy('sign_in'))
