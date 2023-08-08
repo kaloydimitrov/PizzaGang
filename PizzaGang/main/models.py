@@ -5,6 +5,15 @@ from phonenumber_field.modelfields import PhoneNumberField
 from .validators import validate_positive
 
 
+def get_cart_item_price(item):
+    if item.is_small:
+        return item.pizza.final_price * 0.75
+    elif item.is_big:
+        return item.pizza.final_price
+    elif item.is_large:
+        return item.pizza.final_price * 1.25
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='static/images/avatars/', null=True, blank=True)
@@ -39,7 +48,7 @@ class Pizza(models.Model):
     @property
     def final_price(self):
         if self.discount:
-            return (self.discount / 100) * self.price
+            return (1 - self.discount / 100) * self.price
         return self.price
 
     def __str__(self):
@@ -69,12 +78,18 @@ class CartItem(models.Model):
     quantity = models.IntegerField(default=1)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, blank=True, null=True)
     offer = models.ForeignKey('Offer', on_delete=models.CASCADE, blank=True, null=True)
-    final_price = models.FloatField(validators=[validate_positive], default=0.00)
     is_small = models.BooleanField(default=False)
     is_big = models.BooleanField(default=True)
     is_large = models.BooleanField(default=False)
     is_half_price = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def final_price(self):
+        if self.is_half_price:
+            return get_cart_item_price(self) / 2
+        else:
+            return get_cart_item_price(self)
 
     def __str__(self):
         if self.cart:
@@ -99,8 +114,8 @@ class Offer(models.Model):
         total_price = 0
 
         cart_items = CartItem.objects.filter(offer=self)
-        for item in cart_items:
-            total_price += item.final_price
+        for cart_item in cart_items:
+            total_price += get_cart_item_price(cart_item)
 
         return total_price
 

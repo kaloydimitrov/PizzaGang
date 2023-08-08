@@ -20,7 +20,7 @@ class HomeView(TemplateView):
     template_name = 'index.html'
 
     def get_context_data(self, **kwargs):
-        offer_list = Offer.objects.filter(in_progress=False, is_active=True)
+        offer_list = Offer.objects.filter(in_progress=False, is_active=True).order_by('final_price', 'name')
         review_list = Review.objects.all().order_by('-created_at')
         pizza_list_veggie = Pizza.objects.filter(Q(is_vege=True) & ~Q(is_offer=True) & ~Q(is_special=True))
         pizza_list_offer = Pizza.objects.filter(Q(is_offer=True) & ~Q(is_vege=True) & ~Q(is_special=True))
@@ -176,7 +176,7 @@ def AddToCartView(request, pk):
     cart = get_object_or_404(Cart, user=user)
 
     # Adds new pizza in cart
-    cart_item = CartItem(cart=cart, pizza=pizza, final_price=pizza.final_price)
+    cart_item = CartItem(cart=cart, pizza=pizza)
     cart_item.save()
 
     return redirect('menu')
@@ -186,15 +186,10 @@ def AddToCartView(request, pk):
 def SelectItemSizeView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
 
-    # big_button
-    multiply_number = 1
-
     if 'small_button' in request.POST:
         cart_item.is_small = True
         cart_item.is_big = False
         cart_item.is_large = False
-
-        multiply_number = 0.75
 
     elif 'big_button' in request.POST:
         cart_item.is_small = False
@@ -205,13 +200,6 @@ def SelectItemSizeView(request, pk):
         cart_item.is_small = False
         cart_item.is_big = False
         cart_item.is_large = True
-
-        multiply_number = 1.25
-
-    if cart_item.is_half_price:
-        cart_item.final_price = (cart_item.pizza.final_price / 2) * multiply_number
-    else:
-        cart_item.final_price = cart_item.pizza.final_price * multiply_number
 
     cart_item.save()
 
@@ -245,34 +233,25 @@ def ShowCartView(request):
     cart_items = CartItem.objects.filter(cart=cart).order_by('created_at')
     offer_items = OfferItem.objects.filter(cart=cart)
 
-    # Pizza half price
-    if cart_items.count() >= 2:
-        cart_item = cart_items.order_by('pizza__price')[0]
-
-        if not cart_item.is_half_price:
-            cart_item.final_price = cart_item.final_price / 2
-            cart_item.is_half_price = True
-            cart_item.save()
-
+    # Calculates BOGO offer
     if cart_items.count() == 1 and cart_items.get().is_half_price:
         cart_item = cart_items.get()
-        cart_item.is_small = False
-        cart_item.is_big = True
-        cart_item.is_large = False
         cart_item.is_half_price = False
-        cart_item.final_price = cart_item.pizza.final_price
         cart_item.save()
 
-    elif cart_items.filter(is_half_price=True).count() > 1:
-        cart_item = cart_items.order_by('pizza__price')[1]
-        cart_item.is_small = False
-        cart_item.is_big = True
-        cart_item.is_large = False
-        cart_item.is_half_price = False
-        cart_item.final_price = cart_item.pizza.final_price
-        cart_item.save()
+    elif cart_items.count() >= 2:
+        cheapest_cart_items = CartItem.objects.filter(cart=cart).order_by('pizza__price', 'pizza__name', 'pk')
 
-    # Calculates total price
+        cheapest_cart_item = cheapest_cart_items[0]
+        cheapest_cart_item.is_half_price = True
+        cheapest_cart_item.save()
+
+        if cart_items.filter(is_half_price=True).count() > 1:
+            second_cheap_cart_item = cheapest_cart_items[1]
+            second_cheap_cart_item.is_half_price = False
+            second_cheap_cart_item.save()
+
+    # Calculates cart's total price
     cart_total_price = 0
     for item in cart_items:
         cart_total_price += item.final_price
@@ -299,12 +278,26 @@ def CreateOrderView(request):
 
     user = request.user
     cart = get_object_or_404(Cart, user=user)
-
-    order_items = []
-
     cart_items = CartItem.objects.filter(cart=cart)
+    offer_items = OfferItem.objects.filter(cart=cart)
+
+    order_items_list = []
+
     for item in cart_items:
-        size = 'None'
+        order_items_list.append(item)
+        item.delete()
+
+    for offer_item in offer_items:
+        cart_items = CartItem.objects.filter(offer=offer_item.offer)
+        for item in cart_items:
+            order_items_list.append(item)
+
+        offer_item.delete()
+
+    order_items_string_list = []
+
+    for item in order_items_list:
+        size = None
         if item.is_small:
             size = 'SMALL'
         elif item.is_big:
@@ -312,25 +305,9 @@ def CreateOrderView(request):
         elif item.is_large:
             size = 'LARGE'
 
-        order_items.append(f"{item.pizza.name} - {size}")
-        item.delete()
+        order_items_string_list.append(f"{item.pizza.name} - {size}")
 
-    offer_items = OfferItem.objects.filter(cart=cart)
-    for offer_item in offer_items:
-        cart_items = CartItem.objects.filter(offer=offer_item.offer)
-        for item in cart_items:
-            size = 'None'
-            if item.is_small:
-                size = 'SMALL'
-            elif item.is_big:
-                size = 'BIG'
-            elif item.is_large:
-                size = 'LARGE'
-
-            order_items.append(f"{item.pizza.name} - {size}")
-        offer_item.delete()
-
-    order_items_string = ' • '.join(order_items)
+    order_items_string = ' • '.join(order_items_string_list)
 
     order = Order(user=user, cart_items=order_items_string, total_price=cart.total_price)
     order.save()
@@ -472,7 +449,7 @@ def ShowOrdersSettingsView(request):
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def ShowOffersSettingsView(request):
     name_filter = request.GET.get('name', '')
-    offer_list = Offer.objects.filter(name__icontains=name_filter, in_progress=False)
+    offer_list = Offer.objects.filter(name__icontains=name_filter, in_progress=False).order_by('-is_active', 'name')
     in_progress = True if Offer.objects.filter(in_progress=True).count() >= 1 else False
 
     context = {
