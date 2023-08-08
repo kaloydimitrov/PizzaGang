@@ -34,6 +34,10 @@
                                         {% if item.is_large %}
                                             <b>Large</b>
                                         {% endif %}
+
+                                        {% if item.pizza.discount %}
+                                            &nbsp;<b>(-{{ item.pizza.discount }}&percnt;)</b>
+                                        {% endif %}
                                         </p>
                                     </div>
                                     <div class="pizza-img-container">

@@ -35,7 +35,12 @@ class Pizza(models.Model):
     is_offer = models.BooleanField(blank=True, null=True)
     is_vege = models.BooleanField(blank=True, null=True)
     discount = models.IntegerField(blank=True, null=True)
-    duplication_count = models.IntegerField(default=1)
+
+    @property
+    def final_price(self):
+        if self.discount:
+            return (self.discount / 100) * self.price
+        return self.price
 
     def __str__(self):
         return f"{self.name}"
@@ -85,10 +90,19 @@ class CartItem(models.Model):
 class Offer(models.Model):
     name = models.CharField(max_length=80, blank=True, null=True)
     image = models.ImageField(upload_to='static/images/offers/', blank=True, null=True)
-    total_price = models.FloatField(validators=[validate_positive], default=0.00)
     final_price = models.FloatField(validators=[validate_positive], default=0.00)
     is_active = models.BooleanField(default=False)
     in_progress = models.BooleanField(default=True)
+
+    @property
+    def total_price(self):
+        total_price = 0
+
+        cart_items = CartItem.objects.filter(offer=self)
+        for item in cart_items:
+            total_price += item.final_price
+
+        return total_price
 
     def __str__(self):
         return f"{self.name} | {self.final_price} lv."

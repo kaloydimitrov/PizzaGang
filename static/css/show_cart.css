@@ -51,25 +51,18 @@ hr {
     position: relative;
 }
 
-.cart-container .duplication-container {
+.cart-container .discount-p {
     position: absolute;
-    top: 10px;
-    right: 10px;
-    border-radius: 100%;
-    border: 1px solid orangered;
+    top: 5px;
+    right: 5px;
     background-color: rgba(0, 0, 0, 0.5);
-    height: 50px;
-    width: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.duplication-container p {
-    margin: 0;
-    font-size: 40px;
-    font-weight: bolder;
+    display: inline-block;
     color: orangered;
+    border: 1px solid orangered;
+    border-radius: 10px;
+    font-weight: lighter;
+    font-size: 33px;
+    padding: 0 9px 0 9px;
 }
 
 .cart-container .pizza-info {
@@ -249,14 +242,18 @@ hr {
     grid-template-columns: 350px 1fr 200px;
 }
 
-#no-dup-offer-container {
-    height: auto;
-    width: auto;
-    border-radius: 10px;
-    color: orangered;
+.offer-discount-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
-#no-dup-offer-container .offer {
+.offer-discount-container p {
+    background-color: rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    color: orangered;
+    border: 1px solid orangered;
+    border-radius: 10px;
     font-weight: lighter;
     font-size: 33px;
     padding: 0 9px 0 9px;

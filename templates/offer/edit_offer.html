@@ -27,7 +27,7 @@
             {% for pizza in pizza_list %}
                 <div class="pizza-container">
                     <div class="pizza-name-container">
-                        <h1>{{ pizza.name }} - {{ pizza.price|floatformat:2 }} lv.</h1>
+                        <h1>{{ pizza.name }} - {{ pizza.final_price|floatformat:2 }} lv.</h1>
                     </div>
                     <div class="pizza-info">
                         <p>ID: {{ pizza.pk }}</p>

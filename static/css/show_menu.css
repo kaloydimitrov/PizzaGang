@@ -108,6 +108,21 @@
     box-shadow: rgba(100, 100, 111, 0.3) 0 7px 29px 0;
 }
 
+.pizza-container .discount {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: inline-block;
+    color: orangered;
+    border: 1px solid orangered;
+    border-radius: 10px;
+    font-weight: lighter;
+    font-size: 33px;
+    padding: 0 9px 0 9px;
+    z-index: 1;
+}
+
 .edit-delete-pizza-container {
     position: absolute;
     top: 0;

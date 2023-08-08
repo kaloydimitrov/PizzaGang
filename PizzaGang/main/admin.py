@@ -27,8 +27,7 @@ class PizzaAdmin(admin.ModelAdmin):
     search_fields = ('name', 'ingredients')
     list_display = ('name', 'price', 'ingredients', 'is_special', 'is_offer', 'is_vege')
     list_filter = ('is_special', 'is_offer', 'is_vege')
-    ordering = ('name', 'price')
-    readonly_fields = ('duplication_count', 'discount')
+    ordering = ('price', 'name')
 
 
 admin.site.register(Pizza, PizzaAdmin)

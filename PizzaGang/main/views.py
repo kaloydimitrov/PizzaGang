@@ -176,13 +176,8 @@ def AddToCartView(request, pk):
     cart = get_object_or_404(Cart, user=user)
 
     # Adds new pizza in cart
-    cart_item = CartItem(cart=cart, pizza=pizza, final_price=pizza.price)
+    cart_item = CartItem(cart=cart, pizza=pizza, final_price=pizza.final_price)
     cart_item.save()
-
-    # Checks for duplication
-    duplication_count = CartItem.objects.filter(cart=cart, pizza=pizza).count()
-    pizza.duplication_count = duplication_count
-    pizza.save()
 
     return redirect('menu')
 
@@ -214,9 +209,9 @@ def SelectItemSizeView(request, pk):
         multiply_number = 1.25
 
     if cart_item.is_half_price:
-        cart_item.final_price = (cart_item.pizza.price / 2) * multiply_number
+        cart_item.final_price = (cart_item.pizza.final_price / 2) * multiply_number
     else:
-        cart_item.final_price = cart_item.pizza.price * multiply_number
+        cart_item.final_price = cart_item.pizza.final_price * multiply_number
 
     cart_item.save()
 
@@ -228,7 +223,6 @@ def SelectItemSizeView(request, pk):
 @login_required(login_url=reverse_lazy('sign_in'))
 def DeleteFromCartView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
-    pizza = cart_item.pizza
     user = request.user
     cart = get_object_or_404(Cart, user=user)
 
@@ -239,11 +233,6 @@ def DeleteFromCartView(request, pk):
     cart_items = CartItem.objects.filter(cart=cart).count() + OfferItem.objects.filter(cart=cart).count()
     if cart_items == 0:
         return redirect('menu')
-
-    # Checks for duplication
-    duplication_count = CartItem.objects.filter(cart=cart, pizza=pizza).count()
-    pizza.duplication_count = duplication_count
-    pizza.save()
 
     return redirect('show_cart')
 
@@ -271,7 +260,7 @@ def ShowCartView(request):
         cart_item.is_big = True
         cart_item.is_large = False
         cart_item.is_half_price = False
-        cart_item.final_price = cart_item.pizza.price
+        cart_item.final_price = cart_item.pizza.final_price
         cart_item.save()
 
     elif cart_items.filter(is_half_price=True).count() > 1:
@@ -280,7 +269,7 @@ def ShowCartView(request):
         cart_item.is_big = True
         cart_item.is_large = False
         cart_item.is_half_price = False
-        cart_item.final_price = cart_item.pizza.price
+        cart_item.final_price = cart_item.pizza.final_price
         cart_item.save()
 
     # Calculates total price
@@ -513,14 +502,9 @@ def CreateOfferView(request):
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def EditOfferView(request):
     name_filter = request.GET.get('name', '')
-    pizza_list = Pizza.objects.filter(name__icontains=name_filter)
+    pizza_list = Pizza.objects.filter(name__icontains=name_filter).order_by('price', 'name')
     offer = Offer.objects.filter(in_progress=True).get()
-    item_list = CartItem.objects.filter(offer=offer)
-
-    offer_total_price = 0
-    for item in item_list:
-        offer_total_price += item.final_price
-    offer.total_price = offer_total_price
+    item_list = CartItem.objects.filter(offer=offer).order_by('pizza__price', 'pizza__name')
 
     if request.method == 'POST':
         form = OfferForm(request.POST, request.FILES, instance=offer)
@@ -546,7 +530,7 @@ def CreateItemOfferView(request, pk):
     pizza = get_object_or_404(Pizza, pk=pk)
     offer = Offer.objects.filter(in_progress=True).get()
 
-    item = CartItem(pizza=pizza, final_price=pizza.price, offer=offer)
+    item = CartItem(pizza=pizza, final_price=pizza.final_price, offer=offer)
     item.save()
 
     return redirect('edit_offer')

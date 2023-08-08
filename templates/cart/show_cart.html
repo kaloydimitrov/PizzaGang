@@ -19,10 +19,8 @@
     <div class="cart-container">
         <div class="pizza-img">
             <img src="{{ cart_item.pizza.image.url }}" alt="pizza-img">
-            {% if cart_item.pizza.duplication_count > 1 %}
-                <div class="duplication-container">
-                    <p>{{ cart_item.pizza.duplication_count }}</p>
-                </div>
+            {% if cart_item.pizza.discount %}
+                <p class="discount-p">-{{ cart_item.pizza.discount }}&percnt;</p>
             {% endif %}
         </div>
         <div class="pizza-info">
@@ -97,8 +95,11 @@
                 <div class="cart-container" id="no-delete">
                     <div class="pizza-img">
                         <img src="{{ cart_item.pizza.image.url }}" alt="pizza-img">
-                        <div class="duplication-container" id="no-dup-offer-container">
-                            <p class="offer">Offer</p>
+                        <div class="offer-discount-container">
+                            {% if cart_item.pizza.discount %}
+                                <p>-{{ cart_item.pizza.discount }}&percnt;</p>
+                            {% endif %}
+                            <p>Offer</p>
                         </div>
                     </div>
                     <div class="pizza-info">
