@@ -156,12 +156,18 @@ hr {
     text-decoration: underline;
 }
 
-.fa-circle-minus {
+#user-review-container button {
+    cursor: pointer;
     position: absolute;
-    color: orangered;
-    font-size: 40px;
     right: 10px;
     top: 10px;
+    background-color: white;
+    border: 0;
+}
+
+.fa-circle-minus {
+    color: orangered;
+    font-size: 40px;
 }
 
 /*List Info Reviews*/

@@ -18,8 +18,8 @@ urlpatterns = (
         path('sign-out/', SignOutView.as_view(), name='sign_out')
     ])),
     path('user-info/', include([
-        path('show/<int:pk>/', UserShowView, name='show_user'),
-        path('show-public/<int:pk>/', UserShowPublicView, name='show_user_public'),
+        path('show/<int:pk>/', UserShowView.as_view(), name='show_user'),
+        path('show-public/<int:pk>/', UserShowPublicView.as_view(), name='show_user_public'),
         path('edit/<int:pk>/', UserEditView, name='edit_user'),
         path('address/', UserAddressView.as_view(), name='show_user_address')
     ])),
@@ -37,8 +37,8 @@ urlpatterns = (
     ])),
     path('orders/', include([
         path('create/', CreateOrderView, name='create_order'),
-        path('delete/<int:pk>/', DeleteOrderView, name='delete_order'),
-        path('show/<int:pk>/', ShowOrdersUserView, name='show_user_orders'),
+        path('delete/<int:pk>/', DeleteOrderView.as_view(), name='delete_order'),
+        path('show/<int:pk>/', ShowOrdersUserView.as_view(), name='show_user_orders'),
         path('show-all/', ShowOrdersAllView, name='show_all_orders'),
         path('make-finished/<int:pk>/', MakeOrderFinishedView, name='make_finished_order')
     ])),
@@ -55,8 +55,8 @@ urlpatterns = (
     ])),
     path('review/', include([
         path('create/', CreateReviewView, name='create_review'),
-        path('show/<int:pk>/', ShowReviewsUserView, name='show_user_reviews'),
-        path('delete/<int:pk>/', DeleteReviewView, name='delete_review')
+        path('show/<int:pk>/', ShowReviewsUserView.as_view(), name='show_user_reviews'),
+        path('delete/<int:pk>/', DeleteReviewView.as_view(), name='delete_review')
     ])),
     path('pizza-gang-admin/', include([
         path('show/', ShowOrdersAllView, name='show_admin'),

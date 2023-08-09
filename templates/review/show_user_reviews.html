@@ -16,7 +16,10 @@
     <div class="main-review-container">
         {% for review in review_list %}
             <div class="review-container" id="user-review-container">
-                <a href="{% url 'delete_review' review.pk %}"><i class="fa-solid fa-circle-minus"></i></a>
+                <form action="{% url 'delete_review' review.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit"><i class="fa-solid fa-circle-minus"></i></button>
+                </form>
                 <div class="avatar-review-container">
                     <div>
                         {% if review.user.profile.avatar %}

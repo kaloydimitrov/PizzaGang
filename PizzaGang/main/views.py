@@ -5,8 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
+from django.urls import reverse
 from django.db.models import Q
 from django.utils.decorators import method_decorator
+from django.views import View
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
 from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm, ReviewForm
 from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem, Review, ProductImage
@@ -85,35 +87,128 @@ class SignOutView(LogoutView):
     next_page = reverse_lazy('home')
 
 
+class MenuView(ListView):
+    template_name = 'pizza/menu.html'
+    model = Pizza
+    queryset = Pizza.objects.order_by('price', 'name')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pizza_filter = PizzaOrderFilter(self.request.GET, queryset=self.queryset)
+        context['pizza_filter'] = pizza_filter
+        context['in_menu'] = True
+        return context
+
+
+# ------------------------------- User -------------------------------
+class UserShowPublicView(View):
+    @staticmethod
+    def get(request, pk):
+        user = get_object_or_404(User, pk=pk)
+
+        if user == request.user:
+            return redirect(f'/user-info/show/{pk}/')
+
+        review_list = Review.objects.filter(user=user)
+
+        context = {
+            'review_list': review_list,
+            'user': user
+        }
+
+        return render(request, 'user_info/show_public_info.html', context)
+
+
+@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
+class UserShowView(View):
+    @staticmethod
+    def get(request, pk):
+        if request.user.pk != pk:
+            return redirect(f'/user-info/show/{request.user.pk}/')
+
+        user = get_object_or_404(User, pk=pk)
+
+        context = {
+            'user': user
+        }
+
+        return render(request, 'user_info/show_info.html', context)
+
+
+@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
+class UserAddressView(TemplateView):
+    template_name = 'user_info/show_address.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['user'] = self.request.user
+        return context
+
+
+@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
+class ShowOrdersUserView(ListView):
+    model = Order
+    template_name = 'orders/show_user_orders.html'
+    context_object_name = 'orders'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        return Order.objects.filter(user=user).order_by('-created_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        active_orders_count = Order.objects.filter(user=user, is_finished=False).count()
+        context['active_orders_count'] = active_orders_count
+        return context
+
+
+@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
+class DeleteOrderView(DeleteView):
+    model = Order
+    success_url = reverse_lazy('menu')
+
+
+@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
+class ShowReviewsUserView(ListView):
+    template_name = 'review/show_user_reviews.html'
+    context_object_name = 'review_list'
+
+    def get_queryset(self):
+        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        return Review.objects.filter(user=user).order_by('-created_at')
+
+
 @login_required(login_url=reverse_lazy('sign_in'))
-def UserShowView(request, pk):
-    if request.user.pk != pk:
-        return redirect('home')
+def CreateReviewView(request):
+    user = request.user
 
-    user = get_object_or_404(User, pk=pk)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        rating = request.POST.get('rating')
+        if form.is_valid():
+            review = Review(user=user, rating=rating, text=form.cleaned_data['text'])
+            review.save()
 
-    context = {
-        'user': user
-    }
-
-    return render(request, 'user_info/show_info.html', context)
-
-
-def UserShowPublicView(request, pk):
-    user = get_object_or_404(User, pk=pk)
-
-    if user == request.user:
-        user_view_link = f'/user-info/show/{pk}/'
-        return redirect(user_view_link)
-
-    review_list = Review.objects.filter(user=user)
+            return redirect(f'/review/show/{user.pk}/')
+    else:
+        form = ReviewForm()
 
     context = {
-        'user': user,
-        'review_list': review_list
+        'form': form
     }
 
-    return render(request, 'user_info/show_public_info.html', context)
+    return render(request, 'review/create_review.html', context)
+
+
+@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
+class DeleteReviewView(DeleteView):
+    model = Review
+    template_name = 'review/show_user_reviews.html'
+
+    def get_success_url(self):
+        user_pk = self.request.user.pk
+        return reverse('show_user_reviews', kwargs={'pk': user_pk})
 
 
 @login_required(login_url=reverse_lazy('sign_in'))
@@ -131,8 +226,7 @@ def UserEditView(request, pk):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            user_view_link = f'/user-info/show/{pk}/'
-            return redirect(user_view_link)
+            return redirect(f'/user-info/show/{pk}/')
     else:
         user_form = UserEditForm(instance=user)
         profile_form = ProfileEditForm(instance=profile)
@@ -146,29 +240,7 @@ def UserEditView(request, pk):
     return render(request, 'user_info/edit_info.html', context)
 
 
-@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
-class UserAddressView(TemplateView):
-    template_name = 'user_info/show_address.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['user'] = self.request.user
-        return context
-
-
-class MenuView(ListView):
-    template_name = 'pizza/menu.html'
-    model = Pizza
-    queryset = Pizza.objects.order_by('price', 'name')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        pizza_filter = PizzaOrderFilter(self.request.GET, queryset=self.queryset)
-        context['pizza_filter'] = pizza_filter
-        context['in_menu'] = True
-        return context
-
-
+# ------------------------------- Core -------------------------------
 @login_required(login_url=reverse_lazy('sign_in'))
 def AddToCartView(request, pk):
     pizza = get_object_or_404(Pizza, pk=pk)
@@ -228,15 +300,7 @@ def DeleteFromCartView(request, pk):
     return redirect('show_cart')
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
-def ShowCartView(request):
-    user = request.user
-    cart = get_object_or_404(Cart, user=user)
-
-    cart_items = CartItem.objects.filter(cart=cart).order_by('created_at')
-    offer_items = OfferItem.objects.filter(cart=cart)
-
-    # Calculates BOGO offer
+def calculates_BOGO_offer(cart_items, cart):
     if cart_items.count() == 1 and cart_items.get().is_half_price:
         cart_item = cart_items.get()
         cart_item.is_half_price = False
@@ -257,7 +321,8 @@ def ShowCartView(request):
                 cart_item.is_half_price = False
                 cart_item.save()
 
-    # Calculates cart's total price
+
+def calculates_cart_total_price(cart_items, offer_items, cart):
     cart_total_price = 0
     for item in cart_items:
         cart_total_price += item.final_price
@@ -267,6 +332,19 @@ def ShowCartView(request):
 
     cart.total_price = cart_total_price
     cart.save()
+
+
+@login_required(login_url=reverse_lazy('sign_in'))
+def ShowCartView(request):
+    user = request.user
+    cart = get_object_or_404(Cart, user=user)
+
+    cart_items = CartItem.objects.filter(cart=cart).order_by('created_at')
+    offer_items = OfferItem.objects.filter(cart=cart)
+
+    # The functions are described above
+    calculates_BOGO_offer(cart_items, cart)
+    calculates_cart_total_price(cart_items, offer_items, cart)
 
     context = {
         'cart_items': cart_items,
@@ -322,20 +400,7 @@ def CreateOrderView(request):
     return redirect(user_orders_link)
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
-def ShowOrdersUserView(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    orders = Order.objects.filter(user=user).order_by('-created_at')
-    active_orders_count = Order.objects.filter(user=user, is_finished=False).count()
-
-    context = {
-        'orders': orders,
-        'active_orders_count': active_orders_count
-    }
-
-    return render(request, 'orders/show_user_orders.html', context)
-
-
+# ------------------------------- Admin -------------------------------
 @login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'order_staff'], redirect_url=reverse_lazy('home'))
 def ShowOrdersAllView(request):
@@ -358,18 +423,6 @@ def MakeOrderFinishedView(request, pk):
     order.save()
 
     return redirect('show_all_orders')
-
-
-@login_required(login_url=reverse_lazy('sign_in'))
-def DeleteOrderView(request, pk):
-    order = get_object_or_404(Order, pk=pk)
-
-    if order.user != request.user:
-        return redirect('home')
-
-    order.delete()
-
-    return redirect('menu')
 
 
 @method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
@@ -598,52 +651,3 @@ def DeleteOfferItemView(request, pk):
         return redirect('menu')
 
     return redirect('show_cart')
-
-
-@login_required(login_url=reverse_lazy('sign_in'))
-def CreateReviewView(request):
-    user = request.user
-
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        rating = request.POST.get('rating')
-        if form.is_valid():
-            review = Review(user=user, rating=rating, text=form.cleaned_data['text'])
-            review.save()
-
-            user_reviews_link = f'/review/show/{user.pk}/'
-            return redirect(user_reviews_link)
-    else:
-        form = ReviewForm()
-
-    context = {
-        'form': form
-    }
-
-    return render(request, 'review/create_review.html', context)
-
-
-@login_required(login_url=reverse_lazy('sign_in'))
-def ShowReviewsUserView(request, pk):
-    user = get_object_or_404(User, pk=pk)
-    review_list = Review.objects.filter(user=user).order_by('-created_at')
-
-    context = {
-        'review_list': review_list
-    }
-
-    return render(request, 'review/show_user_reviews.html', context)
-
-
-@login_required(login_url=reverse_lazy('sign_in'))
-def DeleteReviewView(request, pk):
-    user = request.user
-    review = get_object_or_404(Review, pk=pk)
-
-    if review.user != user:
-        return redirect('home')
-
-    review.delete()
-
-    user_reviews_link = f'/review/show/{user.pk}/'
-    return redirect(user_reviews_link)
