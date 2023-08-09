@@ -13,7 +13,7 @@
         {% else %}
             <p>Orders left: <b>{{ orders.count }}</b></p>
         {% endif %}
-        <p>Orders finished: <b>{{ orders_finished.count }}</b></p>
+        <p>Orders finished: <b>{{ orders_finished_count }}</b></p>
     </div>
     {% for order in orders %}
         <div class="order-container-in-progress">

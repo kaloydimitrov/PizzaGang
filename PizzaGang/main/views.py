@@ -247,9 +247,12 @@ def ShowCartView(request):
         cheapest_cart_item.save()
 
         if cart_items.filter(is_half_price=True).count() > 1:
-            second_cheap_cart_item = cheapest_cart_items[1]
-            second_cheap_cart_item.is_half_price = False
-            second_cheap_cart_item.save()
+            for cart_item in cart_items:
+                if cart_item == cheapest_cart_item:
+                    continue
+
+                cart_item.is_half_price = False
+                cart_item.save()
 
     # Calculates cart's total price
     cart_total_price = 0
@@ -334,11 +337,11 @@ def ShowOrdersUserView(request, pk):
 @allowed_groups(['full_staff', 'order_staff'], redirect_url=reverse_lazy('home'))
 def ShowOrdersAllView(request):
     orders = Order.objects.filter(is_finished=False).order_by('created_at')
-    orders_finished = Order.objects.filter(is_finished=True)
+    orders_finished_count = Order.objects.filter(is_finished=True).count()
 
     context = {
         'orders': orders,
-        'orders_finished': orders_finished
+        'orders_finished_count': orders_finished_count
     }
 
     return render(request, 'orders/show_all_orders.html', context)
