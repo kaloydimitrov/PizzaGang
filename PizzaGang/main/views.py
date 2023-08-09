@@ -186,6 +186,9 @@ def AddToCartView(request, pk):
 def SelectItemSizeView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
 
+    if cart_item.cart.user != request.user:
+        return redirect('home')
+
     if 'small_button' in request.POST:
         cart_item.is_small = True
         cart_item.is_big = False
@@ -323,11 +326,11 @@ def CreateOrderView(request):
 def ShowOrdersUserView(request, pk):
     user = get_object_or_404(User, pk=pk)
     orders = Order.objects.filter(user=user).order_by('-created_at')
-    active_orders = Order.objects.filter(user=user, is_finished=False)
+    active_orders_count = Order.objects.filter(user=user, is_finished=False).count()
 
     context = {
         'orders': orders,
-        'active_orders': active_orders
+        'active_orders_count': active_orders_count
     }
 
     return render(request, 'orders/show_user_orders.html', context)
@@ -360,6 +363,10 @@ def MakeOrderFinishedView(request, pk):
 @login_required(login_url=reverse_lazy('sign_in'))
 def DeleteOrderView(request, pk):
     order = get_object_or_404(Order, pk=pk)
+
+    if order.user != request.user:
+        return redirect('home')
+
     order.delete()
 
     return redirect('menu')
@@ -632,6 +639,10 @@ def ShowReviewsUserView(request, pk):
 def DeleteReviewView(request, pk):
     user = request.user
     review = get_object_or_404(Review, pk=pk)
+
+    if review.user != user:
+        return redirect('home')
+
     review.delete()
 
     user_reviews_link = f'/review/show/{user.pk}/'

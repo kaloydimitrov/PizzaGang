@@ -13,7 +13,7 @@
             <p>No orders, click <a href="{% url 'menu' %}">here</a> to make one!</p>
         {% else %}
             <p>All orders: <b>{{ orders.count }}</b></p>
-            <p>Active orders: <b>{{ active_orders.count }}</b></p>
+            <p>Active orders: <b>{{ active_orders_count }}</b></p>
         {% endif %}
     </div>
     {% for order in orders %}
