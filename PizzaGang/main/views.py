@@ -152,12 +152,12 @@ class ShowOrdersUserView(ListView):
     context_object_name = 'orders'
 
     def get_queryset(self):
-        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        user = get_object_or_404(User, pk=self.request.user.pk)
         return Order.objects.filter(user=user).order_by('-created_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        user = get_object_or_404(User, pk=self.request.user.pk)
         active_orders_count = Order.objects.filter(user=user, is_finished=False).count()
         context['active_orders_count'] = active_orders_count
         return context
@@ -175,7 +175,7 @@ class ShowReviewsUserView(ListView):
     context_object_name = 'review_list'
 
     def get_queryset(self):
-        user = get_object_or_404(User, pk=self.kwargs['pk'])
+        user = get_object_or_404(User, pk=self.request.user.pk)
         return Review.objects.filter(user=user).order_by('-created_at')
 
 
