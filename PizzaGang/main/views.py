@@ -258,8 +258,9 @@ def AddToCartView(request, pk):
 def SelectItemSizeView(request, pk):
     cart_item = get_object_or_404(CartItem, pk=pk)
 
-    if cart_item.cart.user != request.user:
-        return redirect('home')
+    if cart_item.cart:
+        if cart_item.cart.user != request.user:
+            return redirect('home')
 
     if 'small_button' in request.POST:
         cart_item.is_small = True
@@ -415,7 +416,6 @@ def ShowOrdersAllView(request):
     return render(request, 'orders/show_all_orders.html', context)
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'order_staff'], redirect_url=reverse_lazy('home'))
 def MakeOrderFinishedView(request, pk):
     order = get_object_or_404(Order, pk=pk)
@@ -425,7 +425,6 @@ def MakeOrderFinishedView(request, pk):
     return redirect('show_all_orders')
 
 
-@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
 @method_decorator(allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home')), name='dispatch')
 class CreatePizzaView(CreateView):
     model = Pizza
@@ -434,7 +433,6 @@ class CreatePizzaView(CreateView):
     success_url = reverse_lazy('home')
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def EditPizzaView(request, pk):
     pizza = get_object_or_404(Pizza, pk=pk)
@@ -455,7 +453,6 @@ def EditPizzaView(request, pk):
     return render(request, 'pizza/edit_pizza.html', context)
 
 
-@method_decorator(login_required(login_url=reverse_lazy('sign_in')), name='dispatch')
 @method_decorator(allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home')), name='dispatch')
 class DeletePizzaView(DeleteView):
     model = Pizza
@@ -463,7 +460,6 @@ class DeletePizzaView(DeleteView):
     success_url = reverse_lazy('menu')
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def ShowUsersSettingsView(request):
     username_filter = request.GET.get('username', '')
@@ -493,7 +489,6 @@ def ShowPizzaSettingsView(request):
     return render(request, 'admin/admin_settings_pizza.html', context)
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def ShowOrdersSettingsView(request):
     username_filter = request.GET.get('username', '')
@@ -524,7 +519,6 @@ def ShowOffersSettingsView(request):
     return render(request, 'admin/admin_settings_offers.html', context)
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def CreateOfferView(request):
     in_progress_offer_list = Offer.objects.filter(in_progress=True)
@@ -538,7 +532,6 @@ def CreateOfferView(request):
     return redirect('edit_offer')
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def EditOfferView(request):
     name_filter = request.GET.get('name', '')
@@ -564,19 +557,17 @@ def EditOfferView(request):
     return render(request, 'offer/edit_offer.html', context)
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def CreateItemOfferView(request, pk):
     pizza = get_object_or_404(Pizza, pk=pk)
     offer = Offer.objects.filter(in_progress=True).get()
 
-    item = CartItem(pizza=pizza, final_price=pizza.final_price, offer=offer)
+    item = CartItem(pizza=pizza, offer=offer)
     item.save()
 
     return redirect('edit_offer')
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def DeleteItemOfferView(request, pk):
     item = get_object_or_404(CartItem, pk=pk)
@@ -585,7 +576,6 @@ def DeleteItemOfferView(request, pk):
     return redirect('edit_offer')
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def PushOfferView(request):
     offer = Offer.objects.filter(in_progress=True).get()
@@ -599,7 +589,6 @@ def PushOfferView(request):
     return redirect('show_offers_settings')
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def DeleteOfferView(request, pk):
     offer = get_object_or_404(Offer, pk=pk)
@@ -611,7 +600,6 @@ def DeleteOfferView(request, pk):
     return redirect('show_offers_settings')
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def MakeOfferActiveInactiveView(request, pk):
     offer = get_object_or_404(Offer, pk=pk)
@@ -638,7 +626,6 @@ def CreateOfferItemView(request, pk):
     return redirect('home')
 
 
-@login_required(login_url=reverse_lazy('sign_in'))
 @allowed_groups(['full_staff', 'settings_staff'], redirect_url=reverse_lazy('home'))
 def DeleteOfferItemView(request, pk):
     user = request.user
