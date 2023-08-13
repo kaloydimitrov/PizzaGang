@@ -323,18 +323,6 @@ def calculates_BOGO_offer(cart_items, cart):
                 cart_item.save()
 
 
-def calculates_cart_total_price(cart_items, offer_items, cart):
-    cart_total_price = 0
-    for item in cart_items:
-        cart_total_price += item.final_price
-
-    for item in offer_items:
-        cart_total_price += item.offer.final_price
-
-    cart.total_price = cart_total_price
-    cart.save()
-
-
 @login_required(login_url=reverse_lazy('sign_in'))
 def ShowCartView(request):
     user = request.user
@@ -343,9 +331,8 @@ def ShowCartView(request):
     cart_items = CartItem.objects.filter(cart=cart).order_by('created_at')
     offer_items = OfferItem.objects.filter(cart=cart)
 
-    # The functions are described above
+    # The function is described above
     calculates_BOGO_offer(cart_items, cart)
-    calculates_cart_total_price(cart_items, offer_items, cart)
 
     context = {
         'cart_items': cart_items,
@@ -363,42 +350,38 @@ def CreateOrderView(request):
 
     user = request.user
     cart = get_object_or_404(Cart, user=user)
+    cart_total_price = cart.total_price
     cart_items = CartItem.objects.filter(cart=cart)
     offer_items = OfferItem.objects.filter(cart=cart)
 
-    order_items_list = []
+    order_items = []
 
-    for item in cart_items:
-        order_items_list.append(item)
-        item.delete()
+    def add_to_order_items(order_item):
+        size = None
+        if order_item.is_small:
+            size = 'SMALL'
+        elif order_item.is_big:
+            size = 'BIG'
+        elif order_item.is_large:
+            size = 'LARGE'
+
+        order_items.append(f"{order_item.pizza.name} - {size}")
+
+    for cart_item in cart_items:
+        add_to_order_items(cart_item)
+        cart_item.delete()
 
     for offer_item in offer_items:
         cart_items = CartItem.objects.filter(offer=offer_item.offer)
-        for item in cart_items:
-            order_items_list.append(item)
+        for cart_item in cart_items:
+            add_to_order_items(cart_item)
 
         offer_item.delete()
 
-    order_items_string_list = []
-
-    for item in order_items_list:
-        size = None
-        if item.is_small:
-            size = 'SMALL'
-        elif item.is_big:
-            size = 'BIG'
-        elif item.is_large:
-            size = 'LARGE'
-
-        order_items_string_list.append(f"{item.pizza.name} - {size}")
-
-    order_items_string = ' • '.join(order_items_string_list)
-
-    order = Order(user=user, cart_items=order_items_string, total_price=cart.total_price)
+    order = Order(user=user, cart_items=' • '.join(order_items), total_price=cart_total_price)
     order.save()
 
-    user_orders_link = f'/orders/show/{user.pk}/'
-    return redirect(user_orders_link)
+    return redirect(f'/orders/show/{user.pk}/')
 
 
 # ------------------------------- Admin -------------------------------

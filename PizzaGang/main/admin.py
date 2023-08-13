@@ -35,8 +35,7 @@ admin.site.register(Pizza, PizzaAdmin)
 
 class CartAdmin(admin.ModelAdmin):
     search_fields = ('user__username',)
-    list_display = ('user_username', 'total_price')
-    list_filter = ('total_price',)
+    list_display = ('user_username', )
 
     def user_username(self, obj):
         return obj.user.username
