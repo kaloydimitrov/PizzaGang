@@ -6,17 +6,16 @@ from .validators import validate_positive
 
 
 def get_cart_item_price(cart_item):
-    price = 0
-
-    if cart_item.is_small:
-        price = cart_item.pizza.final_price * 0.75
-    elif cart_item.is_big:
-        price = cart_item.pizza.final_price
-    elif cart_item.is_large:
-        price = cart_item.pizza.final_price * 1.25
+    price = cart_item.pizza.final_price
 
     if cart_item.is_half_price:
-        return price / 2
+        price /= 2
+
+    if cart_item.is_small:
+        price *= 0.75
+    elif cart_item.is_large:
+        price *= 1.25
+
     return price
 
 
