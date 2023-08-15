@@ -65,17 +65,13 @@ class Cart(models.Model):
 
     @property
     def total_price(self):
-        total_price = 0
-
         cart_items = CartItem.objects.filter(cart=self)
-        for cart_item in cart_items:
-            total_price += get_cart_item_price(cart_item)
-
         offer_items = OfferItem.objects.filter(cart=self)
-        for offer_item in offer_items:
-            total_price += offer_item.offer.final_price
 
-        return total_price
+        cart_total = sum(get_cart_item_price(cart_item) for cart_item in cart_items)
+        offer_total = sum(offer_item.offer.final_price for offer_item in offer_items)
+
+        return cart_total + offer_total
 
     def __str__(self):
         return f"{self.user.username}'s Cart"
@@ -126,13 +122,8 @@ class Offer(models.Model):
 
     @property
     def total_price(self):
-        total_price = 0
-
         cart_items = CartItem.objects.filter(offer=self)
-        for cart_item in cart_items:
-            total_price += get_cart_item_price(cart_item)
-
-        return total_price
+        return sum(get_cart_item_price(cart_item) for cart_item in cart_items)
 
     def __str__(self):
         return f"{self.name} | {self.final_price} lv."
