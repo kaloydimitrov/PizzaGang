@@ -116,3 +116,18 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.error-container {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255, 69, 0, 0.6);
+    border: 1px solid orangered;
+    margin-bottom: 20px;
+}
+
+.error-container p {
+    margin: 0;
+    color: white;
+}
