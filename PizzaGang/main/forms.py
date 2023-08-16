@@ -1,5 +1,6 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.forms import PasswordInput, TextInput
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from .models import Profile, Pizza, Offer, Review
 from django.utils.translation import gettext_lazy as _
@@ -9,22 +10,29 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
-        labels = {
-            'email': 'Email',
-        }
         widgets = {
             'username': forms.TextInput(attrs={'placeholder': 'Username'}),
-            'email': forms.TextInput(attrs={'placeholder': 'Email'}),
-            'password1': forms.PasswordInput(attrs={'placeholder': 'Enter your password'}),
-            'password2': forms.PasswordInput(attrs={'placeholder': 'Confirm your password'})
+            'email': forms.TextInput(attrs={'placeholder': 'Email'})
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['password1'].help_text = None
-        self.fields['password2'].help_text = None
-        self.fields['username'].help_text = None
-        self.fields['email'].help_text = None
+        self.fields['password1'].widget = PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Enter your password'})
+        self.fields['password2'].widget = PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Confirm your password'})
+
+
+class SignInForm(AuthenticationForm):
+    class Meta:
+        model = User
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget = TextInput(
+            attrs={'class': 'form-control', 'placeholder': 'Username'})
+        self.fields['password'].widget = PasswordInput(
+            attrs={'class': 'form-control', 'placeholder': 'Password'})
 
 
 class UserEditForm(forms.ModelForm):

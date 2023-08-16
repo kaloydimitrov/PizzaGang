@@ -1,5 +1,4 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
@@ -10,7 +9,7 @@ from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import TemplateView, CreateView, ListView, DeleteView
-from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm, ReviewForm
+from .forms import SignUpForm, UserEditForm, PizzaForm, ProfileEditForm, OfferForm, ReviewForm, SignInForm
 from .models import Pizza, Profile, Cart, CartItem, Order, Offer, OfferItem, Review, ProductImage
 from .filters import PizzaOrderFilter
 from .decorators import allowed_groups
@@ -62,25 +61,11 @@ class SignUpView(CreateView):
     template_name = 'authentication/sign_up.html'
     success_url = reverse_lazy('sign_in')
 
-    # TODO: These fields should be updated in forms.py
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        form.fields['password1'].widget.attrs['placeholder'] = 'Enter your password'
-        form.fields['password2'].widget.attrs['placeholder'] = 'Confirm your password'
-        return form
-
 
 class SignInView(LoginView):
+    form_class = SignInForm
     template_name = 'authentication/sign_in.html'
     next_page = reverse_lazy('home')
-    form_class = AuthenticationForm
-
-    # TODO: These fields should be updated in forms.py
-    def get_form(self, form_class=None):
-        form = super().get_form(form_class)
-        form.fields['username'].widget.attrs['placeholder'] = 'Username'
-        form.fields['password'].widget.attrs['placeholder'] = 'Password'
-        return form
 
 
 class SignOutView(LogoutView):
