@@ -1,7 +1,7 @@
 import django_filters
 from django_filters import CharFilter
 from django.forms.widgets import TextInput
-from .models import Pizza
+from PizzaGang.main.models import Pizza
 
 
 class PizzaOrderFilter(django_filters.FilterSet):

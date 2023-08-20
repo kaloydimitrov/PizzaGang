@@ -1,4 +1,4 @@
-from .models import Cart, CartItem, OfferItem
+from PizzaGang.main.models import Cart, CartItem, OfferItem
 
 
 def get_cart_items_count(request):

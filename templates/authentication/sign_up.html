@@ -5,23 +5,31 @@
 {% endblock %}
 
 {% block form %}
-<form action="{% url 'sign_up' %}" method="post">
-    {% csrf_token %}
-    {{ form.username }}
-    <div class="email-field">
-        {{ form.email }}
-        <div class="email-field-icon-container">
-            <i class="fa-regular fa-circle-question"></i>
-            <div class="email-field-message-box">
-                <p>This field is <b>not required</b>, and you can leave it blank. The email field is not necessary!</p>
+    {% for key, value in form.errors.items %}
+        {% for error in value %}
+            <div class="error-container">
+                <p><i class="fa-solid fa-circle-exclamation"></i> {{ error }}</p>
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    <form action="{% url 'sign_up' %}" method="post">
+        {% csrf_token %}
+        {{ form.username }}
+        <div class="email-field">
+            {{ form.email }}
+            <div class="email-field-icon-container">
+                <i class="fa-regular fa-circle-question"></i>
+                <div class="email-field-message-box">
+                    <p>This field is <b>not required</b>, and you can leave it blank. The email field is not necessary!</p>
+                </div>
             </div>
         </div>
-    </div>
-    {{ form.password1 }}
-    {{ form.password2 }}
-    <button type="submit">Sign Up</button>
-    <div class="redirect-link-container">
-        <p>You have an account? <a href="{% url 'sign_in' %}">Sign In</a></p>
-    </div>
-</form>
+        {{ form.password1 }}
+        {{ form.password2 }}
+        <button type="submit">Sign Up</button>
+        <div class="redirect-link-container">
+            <p>You have an account? <a href="{% url 'sign_in' %}">Sign In</a></p>
+        </div>
+    </form>
 {% endblock %}

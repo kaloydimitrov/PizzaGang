@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Pizza, Cart, CartItem, Order, Offer, OfferItem, Review, ProductImage
+from PizzaGang.main.models import Profile, Pizza, Cart, CartItem, Order, Offer, OfferItem, Review, ProductImage
 from django.utils.html import format_html
 
 
